@@ -1,0 +1,242 @@
+<template lang="">
+    <div>
+        <!-- Home banner -->
+        <HomeBanner/>
+        <!-- Top công ty -->
+        <div class="max-w-[1300px] mx-auto mt-5 border-b">
+            <h2 class="font-semibold text-[23px]">Công ty nổi bật</h2>
+            <div class="mt-10 pb-5">
+                <swiper
+                    :modules="modules"
+                    :slides-per-view="6"
+                    :space-between="10"
+                    navigation
+                    :pagination="{ clickable: true }"
+                    :loop="true"
+                    :autoplay="{delay: 2000}"
+                >
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
+                                <img src="https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                            </div>
+                            <span class="text-[18px] font-semibold text-center">Công Ty A</span>
+                        </div>
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </div>
+        <!-- JoB -->
+        <div class="max-w-[1300px] mx-auto mt-[50px]">
+            <h2 class="font-semibold text-[23px] mb-[20px]">Công việc nổi bật</h2>
+            <div class="flex gap-5 flex-wrap">
+                <PostVue v-for="post in PostPagination" :key="post.id" :post="post"/>
+            </div>
+        </div>
+        <!-- Banner -->
+        <div class="max-w-[1300px] mx-auto mt-[50px]">
+            <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
+        </div>
+        <!-- New Job -->
+        <div class="max-w-[1300px] mx-auto mt-[50px]">
+            <h2 class="font-semibold text-[23px] mb-[20px]">Công việc mới nhất</h2>
+            <div class="flex gap-5 flex-wrap">
+                <PostVue v-for="post in PostPagination" :key="post.id" :post="post"/>
+            </div>
+            <div class="flex justify-center mt-5">
+                <PaginationVue :pageArray="pageArray" :currentPage="currentPage" :goToPage="goToPage"/>
+            </div>
+        </div>
+        <!-- Why us -->
+        <div class="h-screen max-w-[1300px] mx-auto flex items-center">
+            <div class="flex-1 flex flex-col gap-5">
+                <h3 class="font-normal text-gray-50px0 text-[18px]">Tại sao lại là chúng tôi</h3>
+                <p class="font-bold text-[30px]"><span class="text-green-50px0">Juong Job. </span>Nơi tìm kiếm cơ hội.</p>
+                <p>
+                    Phosfluorescently develop empowered communit rather than front-end networks. Competently formula revolut infrastructures with hi standards.
+                </p>
+                <ul class="flex flex-col gap-2">
+                    <li class="font-semibold flex items-center gap-4">
+                        <div class="flex items-center justify-center w-[40px] h-[40px] bg-green-200 rounded-full">
+                            <SafetyCertificateOutlined :style="{fontSize: '14px', color: '#03C988'}"/>
+                        </div>
+                        Payment Gateway Secure
+                    </li>
+                    <li class="font-semibold flex items-center gap-4">
+                        <div class="flex items-center justify-center w-[40px] h-[40px] bg-green-200 rounded-full">
+                            <UploadOutlined :style="{fontSize: '14px', color: '#03C988'}"/>
+                        </div>
+                        Quick Delivery & Fast Load
+                    </li>
+                    <li class="font-semibold flex items-center gap-4">
+                        <div class="flex items-center justify-center w-[40px] h-[40px] bg-green-200 rounded-full">
+                            <ClockCircleOutlined :style="{fontSize: '14px', color: '#03C988'}"/>
+                        </div>
+                        Work Per Hour & Screenshots
+                    </li>
+                </ul>
+            </div>
+            <div class="flex-1">
+                <img src="https://html.creativegigstf.com/khuj/khuj/images/banner/banner-3.jpg" alt="image">
+            </div>
+        </div>
+    </div>
+</template>
+<script setup>
+    import {ClockCircleOutlined, SafetyCertificateOutlined, UploadOutlined} from "@ant-design/icons-vue"
+    // import Swiper core and required modules
+    import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
+    // Import Swiper Vue.js components
+    import { Swiper, SwiperSlide } from 'swiper/vue';
+    // Import Swiper styles
+    import 'swiper/css';
+    import 'swiper/css/navigation';
+    import 'swiper/css/pagination';
+    import 'swiper/css/scrollbar';
+    import HomeBanner from '../../components/HomeBanner.vue';
+    import PostVue from "../../components/Post.vue"
+    import PaginationVue from "../../components/Pagination.vue";
+    import { usePostStore } from "../../stores/postStore";
+    import { computed, onMounted } from "vue";
+    const modules= [Navigation, Pagination, Scrollbar, A11y, Autoplay]
+
+    const postStore = usePostStore()
+
+    const handleGetAllData = async() => {
+        await postStore.actGetAllPost()
+    }
+    onMounted(  () => {
+        handleGetAllData()
+    })
+
+    const postsData = computed(() => {
+        return postStore.posts
+    })
+
+    // Pagination
+    const PostPagination = computed(() => {
+        const startIndex = (postStore.currentPage - 1) * postStore.itemsPerPage;
+        const endIndex = startIndex + postStore.itemsPerPage;
+        return postStore.posts.slice(startIndex, endIndex);
+    });
+
+    const pageArray = computed(() => {
+        const arr = [];
+        for (let i = 1; i <= postStore.totalPages; i++) {
+            arr.push(i);
+        }
+        return arr;
+    });
+
+    const goToPage = (pageNumber) => {
+        postStore.currentPage = pageNumber;
+    };
+
+    const currentPage = computed(() => {
+        return postStore.currentPage
+    })
+</script>
+<style >
+    .swiper-scrollbar {
+        display: none;
+    }
+    .swiper-scrollbar-drag {
+        display: none;
+    }
+</style>

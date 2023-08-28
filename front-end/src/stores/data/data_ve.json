@@ -1,0 +1,98 @@
+{
+    "settings": {
+        "cv": "ve",
+        "languages": {
+            "cv_languages": "Ngôn ngữ",
+            "cv_colors": "Màu sắc",
+            "cv_personal_details": "Thông tin cá nhân",
+            "first_name": "Họ",
+            "last_name": "Tên",
+            "job_title": "Chức vụ / Vị trí hiện tại            ",
+            "about_me": "Giới thiệu",
+            "contact": "Liên hệ",
+            "email": "Email",
+            "phone": "Số điện thoại",
+            "location": "Địa chỉ",
+            "skills": "Kỹ năng",
+            "tech": "Kỹ năng",
+            "soft": "Kỹ năng mềm",
+            "language": "Ngôn ngữ",
+            "add_language": "Thêm ngôn ngữ",
+            "social": "Mạng xã hội",
+            "experience": "Kinh nghiệm",
+            "add_experience": "Thêm kinh nghiệm",
+            "from": "Từ",
+            "to": "Đến",
+            "summary": "Tóm tắt",
+            "educations_and_certifications": "Học vấn",
+            "add_educations_and_certifications": "Thêm học vấn"
+        },
+        "colors": "#000",
+        "buttons": {
+            "print_or_download": "In hoặc tải (PDF)",
+            "download_as_json": "Tải dạng JSON",
+            "update_json_file": "Upload JSON file",
+            "remove_all_data": "Xoá toàn bộ thông tin"
+        }
+    },
+    "personal_details": {
+        "first_name": "Jhon",
+        "last_name": "Miller",
+        "job_title": "Job title",
+        "about_me": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero mollitia et velit nemo? Qui ratione consectetur quos molestiae nobis aut, dolore molestias, ab libero dolor quis debitis inventore accusamus est sed doloremque? Vero asperiores quasi aspernatur architecto soluta, laudantium pariatur, ipsam voluptatem repellendus iste mollitia amet, explicabo aliquam maxime optio temporibus nulla tempora veritatis consectetur animi! Veniam odit repellat itaque! Corporis quas pariatur id commodi.",
+        "email": "llemanhbin@gmail.com",
+        "phone": "0365610470",
+        "location": "Đà Nẵng, Việt Nam"
+    },
+    "skills": {
+        "isTech": true,
+        "tech": [
+            "Microsoft",
+            "Word",
+            "Perfect Mind",
+            "Excel"
+        ],
+        "isSoft": true,
+        "soft": [
+            "Positivity",
+            "Leadership",
+            "Public Speaking"
+        ],
+        "isAllLanguage": true,
+        "language": [
+            {
+                "isLanguage": true,
+                "name": "English",
+                "level": 60
+            }
+        ]
+    },
+    "socials": {
+        "github": "",
+        "twitter": "@username",
+        "instagram": "@username",
+        "linkedin": "@username",
+        "telegram": "",
+        "web": ""
+    },
+    "experiences": [
+        {
+            "isExperience": true,
+            "title": "Tiêu đề",
+            "location": "WAOCON&SG",
+            "from": "08/2023",
+            "to": "now",
+            "summary": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero mollitia et velit nemo? Qui ratione consectetur quos molestiae nobis aut, dolore molestias, ab libero dolor quis debitis inventore accusamus est sed doloremque? Vero asperiores quasi aspernatur architecto soluta, laudantium pariatur, ipsam voluptatem repellendus iste mollitia amet, explicabo aliquam maxime optio temporibus nulla tempora veritatis consectetur animi! Veniam odit repellat itaque! Corporis quas pariatur id commodi."
+        }
+    ],
+    "educations_and_certifications": [
+        {
+            "isTrue": true,
+            "title": "Tiêu đề",
+            "location": "Duy Tan University",
+            "from": "2019",
+            "to": "2023",
+            "summary": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero mollitia et velit nemo? Qui ratione consectetur quos molestiae nobis aut, dolore molestias, ab libero dolor quis debitis inventore accusamus est sed doloremque? Vero asperiores quasi aspernatur architecto soluta, laudantium pariatur, ipsam voluptatem repellendus iste mollitia amet, explicabo aliquam maxime optio temporibus nulla tempora veritatis consectetur animi! Veniam odit repellat itaque! Corporis quas pariatur id commodi."
+        }
+    ]
+}
