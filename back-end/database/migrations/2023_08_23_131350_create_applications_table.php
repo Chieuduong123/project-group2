@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('seeker_id');
             $table->unsignedBigInteger('job_id');
+            $table->string('name');
+            $table->string('phone');
             $table->string('resume_path');
             $table->text('cover_letter');
             $table->timestamps();

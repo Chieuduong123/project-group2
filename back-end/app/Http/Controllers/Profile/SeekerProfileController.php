@@ -29,11 +29,17 @@ class SeekerProfileController extends Controller
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('avatars'), $filename);
             $seeker->avatar = $filename;
+        } else {
+            $seeker->avatar = $request->old('avatar');
         }
+        $seeker->update([
+            'phone' => $request->phone,
+            'birthday' => $request->birthday,
+            'address' => $request->address,
+            'updated_at' => now(),
+        ]);
 
         try {
-            $seeker->save();
-
             return response()->json([
                 'message' => 'Seeker profile updated successfully',
                 'seeker' => $seeker

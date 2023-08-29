@@ -146,4 +146,6 @@ class JobPostController extends Controller
             ], 500);
         }
     }
+
+    
 }
