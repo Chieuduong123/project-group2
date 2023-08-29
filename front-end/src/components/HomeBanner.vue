@@ -67,7 +67,7 @@ import { useRouter } from "vue-router";
     })
 
     const handleSearch = () => {
-        router.push(`/search?position=${positionRef.value}&province=${provinceSelect.value}&level=${levelSelect.value}`)
+        router.push(`/search?position=${positionRef.value}&level=${levelSelect.value}&location=${provinceSelect.value}`)
     }
 </script>
 <style lang="">

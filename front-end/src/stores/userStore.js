@@ -41,7 +41,6 @@ export const useUserStore = defineStore("userStore", {
           localStorage.setItem("isLogged", JSON.stringify(true));
           this.myUser = data.data.seeker;
           this.isLogged = true;
-          console.log("===", data);
         }
       } catch (error) {
         this.isLoading = false;
@@ -54,8 +53,7 @@ export const useUserStore = defineStore("userStore", {
         if (accessToken) {
           getInforMe(accessToken).then((res) => {
             this.isLoading = false;
-            this.myUser = res.data.seeker;
-            localStorage.setItem("isLogged", JSON.stringify(true));
+            this.myUser = res?.data?.seeker;
             this.isLogged = true;
           });
         }
@@ -64,16 +62,15 @@ export const useUserStore = defineStore("userStore", {
         console.log(error);
       }
     },
-    actFetchLogout() {
+    actFetchLogout(token) {
       try {
-        this.isLoading = true;
-        fetchLogout().then(() => {
+        fetchLogout(token).then(() => {
           this.isLoading = false;
           localStorage.removeItem("token");
           localStorage.removeItem("isLogged");
+          this.myUser = {};
         });
       } catch (error) {
-        this.isLoading = false;
         console.log(error);
       }
     },
@@ -81,7 +78,8 @@ export const useUserStore = defineStore("userStore", {
       try {
         this.isLoading = true;
         fetchEditProfile(profile, token).then((res) => {
-          console.log("resp", res);
+          this.isLoading = false;
+          this.actFetchReLogin(token);
         });
       } catch (error) {
         this.isLoading = true;

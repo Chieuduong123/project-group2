@@ -36,6 +36,7 @@
                 <p class="font-normal text-[13px] mt-5">Tôi đã có tài khoản? <span class="text-green-500 cursor-pointer" @click="goLoginPage">Đăng nhập</span></p>
             </div>
         </div>
+        <Loading v-if="userStore.isLoading"/>
     </div>
 </template>
 <script setup>
@@ -44,7 +45,7 @@
     import {useRouter} from "vue-router"
     import {useUserStore} from "../../stores/userStore"
     import { useToast } from "vue-toastification";
-
+    import Loading from "../../components/Loading.vue";
     const toast = useToast()
     const userStore = useUserStore()
     const router = useRouter()
@@ -66,12 +67,27 @@
     }
 
     const handleRegister = async () => {
-        if(!userData.value.name || !userData.value.name || !userData.value.email || !userData.value.password) {
-            toast.warning("Vui lòng nhập đầy đủ thông tin!")
-        }else {
-            await userStore.actRegisterUser(userData.value)
+        if (!userData.value.name || !userData.value.phone || !userData.value.email || !userData.value.password) {
+            toast.warning("Vui lòng nhập đầy đủ thông tin!");
+        } else if (!isValidEmail(userData.value.email)) {
+            toast.warning("Email không hợp lệ!");
+        } else if (userData.value.password.length < 8) {
+            toast.warning("Mật khẩu phải chứa ít nhất 8 ký tự!");
+        } else if (userData.value.phone.length < 10 || userData.value.phone.length > 10) {
+            toast.warning("Số điện thoại gồm 10 số");
+        } else {
+            const data = await userStore.actRegisterUser(userData.value)
+            if(data) {
+                router.push("/auth-layout")
+            }
         }
     }
+
+    const isValidEmail = (email) => {
+    // Sử dụng biểu thức chính quy để kiểm tra tính hợp lệ của địa chỉ email.
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    };
 
 </script>
 <style >

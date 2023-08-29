@@ -11,18 +11,31 @@
         </div>
         <h1 class="text-center font-semibold text-[34px] mt-[50px]">DANH SÁCH CÁC TOP CÔNG TY</h1>
         <div class="max-w-[1300px] mx-auto flex gap-5 flex-wrap mt-10">
-            <CompanyCard/>
-            <CompanyCard/>
-            <CompanyCard/>
-            <CompanyCard/>
-            <CompanyCard/>
-            <CompanyCard/>
+            <CompanyCard v-for="business in businessData" :key="business.id" :business="business"/>
         </div>
     </div>
+    <Loading v-if="businessStore.isLoading"/>
 </template>
 <script setup>
     import {SearchOutlined} from "@ant-design/icons-vue"
     import CompanyCard from "../../components/CompanyCard.vue";
+    import { useBusinessStore } from "../../stores/businessStore";
+    import { useRouter } from "vue-router";
+    import {computed, onMounted} from "vue"
+    import Loading from "../../components/Loading.vue";
+    const businessStore = useBusinessStore()
+
+    const handleGetAllBusiness = async() => {
+        await businessStore.actGetAllBusiness()
+    }
+    onMounted(() => {
+        handleGetAllBusiness()
+    })
+
+    const businessData = computed(() => {
+        return businessStore.businesses
+    })
+
 </script>
 <style lang="">
     

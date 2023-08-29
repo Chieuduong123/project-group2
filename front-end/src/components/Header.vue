@@ -169,7 +169,7 @@
                                     active ? 'bg-green-500 text-white' : 'text-gray-900',
                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                     ]"
-                                    @click="handleLogout"
+                                    @click="handleLogout(useUserStore.accessToken)"
                                 >
                                     <LogoutOutlined :style="{fontSize: '20px', color: 'green', marginRight: '5px'}"/>
                                     Đăng xuất
@@ -181,7 +181,7 @@
                 </Menu>
             </div>
             <div v-else class="flex items-center gap-5">
-                <button class="bg-blue-500 text-white font-semibold text-[14px] px-[10px] py-[5px] rounded">Đăng tuyển</button>
+                <button class="bg-blue-500 text-white font-semibold text-[14px] px-[10px] py-[5px] rounded" @click="goLoginBusiness">Đăng tuyển</button>
                 <button class="bg-green-500 text-white font-semibold text-[14px] px-[10px] py-[5px] rounded" @click="goLoginPage">Đăng nhập</button>
             </div>
         </div>
@@ -197,8 +197,8 @@ import { computed } from "vue";
     const router = useRouter()
     const userStore = useUserStore()
 
-    const handleLogout = () => {
-        userStore.actFetchLogout()
+    const handleLogout = (token) => {
+        userStore.actFetchLogout(token)
         router.push("/auth-layout")
     }
     const goLoginPage = () => {
@@ -213,6 +213,9 @@ import { computed } from "vue";
         router.push("/change-password")
     }
 
+    const goLoginBusiness = () => {
+        router.push("/auth-layout/login-business")
+    }
 
 </script>
 <style scoped>

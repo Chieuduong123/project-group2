@@ -8,7 +8,7 @@
 import HomeBanner from '../../components/HomeBanner.vue';
     const  route = useRoute()
 
-    console.log(route);
+    console.log(route.query);
 </script>
 <style lang="">
     

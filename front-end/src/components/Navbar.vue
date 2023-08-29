@@ -54,6 +54,7 @@
                             active ? 'bg-green-500 text-white' : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                             ]"
+                            @click="handleLogoutBusiness(businessStore?.accessToken)"
                         >
                             Đăng xuất
                         </button>
@@ -67,10 +68,16 @@
 <script setup>
     import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     import { useRouter } from 'vue-router';
+import { useBusinessStore } from '../stores/businessStore';
     const router = useRouter()
-
+    const businessStore = useBusinessStore()
     const goProfile = () => {
         router.push("/business/profile")
+    }
+
+    const handleLogoutBusiness = (token) => {
+        businessStore.actFetchLogoutBusiness(token)
+        router.push("/auth-layout/login-business")
     }
 </script>
 <style lang="">
