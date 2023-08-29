@@ -16,6 +16,7 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use Livewire\TemporaryUploadedFile;
 
 class SeekerResource extends Resource
 {
@@ -33,8 +34,10 @@ class SeekerResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('avatar')
-                    ->disk('public')
-                    ->path('avatars'),
+                    ->preserveFilenames()
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        return (string) str($file->getClientOriginalName())->prepend(now()->timestamp);
+                    }),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()

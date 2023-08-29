@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\JobResource\Pages;
 use App\Filament\Resources\JobResource\RelationManagers;
+use App\Http\Services\SendEmailService;
 use App\Models\Job;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -50,7 +51,7 @@ class JobResource extends Resource
                 Forms\Components\DatePicker::make('end_day')
                     ->required(),
                 Forms\Components\Toggle::make('status')
-                    ->required(),
+                    ->required()
             ]);
     }
 

@@ -41,6 +41,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:business']], function () 
     Route::post('/job/{job}', 'Job\JobPostController@update');
     Route::delete('/job/{job}', 'Job\JobPostController@destroy');
     Route::get('/applications', 'Job\ApplicationController@getApplications');
+    Route::get('/seeker/{id}', 'Seeker\SeekerController@infoSeeker');
 });
 
 Route::group(['prefix' => 'seeker'], function () {
@@ -57,4 +58,5 @@ Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function (
     Route::delete('/favorites/{job}', 'Favorite\FavoriteController@removeFromFavorites');
     Route::post('/job/{job}/apply', 'Apply\ApplyJobController@applyForJob');
     Route::get('/apply/history', 'Apply\ApplyJobController@getApplicationHistory');
+    Route::post('/cv', 'CurriculumVitaes\CVController@store');
 });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('curriculum_vitaes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('seeker_id');
             $table->json('link_website');
             $table->text('introduce');
             $table->json('work_experience');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->json('project');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('seeker_id')->references('id')->on('seekers')->onDelete('cascade');
         });
     }
 

@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Job;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\JobPostRequest;
-use App\Models\Business;
 use App\Models\Job;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {

@@ -33,6 +33,7 @@ class SeekerProfileController extends Controller
             $seeker->avatar = $request->old('avatar');
         }
         $seeker->update([
+            'name' => $request->name,
             'phone' => $request->phone,
             'birthday' => $request->birthday,
             'address' => $request->address,
