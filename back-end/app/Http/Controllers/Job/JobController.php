@@ -55,4 +55,9 @@ class JobController extends Controller
 
         return response()->json($job);
     }
+
+    public function test()
+    {
+        dd(111);
+    }
 }

@@ -46,6 +46,8 @@ class ApplyJobController extends Controller
                 $application->fill([
                     $application->seeker_id = $seeker->id,
                     $application->job_id = $jobId,
+                    $application->name = $request->input('name'),
+                    $application->phone = $request->input('phone'),
                     $application->cover_letter = $request->input('cover_letter'),
                     $application->resume_path = $filename,
                 ]);

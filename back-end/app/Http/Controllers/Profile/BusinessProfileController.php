@@ -28,11 +28,20 @@ class BusinessProfileController extends Controller
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('avatars'), $filename);
             $business->avatar = $filename;
+        } else {
+            $business->avatar = $request->old('avatar');
         }
 
-        try {
-            $business->save();
+        $business->update([
+            'phone' => $request->phone,
+            'location' => $request->location,
+            'website' => $request->website,
+            'career' => $request->career,
+            'size' => $request->size,
+            'updated_at' => now(),
+        ]);
 
+        try {
             return response()->json([
                 'message' => 'business profile updated successfully',
                 'business' => $business

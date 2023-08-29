@@ -28,4 +28,9 @@ class Business extends Authenticatable
     {
         return $this->hasMany(Job::class);
     }
+
+    public function jobApplications()
+    {
+        return $this->hasManyThrough(Application::class, Job::class);
+    }
 }
