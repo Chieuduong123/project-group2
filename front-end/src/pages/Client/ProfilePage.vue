@@ -47,13 +47,14 @@
             </div>
         </div>
     </div>
+    <LoadingVue v-if="userStore.isLoading" />
 </template>
 <script setup>
     import {CameraOutlined} from "@ant-design/icons-vue"
     import {IMAGE_URL} from "../../constants/url"
     import { useUserStore } from "../../stores/userStore";
     import { ref, watchEffect } from "vue";
-    
+    import LoadingVue from "../../components/Loading.vue";
     const userStore = useUserStore()
 
     const avatarFile = ref({

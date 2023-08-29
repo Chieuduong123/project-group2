@@ -1,32 +1,68 @@
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { BASE_URL } from "../constants/url";
 const toast = useToast();
 export const fetchRegisterBusiness = async (payload) => {
   try {
-    const data = await axios.post(
-      `http://localhost:8000/public/api/seeker/register`,
-      payload
-    );
-    toast.success("Đăng ký thành công");
+    const data = await axios.post(`${BASE_URL}business/register`, payload);
+    toast.success("Đăng ký thành công, vui lòng đợi admin duyệt");
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchLogin = async (user) => {
+export const fetchLoginBusiness = async (business) => {
   try {
-    const data = await axios.post(``, user);
+    const data = await axios.post(`${BASE_URL}business/login`, business);
     toast.success("Đăng nhập thành công");
     return data;
   } catch (error) {
+    if (error.response.status === 401 || 422) {
+      toast.warning("Tài khoản hoặc mật khẩu không chính xác");
+    }
     console.log(error);
   }
 };
 
-export const getInforMe = async (email) => {
+export const getInforBusiness = async (token) => {
   try {
-    const data = await axios.get(``);
+    const data = await axios.get(`${BASE_URL}business/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchLogoutBusiness = async (token) => {
+  try {
+    const data = await axios.post(`${BASE_URL}business/logout`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchGetAllBusiness = async () => {
+  try {
+    const data = await axios.get(`${BASE_URL}business`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchGetBusinessById = async (id) => {
+  try {
+    const data = await axios.get(`${BASE_URL}business/${id}`);
     return data;
   } catch (error) {
     console.log(error);

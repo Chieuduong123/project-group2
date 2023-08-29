@@ -4,18 +4,18 @@
             <div class="h-[40%]">
                 <img src="../../assets/images/banner2.png" alt="img" class="object-cover w-full h-full ">
             </div>
-            <div class="absolute translate-y-[-50%] translate-x-[50%] w-[150px] h-[150px] rounded-full overflow-hidden">
-                <img src="https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="logo" class="w-full h-full object-cover">
+            <div class="absolute translate-y-[-50%] translate-x-[50%] w-[150px] bg-white h-[150px] rounded-full overflow-hidden">
+                <img :src="companyData?.avatar || 'https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'" alt="logo" class="w-full h-full object-cover">
             </div>
             <div class="h-60% text-white flex flex-col gap-3 translate-x-[20%]">
-                <h2 class="font-semibold text-[24px] mt-2">Công ty A</h2>
+                <h2 class="font-semibold text-[24px] mt-2">{{companyData?.name}}</h2>
                 <p class="flex items-center gap-2">
                     <GlobalOutlined :style="{fontSize: '20px'}"/>
-                    http://brggroup.vn:8068/1/31/89-j/Tuyen-dung/IT-Ho-tro-nguoi-dung.aspx
+                    {{companyData?.website}}
                 </p>
                 <p class="flex items-center gap-2">
-                    <ShopOutlined :style="{fontSize: '20px'}"/>
-                    1000+ Nhân viên
+                    <TeamOutlined :style="{fontSize: '20px'}"/>
+                    {{companyData?.size}} Nhân viên
                 </p>
             </div>
        </div>
@@ -46,7 +46,15 @@
                 <div class="p-[20px] flex flex-col gap-5">
                     <div class="flex flex-col gap-2 pb-5 border-b">
                         <p class="font-semibold flex items-center gap-1"><EnvironmentOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/> Địa chỉ công ty</p>
-                        <p class="text-[14px]">Số 198 Trần Quang Khải, phường Lý Thái Tổ, quận Hoàn Kiếm, thành phố Hà Nội, Việt Nam</p>
+                        <p class="text-[14px]">{{companyData?.location}}</p>
+                    </div>
+                    <div class="flex flex-col gap-2 pb-5 border-b">
+                        <p class="font-semibold flex items-center gap-1"><MailOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/> Email</p>
+                        <p class="text-[14px]">{{companyData?.email}}</p>
+                    </div>
+                    <div class="flex flex-col gap-2 pb-5 border-b">
+                        <p class="font-semibold flex items-center gap-1"><PhoneOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/> Số điện thoại</p>
+                        <p class="text-[14px]">{{companyData?.phone}}</p>
                     </div>
                     <div class="flex flex-col gap-5">
                         <p class="font-semibold">Xem bản đồ</p>
@@ -63,10 +71,34 @@
             </div>
        </div>
     </div>
+    <Loading v-if="businessStore.isLoading"/>
 </template>
 <script setup>
-    import {GlobalOutlined, ShopOutlined, SearchOutlined, EnvironmentOutlined} from "@ant-design/icons-vue"
+    import {GlobalOutlined, TeamOutlined, SearchOutlined, EnvironmentOutlined, MailOutlined, PhoneOutlined} from "@ant-design/icons-vue"
     import JobCardCompany from "../../components/JobCardCompany.vue"
+import { useRoute, useRouter } from "vue-router";
+import { useBusinessStore } from "../../stores/businessStore";
+import {onMounted, watch, computed} from "vue"
+import Loading from "../../components/Loading.vue";
+    const router = useRouter()
+    const route = useRoute()
+    const businessStore = useBusinessStore()
+    const handleGetBusinessById = async(id) => {
+       await businessStore.actGetBusinessById(id)
+    }
+
+    onMounted(() => {
+        handleGetBusinessById(route.params.id)
+    })
+
+    watch(() => route.params.id, (newIdCompany) => {
+        handleGetBusinessById(newIdCompany)
+    })
+
+    const companyData = computed(() => {
+        return businessStore.business
+    })
+
 </script>
 <style lang="">
     

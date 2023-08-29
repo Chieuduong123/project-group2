@@ -14,6 +14,17 @@
 <script setup>
     import Sidebar from '../components/Sidebar.vue';
     import Navbar from '../components/Navbar.vue';
+import { useBusinessStore } from '../stores/businessStore';
+import { onMounted } from 'vue';
+    const businessStore = useBusinessStore()
+
+    const accessToken = businessStore.accessToken || null
+
+    onMounted(() => {
+        if(accessToken) {
+        businessStore.actFetchReLoginBusiness(accessToken) 
+        }
+    })
 </script>
 <style lang="">
     

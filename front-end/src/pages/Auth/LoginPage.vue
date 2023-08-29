@@ -28,6 +28,7 @@
         <div class="w-[40%] flex items-center justify-center max-md:hidden">
             <img class="w-[100%] object-cover" src="../../assets/images/undraw_Job_hunt_re_q203.png" alt="img" >
         </div>
+        <Loading v-if="userStore.isLoading"/>
     </div>
 </template>
 <script setup>
@@ -35,35 +36,51 @@ import {EyeOutlined, EyeInvisibleOutlined} from "@ant-design/icons-vue"
 import {onMounted, ref} from "vue"
 import {useRouter} from "vue-router"
 import { useUserStore } from "../../stores/userStore";
+import { useToast } from "vue-toastification";
+import Loading from "../../components/Loading.vue";
 const router = useRouter()
 const isShow = ref(false)
 const userStore = useUserStore()
+const toast = useToast()
 const userLogin = ref({
     email: "",
     password: ""
 })
 
-const handleLogin = () => {
-    userStore.actLoginUser(userLogin.value)
-    if(userStore.isLogged == true && userStore.accessToken) {
-        router.push("/")
+    const handleLogin = async () => {
+        if (!userLogin.value.email || !userLogin.value.password) {
+            toast.warning("Vui lòng nhập đầy đủ thông tin!");
+        } else if (!isValidEmail(userLogin.value.email)) {
+            toast.warning("Email không hợp lệ!");
+        } else {
+            await userStore.actLoginUser(userLogin.value)
+            if(userStore.isLogged == true && userStore.accessToken) {
+                router.push("/")
+            }
+        }
     }
-}
 
-const handleToggleShowPassword = () => {
-    isShow.value = !isShow.value
-}
+    const isValidEmail = (email) => {
+    // Sử dụng biểu thức chính quy để kiểm tra tính hợp lệ của địa chỉ email.
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    };
 
-const goRegisterPage = () => {
-    router.push("/auth-layout/register")
-}
+    const handleToggleShowPassword = () => {
+        isShow.value = !isShow.value
+    }
+
+    const goRegisterPage = () => {
+        router.push("/auth-layout/register")
+    }
 
 
-onMounted(() => {
-    if(userStore.isLogged === true && userStore.accessToken) {
-        router.push("/")
-    }  
-})
+    onMounted(() => {
+        if(userStore.isLogged && userStore.accessToken) {
+            console.log(userStore.isLogged , userStore.accessToken);
+            router.push("/")
+        }  
+    })
 
 </script>
 <style >
