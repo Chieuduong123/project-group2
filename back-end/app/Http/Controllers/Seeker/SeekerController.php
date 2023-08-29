@@ -7,9 +7,9 @@ use App\Models\Seeker;
 
 class SeekerController extends Controller
 {
-    public function infoSeeker()
+    public function infoSeeker($id)
     {
-        $seeker = Seeker::get();
+        $seeker = Seeker::findOrFail($id);
         return response()->json($seeker);
     }
 }

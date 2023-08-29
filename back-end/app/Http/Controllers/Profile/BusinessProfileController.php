@@ -33,6 +33,7 @@ class BusinessProfileController extends Controller
         }
 
         $business->update([
+            'name' => $request->name,
             'phone' => $request->phone,
             'location' => $request->location,
             'website' => $request->website,

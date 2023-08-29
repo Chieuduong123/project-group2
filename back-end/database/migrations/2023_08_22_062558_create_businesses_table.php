@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('website');
             $table->string('career');
             $table->bigInteger('size');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
