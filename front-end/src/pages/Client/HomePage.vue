@@ -18,7 +18,7 @@
                     <swiper-slide v-for="business in businessData" :key="business?.id" @click="handleGoDetailBusiness(business?.id)">
                         <div class="flex flex-col items-center gap-2">
                             <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
-                                <img :src="business?.avatar || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                                <img :src="`${IMAGE_URL}${business?.avatar}` || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-cover w-[50px] h-[50px] rounded">
                             </div>
                             <span class="text-[18px] font-semibold text-center">{{business?.name}}</span>
                         </div>
@@ -100,6 +100,7 @@
     import { computed, onMounted } from "vue";
     import { useBusinessStore } from "../../stores/businessStore";
     import { useRouter } from "vue-router";
+import { IMAGE_URL } from "../../constants/url";
     const modules= [Navigation, Pagination, Scrollbar, A11y, Autoplay]
     const router = useRouter()
     const postStore = usePostStore()

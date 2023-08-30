@@ -9,6 +9,7 @@ import { useUserStore } from '../stores/userStore';
   
   onMounted(() => {
     if(accessToken) {
+      console.log("Đăng xuất", accessToken);
       userStore.actFetchReLogin(accessToken) 
     }
   })

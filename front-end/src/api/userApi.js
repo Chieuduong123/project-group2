@@ -46,6 +46,7 @@ export const fetchLogout = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    toast.success("Đăng xuất thành công");
     return data;
   } catch (error) {
     console.log(error);

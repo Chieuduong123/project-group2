@@ -45,6 +45,8 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         this.isLoading = false;
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     actFetchReLogin(accessToken) {
@@ -64,11 +66,13 @@ export const useUserStore = defineStore("userStore", {
     },
     actFetchLogout(token) {
       try {
+        this.isLogged = false;
         fetchLogout(token).then(() => {
           this.isLoading = false;
-          localStorage.removeItem("token");
-          localStorage.removeItem("isLogged");
+          localStorage.setItem("token", "");
+          localStorage.setItem("isLogged", JSON.stringify(false));
           this.myUser = {};
+          this.isLogged = false;
         });
       } catch (error) {
         console.log(error);
