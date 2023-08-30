@@ -44,4 +44,15 @@ class AuthSeekerController extends Controller
         }
         return response()->json(['message' => 'You are logout']);
     }
+
+    public function refresh()
+    {
+        $token = Auth::refresh();
+        $seeker = auth()->user();
+        return response()->json([
+            'message' => 'true',
+            'token' => $token,
+            'seeker' => $seeker
+        ]);
+    }
 }
