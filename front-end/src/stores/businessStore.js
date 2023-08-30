@@ -9,6 +9,7 @@ import {
   fetchUpdateBusiness,
   getInforBusiness,
 } from "../api/businessApi";
+import { fetchGetApplyByBusiness } from "../api/applyApi";
 
 export const useBusinessStore = defineStore("businessStore", {
   state: () => {
@@ -16,6 +17,7 @@ export const useBusinessStore = defineStore("businessStore", {
       businesses: [],
       business: {},
       myBusiness: {},
+      applyList: [],
       accessToken: "" || localStorage.getItem("tokenBusiness"),
       isLoggedBusiness:
         JSON.parse(localStorage.getItem("isLoggedBusiness")) || false,
@@ -60,7 +62,6 @@ export const useBusinessStore = defineStore("businessStore", {
             this.myBusiness = res.data.business;
             localStorage.setItem("isLoggedBusiness", JSON.stringify(true));
             this.isLoggedBusiness = true;
-            console.log("res business", res);
           });
         }
       } catch (error) {
@@ -73,10 +74,11 @@ export const useBusinessStore = defineStore("businessStore", {
         this.isLoading = true;
         fetchLogoutBusiness(token).then(() => {
           this.isLoading = false;
-          localStorage.removeItem("tokenBusiness");
-          localStorage.removeItem("isLoggedBusiness");
+          localStorage.setItem("tokenBusiness", "");
+          localStorage.setItem("isLoggedBusiness", JSON.stringify(false));
           this.isLoggedBusiness = false;
           this.accessToken = "";
+          this.myBusiness = {};
         });
       } catch (error) {
         this.isLoading = false;
@@ -92,7 +94,7 @@ export const useBusinessStore = defineStore("businessStore", {
           console.log("resp", res);
         });
       } catch (error) {
-        this.isLoading = true;
+        this.isLoading = false;
         console.log(error);
       }
     },
@@ -101,11 +103,10 @@ export const useBusinessStore = defineStore("businessStore", {
         this.isLoading = true;
         fetchGetAllBusiness().then((res) => {
           this.isLoading = false;
-          console.log("businesses", res);
           this.businesses = res?.data;
         });
       } catch (error) {
-        this.isLoading = true;
+        this.isLoading = false;
         console.log(error);
       }
     },
@@ -118,7 +119,19 @@ export const useBusinessStore = defineStore("businessStore", {
           this.business = res.data;
         });
       } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actGetApplyList(token) {
+      try {
         this.isLoading = true;
+        fetchGetApplyByBusiness(token).then((res) => {
+          this.isLoading = false;
+          this.applyList = res.data?.applications;
+        });
+      } catch (error) {
+        this.isLoading = false;
         console.log(error);
       }
     },

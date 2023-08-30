@@ -6,6 +6,7 @@ import {
   fetchRegister,
   getInforMe,
 } from "../api/userApi";
+import { fetchCreateApply, fetchHistoryApply } from "../api/applyApi";
 
 export const useUserStore = defineStore("userStore", {
   state: () => {
@@ -13,6 +14,7 @@ export const useUserStore = defineStore("userStore", {
       users: [],
       user: {},
       myUser: {},
+      histories: [],
       accessToken: "" || localStorage.getItem("token"),
       isLogged: JSON.parse(localStorage.getItem("isLogged")) || false,
       isLoading: false,
@@ -88,6 +90,30 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         this.isLoading = true;
         console.log(error);
+      }
+    },
+
+    actApplyJob(idJob, apply, token) {
+      try {
+        this.isLoading = true;
+        fetchCreateApply(idJob, apply, token).then((res) => {
+          this.isLoading = false;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+    actGetHistoryApply(token) {
+      try {
+        this.isLoading = true;
+        fetchHistoryApply(token).then((res) => {
+          this.isLoading = false;
+          this.histories = res?.data?.application_history;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
       }
     },
   },

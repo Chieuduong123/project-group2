@@ -48,6 +48,14 @@ export const fetchCreatePost = async (post, token) => {
     console.log(error);
   }
 };
+export const fetchPostByIdBusiness = async (id) => {
+  try {
+    const data = await axios.get(`${BASE_URL}job/business/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const fetchPostByTokenBusiness = async (token) => {
   try {
     const data = await axios.get(`${BASE_URL}v1/job`, {

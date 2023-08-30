@@ -10,7 +10,7 @@
             <div class="rounded-full w-[20px] h-[20px] flex items-center justify-center bg-green-500">
                 <StarFilled :style="{fontSize: '11px', color: '#fff'}"/>
             </div>
-            <p class="text-[14px]">Đang tuyển dụng <span class="text-green-500 font-semibold">0</span> vị trí</p>
+            <p class="text-[14px]">Đang tuyển dụng <span class="text-green-500 font-semibold">{{ quantityJob}}</span> vị trí</p>
         </div>
         <div class="flex items-start gap-3">
             <div class="rounded-full w-[20px] h-[20px] flex items-center justify-center bg-green-500">
@@ -32,17 +32,32 @@
 </template>
 <script setup>
     import {StarFilled, InfoOutlined, EnvironmentOutlined} from "@ant-design/icons-vue"
-    import {defineProps} from "vue"
+    import {computed, defineProps, onMounted, ref} from "vue"
     import { IMAGE_URL } from "../constants/url";
 import { useRouter } from "vue-router";
+import { usePostStore } from "../stores/postStore";
+import { fetchPostByIdBusiness } from "../api/postApi";
     const router = useRouter()
     const {business} = defineProps({
         business: Object
     })
+    const quantityJob = ref(null)
+    const postStore = usePostStore()
 
     const handleGoDetailBusiness = (id) => {
         router.push(`company/${id}`)
     }
+    const handleCalJobByBusinessId = async(id) => {
+        const data = await fetchPostByIdBusiness(id)
+        if(data) {
+            quantityJob.value = data?.data?.length
+        }
+    }
+
+    onMounted(() => {
+        handleCalJobByBusinessId(business?.id)
+    })
+    
 </script>
 <style lang="">
     
