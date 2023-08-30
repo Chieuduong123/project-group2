@@ -1,0 +1,578 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "List API Juong Job",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "duongchieu7202@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/business/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register Business",
+                "description": "Returns a businesses",
+                "operationId": "registerBusiness",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login Business",
+                "description": "Returns a token businesses",
+                "operationId": "login Business",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout Business",
+                "description": "Delete a token businesses",
+                "operationId": "logout Business",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register seeker",
+                "description": "Returns a seekeres",
+                "operationId": "registerseeker",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login seeker",
+                "description": "Returns a token seeker",
+                "operationId": "login seeker",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout seeker",
+                "description": "Delete a token seeker",
+                "operationId": "logout seeker",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/search": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Search job",
+                "description": "Returns list of jobs",
+                "operationId": "search",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/jobs": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get list of jobs",
+                "description": "Returns list of jobs",
+                "operationId": "getJobPosting",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/job/id": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get detail of jobs",
+                "description": "Returns list of jobs",
+                "operationId": "getDetailJobPosting",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/job/business/id": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get job by id business",
+                "description": "Returns list of jobs of id business",
+                "operationId": "getJobByBusiness",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "business/job": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get all job of business",
+                "description": "Returns all job of business",
+                "operationId": "getBusinessJobs",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "business/job/id": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get detail job of business",
+                "description": "Returns detail job of business",
+                "operationId": "getBusinessJobDetail",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "business/job/create": {
+            "post": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Create new job",
+                "description": "Returns new job",
+                "operationId": "storeJobPost",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "business/job/update": {
+            "put": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Update job",
+                "description": "Returns update job",
+                "operationId": "updateJobPost",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "business/job/destroy": {
+            "delete": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Destroy job",
+                "description": "Returns destroy job",
+                "operationId": "destroyJobPost",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "seeker/job/favorites": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "List favorites job",
+                "description": "Returns favorites job",
+                "operationId": "getFavoriteJobs",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "seeker/job/favorites/create": {
+            "post": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Add favorites job",
+                "description": "Returns favorites job",
+                "operationId": "addToFavorites",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "seeker/job/favorites/remove": {
+            "delete": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Remove favorites job",
+                "description": "Returns favorites job",
+                "operationId": "removeFromFavorites",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business": {
+            "get": {
+                "tags": [
+                    "Business"
+                ],
+                "summary": "Get business",
+                "description": "Returns list businesses",
+                "operationId": "getBusiness",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/id": {
+            "get": {
+                "tags": [
+                    "Business"
+                ],
+                "summary": "Get detail business by id",
+                "description": "Returns detail businesses",
+                "operationId": "getDetailBusiness",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        
+      
+        "/seeker/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Profile seeker",
+                "description": "Return profile seeker",
+                "operationId": "Profile seeker",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/profile/update": {
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update Profile seeker",
+                "description": "Return profile seeker",
+                "operationId": "Update Profile seeker",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/profile/": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Profile business",
+                "description": "Return profile business",
+                "operationId": "Profile business",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/profile/update": {
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update Profile business",
+                "description": "Return profile business",
+                "operationId": "Update Profile business",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/applications": {
+            "get": {
+                "tags": [
+                    "Application"
+                ],
+                "summary": "Get all apply of business",
+                "description": "Return apply of business",
+                "operationId": "getApplications",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/application/id": {
+            "get": {
+                "tags": [
+                    "Application"
+                ],
+                "summary": "Get detail apply of business",
+                "description": "Return detail apply of business",
+                "operationId": "getDetailApplications",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/job/id/apply": {
+            "post": {
+                "tags": [
+                    "Application"
+                ],
+                "summary": "Seeker apply job",
+                "description": "Return apply",
+                "operationId": "applyForJob",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/apply/history": {
+            "get": {
+                "tags": [
+                    "Application"
+                ],
+                "summary": "Get application history of seeker",
+                "description": "Return history apply",
+                "operationId": "getApplicationHistory",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/cv/create": {
+            "post": {
+                "tags": [
+                    "Curriculum Vitaes"
+                ],
+                "summary": "Create CV",
+                "description": "Return CV",
+                "operationId": "storeCV",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/cv/update": {
+            "put": {
+                "tags": [
+                    "Curriculum Vitaes"
+                ],
+                "summary": "Update CV",
+                "description": "Return CV",
+                "operationId": "updateCV",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/cv/destroy": {
+            "delete": {
+                "tags": [
+                    "Curriculum Vitaes"
+                ],
+                "summary": "Destroy CV",
+                "description": "Return CV",
+                "operationId": "destroyCV",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        }
+        
+    }
+}

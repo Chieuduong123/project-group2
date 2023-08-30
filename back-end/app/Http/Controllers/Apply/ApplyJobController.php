@@ -22,7 +22,7 @@ class ApplyJobController extends Controller
 
             if ($existingApplication) {
                 return response()->json([
-                    'message' => 'You have already applied for this job'
+                    'message' => 'You have already applied for this job', 400
                 ]);
             }
 
