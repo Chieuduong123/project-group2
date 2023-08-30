@@ -8,7 +8,22 @@ use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-
+    /**
+     * @OA\Get(
+     *      path="/search",
+     *      operationId="search",
+     *      tags={"Jobs"},
+     *      summary="Search Jobs",
+     *      description="Returns list of jobs",
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation"
+     *       ),
+     *       @OA\Response(response=400, description="Bad request"),
+     *     )
+     *
+     * Returns list of books
+     */
     public function search(Request $request)
     {
         $query = Job::query();
@@ -32,7 +47,6 @@ class JobController extends Controller
 
         return response()->json($results);
     }
-
     public function getJobPosting()
     {
         $showJob = Job::with('business')
@@ -42,7 +56,6 @@ class JobController extends Controller
 
         return response()->json($showJob);
     }
-
 
     public function getDetailJobPosting($id)
     {

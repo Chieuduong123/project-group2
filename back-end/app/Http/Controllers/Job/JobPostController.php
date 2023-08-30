@@ -8,7 +8,6 @@ use App\Models\Job;
 
 class JobPostController extends Controller
 {
-
     public function getBusinessJobs()
     {
         try {

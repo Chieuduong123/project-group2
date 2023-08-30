@@ -42,6 +42,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:business']], function () 
     Route::post('/job/{job}', 'Job\JobPostController@update');
     Route::delete('/job/{job}', 'Job\JobPostController@destroy');
     Route::get('/applications', 'Job\ApplicationController@getApplications');
+    Route::get('/application/{id}', 'Job\ApplicationController@getDetailApplications');
     Route::get('/seeker/{id}', 'Seeker\SeekerController@infoSeeker');
 });
 
@@ -52,7 +53,7 @@ Route::group(['prefix' => 'seeker'], function () {
 
 Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function () {
     Route::post('/logout', 'Seeker\AuthSeekerController@logout')->withoutMiddleware(['auth:seeker']);
-    Route::get('/refresh', 'Seeker\AuthSeekerController@refresh');
+    // Route::get('/refresh', 'Seeker\AuthSeekerController@refresh');
     Route::get('/profile', 'Profile\SeekerProfileController@showProfile');
     Route::post('/profile', 'Profile\SeekerProfileController@updateProfile');
     Route::get('/favorites', 'Favorite\FavoriteController@getFavoriteJobs');
