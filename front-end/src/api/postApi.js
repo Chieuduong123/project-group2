@@ -30,21 +30,46 @@ export const fetchGetPostByIdBusiness = (id) => {
   }
 };
 
-export const fetchCreatePost = async (post) => {
+export const fetchCreatePost = async (post, token) => {
   try {
-    const data = await axios.post(`${BASE_URL}business/job`, post);
+    console.log("create post", post, token);
+    const data = await axios.post(`${BASE_URL}v1/job`, post, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
     if (data) {
       toast.success("Đăng bài thành công");
     }
-    return toast;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const fetchPostByTokenBusiness = async (token) => {
+  try {
+    const data = await axios.get(`${BASE_URL}v1/job`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchDeletePost = async (id) => {
+export const fetchDeletePost = async (id, token) => {
   try {
-    const data = await axios.delete(`${BASE_URL}business/job/${id}`);
+    const data = await axios.delete(`${BASE_URL}v1/job/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success("Xoá bài thành công");
     return data;
   } catch (error) {
@@ -52,9 +77,13 @@ export const fetchDeletePost = async (id) => {
   }
 };
 
-export const fetchUpdatePost = async (id, newPost) => {
+export const fetchUpdatePost = async (id, newPost, token) => {
   try {
-    const data = await axios.put(`${BASE_URL}business/job/${id}`, newPost);
+    const data = await axios.post(`${BASE_URL}v1/job/${id}`, newPost, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success("Cập nhật bài thành công");
     return data;
   } catch (error) {
@@ -65,7 +94,7 @@ export const fetchUpdatePost = async (id, newPost) => {
 export const fetchSearch = async (position, level, location) => {
   try {
     const data = await axios.get(
-      `${BASE_URL}search/position=${position}&level=${level}&location=${location}`
+      `${BASE_URL}search?position=${position}&level=${level}&location=${location}`
     );
     return data;
   } catch (error) {
@@ -88,7 +117,7 @@ export const fetchFavoritePost = async (token) => {
 
 export const fetchCreateFavorite = async (id, token) => {
   try {
-    const data = await axios.put(`${BASE_URL}seeker/favorites/${id}`, {
+    const data = await axios.put(`${BASE_URL}seeker/favorites/${id}`, null, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -102,7 +131,7 @@ export const fetchCreateFavorite = async (id, token) => {
   }
 };
 
-export const fetchDeleteFavorite = async (id) => {
+export const fetchDeleteFavorite = async (id, token) => {
   try {
     const data = await axios.delete(`${BASE_URL}seeker/favorites/${id}`, {
       headers: {

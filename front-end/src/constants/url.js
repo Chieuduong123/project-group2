@@ -1,4 +1,3 @@
-export const IMAGE_URL =
-  "http://localhost:8000/back-end-juong-job/public/avatars/";
+export const IMAGE_URL = "http://127.0.0.1:8000/avatars/";
 
-export const BASE_URL = "http://localhost:8000/back-end-juong-job/public/api/";
+export const BASE_URL = "http://127.0.0.1:8000/api/";

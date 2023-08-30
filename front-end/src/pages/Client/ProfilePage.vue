@@ -27,15 +27,15 @@
             </form>
         </div>
         <div class="w-[40%] shadow rounded-xl p-[20px]">
-            <div class="flex items-center gap-3 border-b pb-[10px]">
-                <div class="relative w-[120px] h-[120px] rounded-full ">
+            <div class="flex items-center justify-between border-b pb-[10px]">
+                <div class="relative rounded-full ">
                     <div class="avatar-container">
                         <img
                             :src="avatarFile.preview ? `${avatarFile.preview}` : `${IMAGE_URL}${profileRef.avatar}`"
                             class="w-full h-full object-cover rounded-full"
                         />
                     </div>
-                    <div class="absolute right-[-5px] top-[50%] translate-y-[50%] w-[30px] h-[30px] rounded-full bg-green-500 text-white flex items-center justify-center">
+                    <div class="absolute right-[-5px] bottom-0 w-[30px] h-[30px] rounded-full bg-green-500 text-white flex items-center justify-center">
                         <label for="change-avatar" class="flex items-center cursor-pointer"><CameraOutlined :style="{fontSize: '16px', color: '#fff'}"/></label>
                         <input type="file" id="change-avatar" class="hidden" @change="changeFile">
                     </div>
@@ -55,8 +55,9 @@
     import { useUserStore } from "../../stores/userStore";
     import { ref, watchEffect } from "vue";
     import LoadingVue from "../../components/Loading.vue";
+import { useToast } from "vue-toastification";
     const userStore = useUserStore()
-
+    const toast = useToast()
     const avatarFile = ref({
         file: null,
         preview: null,
@@ -97,20 +98,20 @@
         formData.append('name', profileRef.value.name)
         formData.append('email', profileRef.value.email)
         formData.append('phone', profileRef.value.phone)
-        formData.append('birthday', profileRef.value.birthday)
-        const payload = {
-            formData
+        formData.append('birthday', profileRef.value.birthday) 
+        formData.append('address', profileRef.value.address) 
+        if(!profileRef.value.name || !profileRef.value.phone || !profileRef.value.birthday || !profileRef.value.address || !avatarFile.value.file){
+            toast.warning("Vui lòng nhập đủ thông tin")
+        }else {
+            userStore.actEditProfile(formData, userStore.accessToken)    
         }
-        userStore.actEditProfile(formData, userStore.accessToken)
-        console.log(avatarFile.value.file,'avatarFile.value.file');
-        console.log(formData,'formDataformData');
     }
 
 </script>
 <style>
     .avatar-container {
-        width: 100px;
-        height: 100px;
+        width: 200px;
+        height: 200px;
         background-image: url("../../assets/images/user_1177568.png");
         background-size: cover;
         background-position: center;

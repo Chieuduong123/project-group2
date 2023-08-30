@@ -10,27 +10,27 @@
             <form action="" class="flex flex-col gap-5 mt-5">
                 <div class="flex flex-col gap-2">
                     <label for="" class="text-[14px] font-medium">Họ và tên</label>
-                    <input type="text" placeholder="Nhập họ và tên" class="px-[10px] py-[5px] outline-none border rounded">
+                    <input type="text" v-model="applyRef.name" placeholder="Nhập họ và tên" class="px-[10px] py-[5px] outline-none border rounded">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="" class="text-[14px] font-medium">Email</label>
-                    <input type="text" placeholder="Nhập email" class="px-[10px] py-[5px] outline-none border rounded">
+                    <input type="text" v-model="applyRef.email" placeholder="Nhập email" class="px-[10px] py-[5px] outline-none border rounded">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="" class="text-[14px] font-medium">Số điện thoại</label>
-                    <input type="text" placeholder="Nhập số điện thoại" class="px-[10px] py-[5px] outline-none border rounded">
+                    <input type="text" v-model="applyRef.phone" placeholder="Nhập số điện thoại" class="px-[10px] py-[5px] outline-none border rounded">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="" class="text-[14px] font-medium">CV của bạn</label>
-                    <input type="file" class="px-[10px] py-[5px] outline-none border rounded">
+                    <input type="file"  class="px-[10px] py-[5px] outline-none border rounded" @change="handleChangeFile">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="" class="text-[14px] font-medium">Thông tin thêm</label>
-                    <textarea placeholder="Thông tin thêm" name="" id="" cols="30" rows="5" class="px-[10px] py-[5px] outline-none border rounded"></textarea>
+                    <textarea placeholder="Thông tin thêm" v-model="applyRef.note" name="" id="" cols="30" rows="5" class="px-[10px] py-[5px] outline-none border rounded"></textarea>
                 </div>
                 <div class="flex items-center gap-5 justify-end">
-                    <button class="border-2 border-red-500 px-[10px] py-[5px] rounded font-semibold">Huỷ</button>
-                    <button class="bg-green-500 text-white px-[10px] py-[5px] rounded font-semibold">Nộp CV</button>
+                    <button class="border-2 border-red-500 px-[10px] py-[5px] rounded font-semibold" @click.prevent="toggle">Huỷ</button>
+                    <button class="bg-green-500 text-white px-[10px] py-[5px] rounded font-semibold" @click.prevent="handleApply">Nộp CV</button>
                 </div>
             </form>
         </div>
@@ -38,11 +38,40 @@
 </template>
 <script setup>
     import {CloseOutlined} from "@ant-design/icons-vue"
-    import {defineProps} from "vue"
+    import {defineProps, ref, watchEffect} from "vue"
 
     const props = defineProps({
-        toggle: Function
+        toggle: Function,
+        user: Object
     })
+
+    const applyRef = ref({
+        name: "",
+        email: "",
+        phone: "",
+        cv: null,
+        note: "",
+    })
+
+    watchEffect(() => {
+        const apply = props.user
+        if (apply) {
+            applyRef.value.name = apply.name
+            applyRef.value.email = apply.email
+            applyRef.value.phone = apply.phone
+        }
+    })
+
+    const handleChangeFile = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            applyRef.value.cv = file;
+        }
+    }
+
+    const handleApply = () => {
+        console.log(applyRef.value);
+    }
 
 </script>
 <style lang="">

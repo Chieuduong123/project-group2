@@ -6,6 +6,7 @@ import {
   fetchLoginBusiness,
   fetchLogoutBusiness,
   fetchRegisterBusiness,
+  fetchUpdateBusiness,
   getInforBusiness,
 } from "../api/businessApi";
 
@@ -15,7 +16,7 @@ export const useBusinessStore = defineStore("businessStore", {
       businesses: [],
       business: {},
       myBusiness: {},
-      accessToken: "" || localStorage.getItem("token"),
+      accessToken: "" || localStorage.getItem("tokenBusiness"),
       isLoggedBusiness:
         JSON.parse(localStorage.getItem("isLoggedBusiness")) || false,
       isLoading: false,
@@ -37,17 +38,14 @@ export const useBusinessStore = defineStore("businessStore", {
       try {
         this.isLoading = true;
         const data = await fetchLoginBusiness(business);
-
         if (data) {
           this.isLoading = false;
           this.accessToken = data?.data.token;
-          localStorage.setItem("token", data?.data.token);
+          localStorage.setItem("tokenBusiness", data?.data.token);
           localStorage.setItem("isLoggedBusiness", JSON.stringify(true));
           this.myBusiness = data.data.seeker;
-          this.isLogged = true;
-          console.log("===", data);
+          this.isLoggedBusiness = true;
         }
-        console.log("business", data);
       } catch (error) {
         this.isLoading = false;
         console.log(error);
@@ -59,9 +57,9 @@ export const useBusinessStore = defineStore("businessStore", {
         if (accessToken) {
           getInforBusiness(accessToken).then((res) => {
             this.isLoading = false;
-            // this.myBusiness = res.data.seeker;
-            // localStorage.setItem("isLoggedBusiness", JSON.stringify(true));
-            // this.isLogged = true;
+            this.myBusiness = res.data.business;
+            localStorage.setItem("isLoggedBusiness", JSON.stringify(true));
+            this.isLoggedBusiness = true;
             console.log("res business", res);
           });
         }
@@ -75,8 +73,10 @@ export const useBusinessStore = defineStore("businessStore", {
         this.isLoading = true;
         fetchLogoutBusiness(token).then(() => {
           this.isLoading = false;
-          localStorage.removeItem("token");
+          localStorage.removeItem("tokenBusiness");
           localStorage.removeItem("isLoggedBusiness");
+          this.isLoggedBusiness = false;
+          this.accessToken = "";
         });
       } catch (error) {
         this.isLoading = false;
@@ -86,9 +86,9 @@ export const useBusinessStore = defineStore("businessStore", {
     actEditProfile(profile, token) {
       try {
         this.isLoading = true;
-        fetchEditProfile(profile, token).then((res) => {
+        fetchUpdateBusiness(profile, token).then((res) => {
           this.isLoading = false;
-
+          this.actFetchReLoginBusiness(token);
           console.log("resp", res);
         });
       } catch (error) {

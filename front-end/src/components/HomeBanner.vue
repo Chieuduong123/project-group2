@@ -11,7 +11,7 @@
                 <div class="flex items-center gap-2 px-[10px] py-[10px]">
                     <EnvironmentOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/>
                     <select name="" id="" v-model="provinceSelect" class="text-gray-500 outline-none max-h-[300px]">
-                        <option value="all" >Tất cả tỉnh/thành phố</option>
+                        <option value="" >Tất cả tỉnh/thành phố</option>
                         <option :value="province.name" v-for="province in dataLocation" :key="province.id">{{province.name}}</option>
                     </select>
                 </div>
@@ -19,7 +19,7 @@
             <div class="flex items-center gap-2 bg-white px-[10px] py-[10px] rounded">
                 <StarOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/>
                 <select name="" id="" v-model="levelSelect" class="text-gray-500 outline-none">
-                    <option value="all">Tất cả kinh nghiệm</option>
+                    <option value="">Tất cả kinh nghiệm</option>
                     <option value="intern">Intern</option>
                     <option value="fresher">Fresher</option>
                     <option value="junior">Junior</option>
@@ -60,8 +60,8 @@ import { useRouter } from "vue-router";
     const modules = [Autoplay, Pagination]
     const router = useRouter()
     const positionRef = ref("");
-    const provinceSelect = ref("all");
-    const levelSelect = ref("all")
+    const provinceSelect = ref("");
+    const levelSelect = ref("")
     watch(provinceSelect, (newValue) => {
         console.log(newValue);
     })

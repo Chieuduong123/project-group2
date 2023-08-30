@@ -26,41 +26,49 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" >
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" v-for="post in postData" :key="post.id">
                         <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
-                            Full sờ  nách
+                            {{post?.position}}
                         </th>
                         <td class="px-4 py-3 text-center">
-                            2
+                            {{post?.quantity}}
                         </td>
                         <td class="px-4 py-3 text-center">
-                            2
+                            {{post?.start_day}}
                         </td>
                         <td class="px-4 py-3 text-center">
-                            2
+                            {{post?.end_day}}
                         </td>
                         <td class="px-4 py-3 text-center">
-                            Chờ duyệt
+                            <span v-if="post?.status === 0" class="text-white bg-yellow-500 px-[10px] py-[5px] rounded font-semibold">Đang duyệt</span>
+                            <span  v-else class="text-white bg-green-500 px-[10px] py-[5px] rounded font-semibold">Đã duyệt</span>
                         </td>
                         <td class="px-4 py-3 text-center">
-                            <button href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline mr-2" @click="handleDelete(2)">Delete</button>
-                            <button href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" @click="isToggleFormUpdate(1)">Edit</button>
+                            <button href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline mr-2" @click="handleDelete(post?.id)">Delete</button>
+                            <button href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2" @click="isToggleFormUpdate(post?.id)">View</button>
+                            <button href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" @click="isToggleFormUpdate(post?.id)">Edit</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <Loading v-if="postStore.isLoading"/>
     </div>
     <PopupCreatePost v-if="isCreate" :onToggleCreate="isToggleFormCreate" />
     <PopupEditPost v-if="isUpdate" :onToggleUpdate="isToggleFormUpdate" :idTemp="idTemp"/>
 </template>
 <script setup>
-    import {ref} from "vue"
+    import {computed, onMounted, ref} from "vue"
+    import Loading from "../../components/Loading.vue";
     import PopupCreatePost from "../../components/PopupCreatePost.vue";
     import PopupEditPost from "../../components/PopupEditPost.vue";
+    import { usePostStore } from "../../stores/postStore";
+    import { useBusinessStore } from "../../stores/businessStore";
     const isCreate = ref(false)
     const isUpdate = ref(false)
     const idTemp = ref("")
+    const postStore = usePostStore()
+    const businessStore = useBusinessStore()
     const isToggleFormCreate = () => {
         isCreate.value = !isCreate.value
     }
@@ -69,9 +77,21 @@
         idTemp.value = id
     }
 
+    const handleGetPostBusiness = async(token) => {
+        await postStore.actGetPostByTokenBusiness(token)
+    }
+
+    onMounted(() => {
+        handleGetPostBusiness(businessStore.accessToken)
+    })
+
+    const postData = computed(() => {
+        return postStore.posts
+    })
+
     const handleDelete = (id) => {
         if (confirm("Bạn có chắc chắn với thao tác này!") == true) {
-            console.log("Delete", id);
+            postStore.actDeletePost(id, businessStore.accessToken)
         } else {
             return 0
         }

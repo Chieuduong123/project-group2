@@ -27,7 +27,7 @@ export const fetchLoginBusiness = async (business) => {
 
 export const getInforBusiness = async (token) => {
   try {
-    const data = await axios.get(`${BASE_URL}business/profile`, {
+    const data = await axios.get(`${BASE_URL}v1/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -40,14 +40,16 @@ export const getInforBusiness = async (token) => {
 
 export const fetchLogoutBusiness = async (token) => {
   try {
-    const data = await axios.post(`${BASE_URL}business/logout`, {
+    const data = await axios.post(`${BASE_URL}v1/logout`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    toast.success("Đăng xuất thành công");
     return data;
   } catch (error) {
     console.log(error);
+    toast.warning("error");
   }
 };
 
@@ -63,6 +65,23 @@ export const fetchGetAllBusiness = async () => {
 export const fetchGetBusinessById = async (id) => {
   try {
     const data = await axios.get(`${BASE_URL}business/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchUpdateBusiness = async (profile, token) => {
+  try {
+    const data = await axios.post(`${BASE_URL}v1/profile`, profile, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    toast.success("Cập nhật thông tin thành công");
     return data;
   } catch (error) {
     console.log(error);

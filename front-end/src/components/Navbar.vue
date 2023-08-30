@@ -4,10 +4,11 @@
         <Menu as="div" class="relative z-30 inline-block text-left">
             <MenuButton>
                 <div class="flex items-center gap-2 cursor-pointer">
-                    <span class="w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px]"> 
+                    <img :src="`${IMAGE_URL}${businessStore?.myBusiness?.avatar}`" alt="avatar" class="w-[40px] h-[40px] rounded-full" v-if="businessStore?.myBusiness?.avatar">
+                    <span v-else class="w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px]"> 
                         B
                     </span>
-                    <p class="font-semibold text-[14px]">Công ty A</p>
+                    <p class="font-semibold text-[14px]">{{businessStore?.myBusiness?.name}}</p>
                 </div>
             </MenuButton>
             <transition
@@ -69,6 +70,7 @@
     import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     import { useRouter } from 'vue-router';
 import { useBusinessStore } from '../stores/businessStore';
+import { IMAGE_URL } from '../constants/url';
     const router = useRouter()
     const businessStore = useBusinessStore()
     const goProfile = () => {

@@ -1,10 +1,14 @@
 import { defineStore } from "pinia";
 import {
+  fetchCreateFavorite,
   fetchCreatePost,
+  fetchDeleteFavorite,
   fetchDeletePost,
+  fetchFavoritePost,
   fetchGetAllPost,
   fetchGetPostByIdBusiness,
   fetchPostById,
+  fetchPostByTokenBusiness,
   fetchSearch,
   fetchUpdatePost,
 } from "../api/postApi";
@@ -14,6 +18,7 @@ export const usePostStore = defineStore("postStore", {
     return {
       posts: [],
       post: {},
+      favorites: [],
       isLoading: false,
       itemsPerPage: 6,
       totalPages: 1,
@@ -59,11 +64,23 @@ export const usePostStore = defineStore("postStore", {
         console.log(error);
       }
     },
-    actCreatePost(post) {
+    actGetPostByTokenBusiness(token) {
       try {
         this.isLoading = true;
-        fetchCreatePost(post).then((res) => {
-          console.log(res);
+        fetchPostByTokenBusiness(token).then((res) => {
+          this.isLoading = false;
+          this.posts = res.data.jobs;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actCreatePost(post, token) {
+      try {
+        this.isLoading = true;
+        fetchCreatePost(post, token).then(() => {
+          this.actGetPostByTokenBusiness(token);
           this.isLoading = false;
         });
       } catch (error) {
@@ -71,11 +88,12 @@ export const usePostStore = defineStore("postStore", {
         console.log(error);
       }
     },
-    actDeletePost(id) {
+    actDeletePost(id, token) {
       try {
         this.isLoading = true;
-        fetchDeletePost(id).then((res) => {
+        fetchDeletePost(id, token).then((res) => {
           console.log(res);
+          this.actGetPostByTokenBusiness(token);
           this.isLoading = false;
         });
       } catch (error) {
@@ -83,11 +101,12 @@ export const usePostStore = defineStore("postStore", {
         console.log(error);
       }
     },
-    actUpdatePost(id, newPost) {
+    actUpdatePost(id, newPost, token) {
       try {
         this.isLoading = true;
-        fetchUpdatePost(id, newPost).then((res) => {
+        fetchUpdatePost(id, newPost, token).then((res) => {
           console.log(res);
+          this.actGetPostByTokenBusiness(token);
           this.isLoading = false;
         });
       } catch (error) {
@@ -100,7 +119,43 @@ export const usePostStore = defineStore("postStore", {
         this.isLoading = true;
         fetchSearch(position, level, location).then((res) => {
           this.isLoading = false;
-          console.log(res);
+          this.posts = res.data.data;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actAddFavorite(id, token) {
+      try {
+        this.isLoading = true;
+        fetchCreateFavorite(id, token).then((res) => {
+          this.isLoading = false;
+          this.actGetFavorite(token);
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actGetFavorite(token) {
+      try {
+        this.isLoading = true;
+        fetchFavoritePost(token).then((res) => {
+          this.isLoading = false;
+          this.favorites = res.data.favorite_jobs;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actRemoveFavorite(id, token) {
+      try {
+        this.isLoading = true;
+        fetchDeleteFavorite(id, token).then(() => {
+          this.isLoading = false;
+          this.actGetFavorite(token);
         });
       } catch (error) {
         this.isLoading = false;

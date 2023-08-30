@@ -74,7 +74,7 @@
             </div>
             <div class="flex flex-col gap-1">
                 <label for="" class="text-[13px] font-medium">Quyền lợi</label>
-                <ckeditor :editor="editor" v-model="postUpdateData.benefit" ></ckeditor>
+                <ckeditor :editor="editor" v-model="postUpdateData.benefits" ></ckeditor>
             </div>
             <button  class="bg-green-500 rounded font-medium text-[#fff] px-[10px] py-[5px] text-[15px]" @click.prevent="onCLick">Submit</button>
         </form>
@@ -83,21 +83,32 @@
 <script setup>
 import {CloseOutlined} from "@ant-design/icons-vue"
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-    import {ref, watch} from "vue"
+    import {onMounted, ref, watch, watchEffect} from "vue"
     import {skillData} from "../constants/skillData"
 import { useToast } from "vue-toastification";
+import { usePostStore } from "../stores/postStore";
+import { useBusinessStore } from "../stores/businessStore";
     const levelArray = ["Intern", "Fresher", "Junior", "Middle", "Senior"]
     const typeJobArray = ["Full time",  "Part time", "Remote"]
     const value1 = ref(null);
     const editor = ClassicEditor
     const toast = useToast()
+    const postStore = usePostStore()
+    const businessStore = useBusinessStore()
     const {onToggleUpdate, idTemp} = defineProps({
         onToggleUpdate: Function,
         idTemp: String
+    }) 
+
+    const handleGetPostById = async(idPost) => {
+        await postStore.actGetPostById(idPost)
+    }
+
+    onMounted(async() => {
+        handleGetPostById(idTemp)
     })
 
     const postUpdateData = ref({
-        business_id: "",
         position: "",
         quantity: "",
         level: [],
@@ -106,14 +117,30 @@ import { useToast } from "vue-toastification";
         salary: "",
         content: "",
         requirement: "",
-        benefit: "",
+        benefits: "",
         start_day: "",
         end_day: "",
         status: false,
     })
-    
+    watchEffect(() => {
+        const post = postStore.post;
+        if (post) {
+            postUpdateData.value.position = post.position;
+            postUpdateData.value.quantity = post.quantity;
+            postUpdateData.value.type = post.type;
+            postUpdateData.value.level = post.level;
+            postUpdateData.value.salary = post.salary;
+            postUpdateData.value.content = post.content;
+            postUpdateData.value.requirement = post.requirement;
+            postUpdateData.value.skill = post.skill;
+            postUpdateData.value.benefits = post.benefits;
+            postUpdateData.value.start_day = post.start_day;
+            postUpdateData.value.end_day = post.end_day;
+        }
+    });
+
     const onCLick = () => {
-        if(!postUpdateData.value.position || !postUpdateData.value.quantity || !postUpdateData.value.level || !postUpdateData.value.type || !postUpdateData.value.skill || !postUpdateData.value.salary || !postUpdateData.value.content || !postUpdateData.value.requirement || !postUpdateData.value.benefit || !value1.value) {
+        if(!postUpdateData.value.position || !postUpdateData.value.quantity || !postUpdateData.value.level || !postUpdateData.value.type || !postUpdateData.value.skill || !postUpdateData.value.salary || !postUpdateData.value.content || !postUpdateData.value.requirement || !postUpdateData.value.benefits || !value1.value) {
             toast.warning("Vui lòng nhập đủ thông tin")
         }else {
             let start = `${value1?.value[0]?.$y}-${value1?.value[0]?.$M+1}-${value1?.value[0]?.$D}`
@@ -123,13 +150,10 @@ import { useToast } from "vue-toastification";
                 start_day: start,
                 end_day: end,
             }
-            console.log(postUpdateData.value);
+            postStore.actUpdatePost(postStore.post.id, postUpdateData.value, businessStore.accessToken);
+            onToggleUpdate()
         }
     }
-    
-    const handleChange = (value) => {
-        console.log(`selected ${value}`);
-    };
 
     const optionLevel = levelArray.map((level) => ({
         value: level

@@ -5,7 +5,7 @@
                 <img src="../../assets/images/banner2.png" alt="img" class="object-cover w-full h-full ">
             </div>
             <div class="absolute translate-y-[-50%] translate-x-[50%] w-[150px] bg-white h-[150px] rounded-full overflow-hidden">
-                <img :src="companyData?.avatar || 'https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'" alt="logo" class="w-full h-full object-cover">
+                <img :src="`${IMAGE_URL}${companyData?.avatar}` || 'https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'" alt="logo" class="w-full h-full object-cover">
             </div>
             <div class="h-60% text-white flex flex-col gap-3 translate-x-[20%]">
                 <h2 class="font-semibold text-[24px] mt-2">{{companyData?.name}}</h2>
@@ -80,6 +80,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useBusinessStore } from "../../stores/businessStore";
 import {onMounted, watch, computed} from "vue"
 import Loading from "../../components/Loading.vue";
+import { IMAGE_URL } from "../../constants/url";
     const router = useRouter()
     const route = useRoute()
     const businessStore = useBusinessStore()

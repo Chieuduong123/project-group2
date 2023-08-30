@@ -30,7 +30,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useBusinessStore } from '../../stores/businessStore';
-import {ref} from "vue"
+import {onMounted, ref} from "vue"
 import Loading from '../../components/Loading.vue';
 import { useToast } from 'vue-toastification';
     const businessStore = useBusinessStore()
@@ -47,12 +47,19 @@ import { useToast } from 'vue-toastification';
         } else if (!isValidEmail(businessData.value.email)) {
             toast.warning("Email không hợp lệ!");
         } else {
-            await businessStore.actLoginUser(businessData.value)
+            await businessStore.actLoginBusiness(businessData.value)
+            console.log(businessStore.isLoggedBusiness);
             if(businessStore.isLoggedBusiness == true && businessStore.accessToken) {
                 router.push("/business")
             }
         }
     }
+
+    onMounted(() => {
+        if(businessStore.isLoggedBusiness == true && businessStore.accessToken) {
+            router.push("/business")
+        }
+    })
 
     const isValidEmail = (email) => {
     // Sử dụng biểu thức chính quy để kiểm tra tính hợp lệ của địa chỉ email.

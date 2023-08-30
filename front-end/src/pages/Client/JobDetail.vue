@@ -2,7 +2,7 @@
     <div class="max-w-[1300px] mx-auto mt-[100px] flex gap-5">
         <div class="rounded w-[30%] h-max flex flex-col gap-5 bg-green-100 py-[40px] px-[20px]">
             <div>
-                <img :src="postData?.business?.logo" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
+                <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
                 <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
             </div>
             <p class="text-gray-500">
@@ -33,7 +33,7 @@
         <div class="w-[70%]">
             <div class="shadow-lg flex flex-col gap-5 px-[30px] py-[30px] rounded">
                 <div class="flex items-center justify-between border-b pb-[20px]">
-                    <img src="https://html.creativegigstf.com/khuj/khuj/images/slider/slider-1.png" alt="logo" class="h-[30px] object-cover">
+                    <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
                     <p class="font-medium text-[18px]">${{postData?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
                 </div>
                 <div class="flex items-center justify-between">
@@ -46,7 +46,7 @@
                             </div>
                             <div class="flex items-center gap-1">
                                 <ClockCircleOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
-                                <span>{{postData?.type}}</span>
+                                <span v-for="(type, index) in postData?.type">{{type}}/</span>
                             </div>
                             <div class="flex items-center gap-1">
                                 <ClockCircleOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
@@ -60,20 +60,20 @@
             <div class="mt-[50px] flex flex-col gap-5">
                 <div>
                     <h2 class="text-[24px] font-medium">Mô tả công việc</h2>
-                    <p class="mt-3 text-gray-500">
-                        {{postData?.content}}
+                    <p class="mt-3 text-gray-500" v-html="postData?.content">
+
                     </p>
                 </div>
                 <div>
                     <h2 class="text-[24px] font-medium">Yêu cầu</h2>
-                    <p class="mt-3 text-gray-500">
-                        {{postData?.requirement}}
+                    <p class="mt-3 text-gray-500" v-html="postData?.requirement">
+
                     </p>
                 </div>
                 <div>
                     <h2 class="text-[24px] font-medium">Quyền lợi</h2>
-                    <p class="mt-3 text-gray-500">
-                        {{postData?.benefits}}
+                    <p class="mt-3 text-gray-500"  v-html="postData?.benefits">
+
                     </p>
                 </div>
                 <div>
@@ -82,7 +82,7 @@
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem nostrum dolores accusamus a vero consequuntur dolorum, autem repellat quaerat architecto officia quos animi? Ipsum aperiam delectus consectetur labore, nesciunt voluptatem!
                     </p>
                     <div class="mt-5 flex flex-wrap gap-3 px-[20px]">
-                        <div class="px-[15px] py-[5px] bg-green-100 text-green-600 font-semibold rounded" v-for="(skill, index) in postData?.skills" :key="index" >
+                        <div class="px-[15px] py-[5px] bg-green-100 text-green-600 font-semibold rounded" v-for="(skill, index) in postData?.skill" :key="index" >
                             {{skill}}
                         </div>
                     </div>
@@ -90,7 +90,8 @@
             </div>
         </div>
     </div>
-    <ApplyPopup v-if="isApply" :toggle="handleToggleApplyPopUp"/>
+    <Loading  v-if="postStore.isLoading"/>
+    <ApplyPopup v-if="isApply" :toggle="handleToggleApplyPopUp" :user="userStore.myUser"/>
 </template>
 <script setup>
     import {EnvironmentOutlined, ClockCircleOutlined} from "@ant-design/icons-vue"
@@ -98,13 +99,15 @@
     import { usePostStore } from "../../stores/postStore";
     import { computed, onMounted, ref } from "vue";
     import ApplyPopup from "../../components/ApplyPopup.vue"
-    
+    import { IMAGE_URL } from "../../constants/url";
+    import Loading from "../../components/Loading.vue";
+import { useUserStore } from "../../stores/userStore";
     const route = useRoute()
     const router = useRouter()
     const postStore = usePostStore()
     const idPost = route.params.id
     const isApply = ref(false)
-
+    const userStore = useUserStore()
     const goDetailCompany = (id) => {
         router.push(`/company/${id}`)
     }
@@ -122,7 +125,7 @@
     const postData = computed(() => {
         return postStore.post
     })
-    console.log(route.params.id);
+    console.log("///",postData?.value);
 </script>
 <style lang="">
     
