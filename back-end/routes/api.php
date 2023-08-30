@@ -23,6 +23,7 @@ Route::get('/job', 'Job\JobController@getJobPosting');
 Route::get('/job/{id}', 'Job\JobController@getDetailJobPosting');
 Route::get('/business', 'Business\BusinessController@getBusiness');
 Route::get('/business/{id}', 'Business\BusinessController@getDetailBusiness');
+Route::get('/job/business/{business}', 'Job\JobController@getJobByBusiness');
 Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 
@@ -51,6 +52,7 @@ Route::group(['prefix' => 'seeker'], function () {
 
 Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function () {
     Route::post('/logout', 'Seeker\AuthSeekerController@logout')->withoutMiddleware(['auth:seeker']);
+    Route::get('/refresh', 'Seeker\AuthSeekerController@refresh');
     Route::get('/profile', 'Profile\SeekerProfileController@showProfile');
     Route::post('/profile', 'Profile\SeekerProfileController@updateProfile');
     Route::get('/favorites', 'Favorite\FavoriteController@getFavoriteJobs');

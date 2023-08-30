@@ -53,8 +53,14 @@ class JobController extends Controller
         return response()->json($job);
     }
 
-    public function test()
+    public function getJobByBusiness($business)
     {
-        dd(111);
+        $jobs = Job::with('business')
+            ->where('business_id', '=', $business)
+            ->where(function ($query) {
+                $query->where('status', true);
+            })
+            ->get();
+        return response()->json($jobs);
     }
 }
