@@ -44,7 +44,7 @@
         </div>
         <div class="flex items-center justify-between">
             <p class="font-medium text-[18px]">${{post?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
-            <button class="px-[10px] py-[5px] rounded bg-green-200 text-green-600">Ứng tuyển</button>
+            <button v-if="isHistory === false" class="px-[10px] py-[5px] rounded bg-green-200 text-green-600">Ứng tuyển</button>
         </div>
     </div>
 </template>
@@ -63,10 +63,11 @@ import { useToast } from "vue-toastification";
     const props = defineProps({
         post: Object,
         idFavicon: String,
+        isHistory: Boolean
     })
 
     const handleGoDetailPost = (id) => {
-        router.push(`job/${id}`)
+        router.push(`/job/${id}`)
     }
 
     const handleAddFavorite = (e, id) => {

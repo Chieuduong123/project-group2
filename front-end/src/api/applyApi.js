@@ -1,8 +1,14 @@
 import axios from "axios";
-
-export const fetchGetApply = async () => {
+import { BASE_URL } from "../constants/url";
+import { useToast } from "vue-toastification";
+const toast = useToast();
+export const fetchGetApplyByBusiness = async (token) => {
   try {
-    const data = await axios.get();
+    const data = await axios.get(`${BASE_URL}v1/applications`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
@@ -18,9 +24,34 @@ export const fetchGetApplyById = async () => {
   }
 };
 
-export const fetchCreateApply = async () => {
+export const fetchCreateApply = async (idJob, apply, token) => {
   try {
-    const data = await axios.post();
+    const data = await axios.post(
+      `${BASE_URL}seeker/job/${idJob}/apply`,
+      apply,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    toast.success("Ứng tuyển thành công");
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchHistoryApply = async (token) => {
+  try {
+    const data = await axios.get(`${BASE_URL}seeker/apply/history`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);

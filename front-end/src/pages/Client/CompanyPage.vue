@@ -5,14 +5,15 @@
             <img src="	https://static.topcv.vn/top_lists/4b8ef4660883f68e7a54770b8e7341b4-61b968185df9c.jpg" alt="banner" class="object-cover w-full h-full">
             <div class="absolute left-[50%] translate-x-[-50%] top-[50%] flex items-center gap-2 bg-white pl-[20px] pr-[10px] py-[10px] rounded-full w-max">
                 <SearchOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/>
-                <input type="text" placeholder="Nhập tên công ty" class="outline-none w-[400px] text-[16px]">
+                <input v-model="searchRef" type="text" placeholder="Nhập tên công ty" class="outline-none w-[400px] text-[16px]">
                 <button class="px-[10px] py-[5px] font-semibold text-[14px] text-white bg-green-500 rounded-full">Tìm kiếm</button>
             </div>
         </div>
         <h1 class="text-center font-semibold text-[34px] mt-[50px]">DANH SÁCH CÁC TOP CÔNG TY</h1>
-        <div class="max-w-[1300px] mx-auto flex gap-5 flex-wrap mt-10">
+        <div v-if="businessData.length > 0" class="max-w-[1300px] mx-auto flex gap-5 flex-wrap mt-10">
             <CompanyCard v-for="business in businessData" :key="business.id" :business="business"/>
         </div>
+        <h1 v-else class="mt-[50px] text-center text-[24px] text-gray-500 font-semibold">Không tìm thấy công ty nào</h1>
     </div>
     <Loading v-if="businessStore.isLoading"/>
 </template>
@@ -21,9 +22,10 @@
     import CompanyCard from "../../components/CompanyCard.vue";
     import { useBusinessStore } from "../../stores/businessStore";
     import { useRouter } from "vue-router";
-    import {computed, onMounted} from "vue"
+    import {computed, onMounted, ref} from "vue"
     import Loading from "../../components/Loading.vue";
     const businessStore = useBusinessStore()
+    const searchRef = ref("")
 
     const handleGetAllBusiness = async() => {
         await businessStore.actGetAllBusiness()
@@ -33,8 +35,11 @@
     })
 
     const businessData = computed(() => {
-        return businessStore.businesses
+        return businessStore.businesses.filter((business) => {
+            return business?.name?.toLowerCase().includes(searchRef.value.toLowerCase());
+        })
     })
+
 
 </script>
 <style lang="">

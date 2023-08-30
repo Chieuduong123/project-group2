@@ -10,7 +10,7 @@
             </p>
             <div>
                 <p class="">Số lượng bài đăng:</p>
-                <p class="font-semibold">{{postData?.quantity}} Jobs</p>
+                <p class="font-semibold">{{quantityJob}} Jobs</p>
             </div>
             <div>
                 <p class="">Quy mô công ty:</p>
@@ -22,7 +22,7 @@
             </div>
             <div>
                 <p class="">Website:</p>
-                <p class="font-semibold">{{postData?.business?.website}}</p>
+                <a :href="postData?.business?.website" target="_blank" class="font-semibold">{{postData?.business?.website}}</a>
             </div>
             <div>
                 <p class="">Địa chỉ công ty:</p>
@@ -49,8 +49,13 @@
                                 <span v-for="(type, index) in postData?.type">{{type}}/</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <ClockCircleOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
+                                <CheckCircleOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
                                 <span v-for="(level, index) in postData?.level">{{level}}/</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <UsergroupAddOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
+                                <span>Số lượng tuyển:</span>
+                                <span >{{postData?.quantity}}</span>
                             </div>
                         </div>
                     </div>
@@ -91,10 +96,10 @@
         </div>
     </div>
     <Loading  v-if="postStore.isLoading"/>
-    <ApplyPopup v-if="isApply" :toggle="handleToggleApplyPopUp" :user="userStore.myUser"/>
+    <ApplyPopup v-if="isApply" :toggle="handleToggleApplyPopUp" :user="userStore.myUser" :job="postData"/>
 </template>
 <script setup>
-    import {EnvironmentOutlined, ClockCircleOutlined} from "@ant-design/icons-vue"
+    import {EnvironmentOutlined, ClockCircleOutlined, CheckCircleOutlined, UsergroupAddOutlined} from "@ant-design/icons-vue"
     import { useRoute, useRouter } from "vue-router";
     import { usePostStore } from "../../stores/postStore";
     import { computed, onMounted, ref } from "vue";
@@ -102,30 +107,48 @@
     import { IMAGE_URL } from "../../constants/url";
     import Loading from "../../components/Loading.vue";
 import { useUserStore } from "../../stores/userStore";
+import { useToast } from "vue-toastification";
+import { fetchPostByIdBusiness } from "../../api/postApi";
     const route = useRoute()
     const router = useRouter()
     const postStore = usePostStore()
     const idPost = route.params.id
     const isApply = ref(false)
     const userStore = useUserStore()
+    const toast = useToast()
+    const quantityJob = ref(0)
     const goDetailCompany = (id) => {
         router.push(`/company/${id}`)
     }
     const handleToggleApplyPopUp = () => {
-        isApply.value = !isApply.value
+        if(userStore.isLogged === true && userStore.accessToken) {
+            isApply.value = !isApply.value
+        }else {
+            toast.warning("Vui lòng đăng nhập trước khi ứng tuyển")
+        }
     }
+
+
     const handleGetPostById = async(idPost) => {
        await postStore.actGetPostById(idPost)
     }
 
     onMounted(() => {
         handleGetPostById(idPost)
+        handleCalJobByBusinessId(postStore.post.business?.id)
     })
+    
+    const handleCalJobByBusinessId = async(id) => {
+        const data = await fetchPostByIdBusiness(id)
+        if(data) {
+            quantityJob.value = data?.data?.length
+        }
+    }
 
     const postData = computed(() => {
         return postStore.post
     })
-    console.log("///",postData?.value);
+
 </script>
 <style lang="">
     

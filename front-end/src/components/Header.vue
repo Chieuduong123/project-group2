@@ -49,7 +49,7 @@
                         </router-link>
                     </ul>
                 </li>
-                <li class="li-root relative">
+                <li v-if="userStore?.isLogged === true" class="li-root relative">
                     <router-link to="cv-management">Hồ sơ & CV</router-link>
                     <ul class="child-list absolute rounded bg-white shadow-lg min-w-[300px] px-[10px] py-[10px]">
                         <router-link to="/cv-management">

@@ -24,9 +24,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="apply in businessStore.applyList" :key="apply.id">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Lê Mạnh Bin
+                    {{apply.name}}
                 </th>
                 <td class="px-6 py-4">
                     Phun sờ nách
@@ -35,41 +35,7 @@
                     llemanhbin@gmail.com
                 </td>
                 <td class="px-6 py-4">
-                    0365160470
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Lê Mạnh Bin
-                </th>
-                <td class="px-6 py-4">
-                    Phun sờ nách
-                </td>
-                <td class="px-6 py-4">
-                    llemanhbin@gmail.com
-                </td>
-                <td class="px-6 py-4">
-                    0365160470
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Lê Mạnh Bin
-                </th>
-                <td class="px-6 py-4">
-                    Phun sờ nách
-                </td>
-                <td class="px-6 py-4">
-                    llemanhbin@gmail.com
-                </td>
-                <td class="px-6 py-4">
-                    0365160470
+                    {{apply.phone}}
                 </td>
                 <td class="px-6 py-4">
                     <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
@@ -77,11 +43,21 @@
             </tr>
         </tbody>
     </table>
+    <Loading v-if="businessStore.isLoading"/>
 </template>
-<script>
-export default {
-    
-}
+<script setup>
+import { onMounted } from 'vue';
+import { useBusinessStore } from '../../stores/businessStore';
+    import Loading from '../../components/Loading.vue';
+    const businessStore = useBusinessStore()
+    const handleGetListApply = (token) => {
+        businessStore.actGetApplyList(token)
+    }
+
+    onMounted(() => {
+        handleGetListApply(businessStore.accessToken)
+    })
+
 </script>
 <style lang="">
     

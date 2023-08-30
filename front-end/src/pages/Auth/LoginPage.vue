@@ -77,7 +77,6 @@ const userLogin = ref({
 
     onMounted(() => {
         if(userStore.isLogged === true) {
-            console.log(userStore.isLogged , userStore.accessToken);
             router.push("/")
         }  
     })

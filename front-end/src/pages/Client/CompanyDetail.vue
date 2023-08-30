@@ -9,10 +9,10 @@
             </div>
             <div class="h-60% text-white flex flex-col gap-3 translate-x-[20%]">
                 <h2 class="font-semibold text-[24px] mt-2">{{companyData?.name}}</h2>
-                <p class="flex items-center gap-2">
+                <a :href="companyData?.website" target="_blank" class="flex items-center gap-2">
                     <GlobalOutlined :style="{fontSize: '20px'}"/>
                     {{companyData?.website}}
-                </p>
+                </a>
                 <p class="flex items-center gap-2">
                     <TeamOutlined :style="{fontSize: '20px'}"/>
                     {{companyData?.size}} Nhân viên
@@ -24,19 +24,23 @@
                 <div class="h-[50px] flex items-center px-[20px] bg-green-500">
                     <h3 class="font-semibold text-white text-[20px]">Tuyển dụng</h3>
                 </div>
-                <div>
+                <div class="h-full">
                     <div class="flex items-center justify-center gap-5 py-[20px]">
                         <div class="flex items-center gap-2 px-[10px] py-[10px] bg-white rounded-md border">
                             <SearchOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/>
-                            <input type="text" placeholder="Vị trí tuyển dụng" class="outline-none text-[15px] w-[300px]">
+                            <input type="text" v-model="searchTemp" placeholder="Vị trí tuyển dụng" class="outline-none text-[15px] w-[300px]">
                         </div>
-                        <button class="px-[15px] py-[10px] bg-green-500 text-white rounded-md font-semibold">Tìm kiếm</button>
+                        <button class="px-[15px] py-[10px] bg-green-500 text-white rounded-md font-semibold" @click="handleSearch">Tìm kiếm</button>
                     </div>
-                    <div class="flex flex-col gap-5 px-[20px]">
-                        <JobCardCompany/>
-                        <JobCardCompany/>
-                        <JobCardCompany/>
+                    <div v-if="jobCompany.length > 0" class="flex flex-col justify-between h-[85%]">
+                        <div class="flex flex-col gap-5 px-[20px]">
+                            <JobCardCompany v-for="job in jobCompany" :key="job.id" :job="job"/>
+                        </div>
+                        <div class="flex justify-center mt-5">
+                            <Pagination :pageArray="pageArray" :currentPage="currentPage" :goToPage="goToPage"/>
+                        </div>
                     </div>
+                    <h1 v-else class="px-[20px] text-center">Chưa có vị trí nào</h1>
                 </div>
             </div>
             <div class="w-[30%] shadow rounded-xl overflow-hidden pb-5 h-max">
@@ -76,28 +80,78 @@
 <script setup>
     import {GlobalOutlined, TeamOutlined, SearchOutlined, EnvironmentOutlined, MailOutlined, PhoneOutlined} from "@ant-design/icons-vue"
     import JobCardCompany from "../../components/JobCardCompany.vue"
-import { useRoute, useRouter } from "vue-router";
-import { useBusinessStore } from "../../stores/businessStore";
-import {onMounted, watch, computed} from "vue"
-import Loading from "../../components/Loading.vue";
-import { IMAGE_URL } from "../../constants/url";
+    import { useRoute, useRouter } from "vue-router";
+    import { useBusinessStore } from "../../stores/businessStore";
+    import {onMounted, watch, computed, ref} from "vue"
+    import Loading from "../../components/Loading.vue";
+    import { IMAGE_URL } from "../../constants/url";
+    import Pagination from "../../components/Pagination.vue"
+    import { usePostStore } from "../../stores/postStore";
+
     const router = useRouter()
     const route = useRoute()
     const businessStore = useBusinessStore()
+    const postStore = usePostStore()
+    const searchTemp = ref("")
+    const searchRef = ref("")
+    const itemsPerPage = ref(3)
+    const totalPages = ref(1)
+    const currentPageInit = ref(1)
     const handleGetBusinessById = async(id) => {
        await businessStore.actGetBusinessById(id)
     }
 
+    const handleGetPostByBusinessId = async(id) => {
+        await postStore.actGetPostByIdBusiness(id)
+    }
+
     onMounted(() => {
         handleGetBusinessById(route.params.id)
+        handleGetPostByBusinessId(route.params.id)
     })
 
     watch(() => route.params.id, (newIdCompany) => {
         handleGetBusinessById(newIdCompany)
+        handleGetPostByBusinessId(newIdCompany)
     })
 
+    const handleSearch = () => {
+        searchRef.value = searchTemp.value
+    }
+
+    const jobCompany = computed(() => {
+        return postStore.postCompany.filter((job) => {
+            return job?.position?.toLowerCase().includes(searchRef.value.toLowerCase());
+        })
+    })
+
+    console.log("==",postStore.postCompany);
     const companyData = computed(() => {
         return businessStore.business
+    })
+
+
+        // Pagination
+    const PostPagination = computed(() => {
+        const startIndex = (currentPageInit.value - 1) * itemsPerPage.value;
+        const endIndex = startIndex + itemsPerPage.value;
+        return jobCompany.value.slice(startIndex, endIndex);
+    });
+
+    const pageArray = computed(() => {
+        const arr = [];
+        for (let i = 1; i <= totalPages.value; i++) {
+            arr.push(i);
+        }
+        return arr;
+    });
+
+    const goToPage = (pageNumber) => {
+        currentPageInit.value = pageNumber;
+    };
+
+    const currentPage = computed(() => {
+        return currentPageInit.value
     })
 
 </script>

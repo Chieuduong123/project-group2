@@ -8,6 +8,7 @@ import {
   fetchGetAllPost,
   fetchGetPostByIdBusiness,
   fetchPostById,
+  fetchPostByIdBusiness,
   fetchPostByTokenBusiness,
   fetchSearch,
   fetchUpdatePost,
@@ -18,6 +19,7 @@ export const usePostStore = defineStore("postStore", {
     return {
       posts: [],
       post: {},
+      postCompany: [],
       favorites: [],
       isLoading: false,
       itemsPerPage: 6,
@@ -70,6 +72,18 @@ export const usePostStore = defineStore("postStore", {
         fetchPostByTokenBusiness(token).then((res) => {
           this.isLoading = false;
           this.posts = res.data.jobs;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actGetPostByIdBusiness(id) {
+      try {
+        this.isLoading = true;
+        fetchPostByIdBusiness(id).then((res) => {
+          this.isLoading = false;
+          this.postCompany = res.data;
         });
       } catch (error) {
         this.isLoading = false;

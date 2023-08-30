@@ -40,7 +40,7 @@ export const getInforBusiness = async (token) => {
 
 export const fetchLogoutBusiness = async (token) => {
   try {
-    const data = await axios.post(`${BASE_URL}v1/logout`, {
+    const data = await axios.post(`${BASE_URL}v1/logout`, null, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
