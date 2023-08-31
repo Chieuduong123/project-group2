@@ -9,7 +9,7 @@ import {
   fetchUpdateBusiness,
   getInforBusiness,
 } from "../api/businessApi";
-import { fetchGetApplyByBusiness } from "../api/applyApi";
+import { fetchGetApplyByBusiness, fetchGetApplyById } from "../api/applyApi";
 
 export const useBusinessStore = defineStore("businessStore", {
   state: () => {
@@ -129,6 +129,19 @@ export const useBusinessStore = defineStore("businessStore", {
         fetchGetApplyByBusiness(token).then((res) => {
           this.isLoading = false;
           this.applyList = res.data?.applications;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actGetApplyById(applyId, token) {
+      try {
+        this.isLoading = true;
+        fetchGetApplyById(applyId, token).then((res) => {
+          this.isLoading = false;
+          // this.applyList = res.data?.applications;
+          console.log("detail", res);
         });
       } catch (error) {
         this.isLoading = false;

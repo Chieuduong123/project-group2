@@ -15,9 +15,13 @@ export const fetchGetApplyByBusiness = async (token) => {
   }
 };
 
-export const fetchGetApplyById = async () => {
+export const fetchGetApplyById = async (applyId, token) => {
   try {
-    const data = await axios.get();
+    const data = await axios.get(`${BASE_URL}v1/application/${applyId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
