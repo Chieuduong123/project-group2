@@ -24,6 +24,17 @@ class FavoriteController extends Controller
     }
     public function addToFavorites(Request $request, $jobId)
     {
+        $seeker = auth()->user();
+
+        $existingFavorite = Favorite::where('seeker_id', $seeker->id)
+            ->where('job_id', $jobId)
+            ->first();
+
+        if ($existingFavorite) {
+            return response()->json([
+                'message' => 'You have already favorites for this job',
+            ], 403);
+        }
         $seeker = $request->user('seeker');
         $job = Job::findOrFail($jobId);
 

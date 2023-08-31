@@ -33,6 +33,7 @@ Route::group(['prefix' => 'business'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:business']], function () {
+    Route::post('/token/refresh', 'Business\AuthBusinessController@refreshToken');
     Route::post('/logout', 'Business\AuthBusinessController@logout');
     Route::get('/profile', 'Profile\BusinessProfileController@showProfile');
     Route::post('/profile', 'Profile\BusinessProfileController@updateProfile');
@@ -53,7 +54,7 @@ Route::group(['prefix' => 'seeker'], function () {
 
 Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function () {
     Route::post('/logout', 'Seeker\AuthSeekerController@logout')->withoutMiddleware(['auth:seeker']);
-    // Route::get('/refresh', 'Seeker\AuthSeekerController@refresh');
+    Route::post('/token/refresh', 'Seeker\AuthSeekerController@refreshToken');
     Route::get('/profile', 'Profile\SeekerProfileController@showProfile');
     Route::post('/profile', 'Profile\SeekerProfileController@updateProfile');
     Route::get('/favorites', 'Favorite\FavoriteController@getFavoriteJobs');
@@ -62,4 +63,6 @@ Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function (
     Route::post('/job/{job}/apply', 'Apply\ApplyJobController@applyForJob');
     Route::get('/apply/history', 'Apply\ApplyJobController@getApplicationHistory');
     Route::post('/cv', 'CurriculumVitaes\CVController@store');
+    Route::post('/cv/{cvId}', 'CurriculumVitaes\CVController@update');
+    Route::delete('/cv/{cvId}', 'CurriculumVitaes\CVController@destroy');
 });
