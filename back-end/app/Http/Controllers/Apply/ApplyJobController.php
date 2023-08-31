@@ -22,8 +22,8 @@ class ApplyJobController extends Controller
 
             if ($existingApplication) {
                 return response()->json([
-                    'message' => 'You have already applied for this job', 400
-                ]);
+                    'message' => 'You have already applied for this job'
+                ], 403);
             }
 
             $job = Job::findOrFail($jobId);

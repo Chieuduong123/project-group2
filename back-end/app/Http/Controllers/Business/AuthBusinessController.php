@@ -7,7 +7,9 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Services\SendEmailService;
 use App\Models\Business;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class AuthBusinessController extends Controller
 {
@@ -41,5 +43,20 @@ class AuthBusinessController extends Controller
             $request->user('business')->tokens()->delete();
         }
         return response()->json(['message' => 'You are logout']);
+    }
+
+    public function refreshToken()
+    {
+        $user = Auth::guard('business')->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+        $token = $user->createToken('authToken')->accessToken;
+
+        return response()->json([
+            'message' => 'Token refreshed successfully',
+            'token' => $token,
+        ]);
     }
 }

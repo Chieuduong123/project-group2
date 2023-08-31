@@ -38,9 +38,62 @@ class CVController extends Controller
         }
     }
 
-    public function update(){
-        
+    public function update(Request $request, $cvId)
+    {
+        try {
+            $seeker = auth()->user();
+            $curriculumVitae = CurriculumVitae::findOrFail($cvId);
+
+            if ($curriculumVitae->seeker_id !== $seeker->id) {
+                return response()->json(['message' => 'You are not authorized to update this CV'], 403);
+            }
+
+            $curriculumVitae->fill([
+                $curriculumVitae->link_website = $request->input('link_website'),
+                $curriculumVitae->introduce = $request->input('introduce'),
+                $curriculumVitae->work_experience = $request->input('work_experience'),
+                $curriculumVitae->education = $request->input('education'),
+                $curriculumVitae->skill = $request->input('skill'),
+                $curriculumVitae->position_apply = $request->input('position_apply'),
+                $curriculumVitae->activities = $request->input('activities'),
+                $curriculumVitae->certificates = $request->input('certificates'),
+                $curriculumVitae->project = $request->input('project'),
+            ]);
+            $curriculumVitae->update();
+
+            return response()->json([
+                'message' => 'CV updated successfully',
+                'curriculumVitae' => $curriculumVitae
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while updating the CV',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
+    public function destroy($cvId)
+    {
+        try {
+            $seeker = auth()->user();
+            $curriculumVitae = CurriculumVitae::findOrFail($cvId);
 
+            if ($curriculumVitae->seeker_id !== $seeker->id) {
+                return response()->json([
+                    'message' => 'You are not authorized to delete this CV'
+                ], 403);
+            }
+            $curriculumVitae->delete();
+
+            return response()->json([
+                'message' => 'CV deleted successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while deleting the CV',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

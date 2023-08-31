@@ -45,14 +45,18 @@ class AuthSeekerController extends Controller
         return response()->json(['message' => 'You are logout']);
     }
 
-    public function refresh()
+    public function refreshToken()
     {
-        $token = Auth::refresh();
-        $seeker = auth()->user();
+        $user = Auth::guard('seeker')->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+        $token = $user->createToken('authToken')->accessToken;
+
         return response()->json([
-            'message' => 'true',
+            'message' => 'Token refreshed successfully',
             'token' => $token,
-            'seeker' => $seeker
         ]);
     }
 }

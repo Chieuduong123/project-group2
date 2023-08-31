@@ -19,14 +19,54 @@
                     "Auth"
                 ],
                 "summary": "Register Business",
-                "description": "Returns a businesses",
+                "description": "Registers a new business and returns the registered business.",
                 "operationId": "registerBusiness",
                 "responses": {
-                    "200": {
-                        "description": "successful operation"
+                    "201": {
+                        "description": "Successful registration",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Register successfully! Please check your Email or Spam your Email",
+                                    "business": {
+                                        "id": 1,
+                                        "name": "duong",
+                                        "email": "duong@gmail.com",
+                                        "created_at": "2023-08-25T12:34:56Z",
+                                        "updated_at": "2023-08-25T12:34:56Z"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
                     }
                 }
             }
@@ -37,14 +77,51 @@
                     "Auth"
                 ],
                 "summary": "Login Business",
-                "description": "Returns a token businesses",
-                "operationId": "login Business",
+                "description": "Logs in a business and returns an access token if successful.",
+                "operationId": "loginBusiness",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "true",
+                                    "token": "your-access-token",
+                                    "business": {
+                                        "id": 1,
+                                        "name": "Example Business",
+                                        "email": "example@example.com",
+                                        "created_at": "2023-08-25T12:34:56Z",
+                                        "updated_at": "2023-08-25T12:34:56Z"
+                                    }
+                                }
+                            }
+                        }
                     },
-                    "400": {
-                        "description": "Bad request"
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
                     }
                 }
             }
@@ -55,16 +132,21 @@
                     "Auth"
                 ],
                 "summary": "Logout Business",
-                "description": "Delete a token businesses",
-                "operationId": "logout Business",
+                "description": "Logs out a business and revokes all access tokens.",
+                "operationId": "logoutBusiness",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful logout"
                     },
                     "400": {
                         "description": "Bad request"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/seeker/register": {
@@ -127,11 +209,48 @@
                     "Jobs"
                 ],
                 "summary": "Search job",
-                "description": "Returns list of jobs",
-                "operationId": "search",
+                "description": "Returns a list of jobs based on search criteria.",
+                "operationId": "searchJobs",
+                "parameters": [
+                    {
+                        "name": "position",
+                        "in": "query",
+                        "description": "Search by job position.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "level",
+                        "in": "query",
+                        "description": "Search by job level.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Search by job location.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "current_page": 1,
+                                    "data": []
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -145,11 +264,30 @@
                     "Jobs"
                 ],
                 "summary": "Get list of jobs",
-                "description": "Returns list of jobs",
+                "description": "Returns a list of job postings with associated business information.",
                 "operationId": "getJobPosting",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "business_id": 1,
+                                        "position": "Software Developer",
+                                        "level": "Mid-level",
+                                        "salary": 80000,
+                                        "content": "...",
+                                        "business": {
+                                            "id": 1,
+                                            "name": "ABC Company",
+                                            "location": "City XYZ"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -157,17 +295,45 @@
                 }
             }
         },
-        "/job/id": {
+        "/job/{id}": {
             "get": {
                 "tags": [
                     "Jobs"
                 ],
-                "summary": "Get detail of jobs",
-                "description": "Returns list of jobs",
+                "summary": "Get detail of a job",
+                "description": "Returns detailed information about a job posting.",
                 "operationId": "getDetailJobPosting",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the job posting",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": 1,
+                                    "business_id": 1,
+                                    "position": "Software Developer",
+                                    "level": "Mid-level",
+                                    "salary": 80000,
+                                    "content": "...",
+                                    "business": {
+                                        "id": 1,
+                                        "name": "ABC Company",
+                                        "location": "City XYZ"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -175,17 +341,47 @@
                 }
             }
         },
-        "/job/business/id": {
+        "/job/business/{id}": {
             "get": {
                 "tags": [
                     "Jobs"
                 ],
-                "summary": "Get job by id business",
-                "description": "Returns list of jobs of id business",
+                "summary": "Get jobs by business ID",
+                "description": "Returns a list of jobs associated with a specific business ID.",
                 "operationId": "getJobByBusiness",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the business",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "business_id": 1,
+                                        "position": "Software Developer",
+                                        "level": "Mid-level",
+                                        "salary": 80000,
+                                        "content": "...",
+                                        "business": {
+                                            "id": 1,
+                                            "name": "ABC Company",
+                                            "location": "City XYZ"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -193,17 +389,31 @@
                 }
             }
         },
-        "business/job": {
+        "/business/job": {
             "get": {
                 "tags": [
-                    "Jobs"
+                    "Business"
                 ],
-                "summary": "Get all job of business",
-                "description": "Returns all job of business",
+                "summary": "Get all job posts of a business",
+                "description": "Returns all job posts associated with a business.",
                 "operationId": "getBusinessJobs",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "business_id": 1,
+                                        "position": "Software Developer",
+                                        "level": "Mid-level",
+                                        "salary": 80000,
+                                        "content": "..."
+                                    }
+                                ]
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -211,56 +421,200 @@
                 }
             }
         },
-        "business/job/id": {
+        "/business/job/id": {
             "get": {
                 "tags": [
-                    "Jobs"
+                    "Business"
                 ],
-                "summary": "Get detail job of business",
-                "description": "Returns detail job of business",
+                "summary": "Get detailed job post of a business",
+                "description": "Returns detailed information about a job post associated with a business.",
                 "operationId": "getBusinessJobDetail",
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the job post"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": 1,
+                                    "business_id": 1,
+                                    "position": "Software Developer",
+                                    "level": "Mid-level",
+                                    "salary": 80000,
+                                    "content": "..."
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
-        "business/job/create": {
+        "/business/job/create": {
             "post": {
                 "tags": [
-                    "Jobs"
+                    "Business"
                 ],
                 "summary": "Create new job",
-                "description": "Returns new job",
+                "description": "Creates a new job post for the business.",
                 "operationId": "storeJobPost",
+                "requestBody": {
+                    "description": "Job post data",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "position": "Software Developer",
+                                "level": "Mid-level",
+                                "type": "Full-time",
+                                "skill": "Java, Python",
+                                "salary": 80000,
+                                "content": "Job description...",
+                                "requirement": "Requirements...",
+                                "quantity": 2,
+                                "benefits": "Benefits...",
+                                "start_day": "2023-09-01",
+                                "end_day": "2023-09-30"
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "200": {
-                        "description": "successful operation"
+                    "201": {
+                        "description": "Job post created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Job post created successfully",
+                                    "job": {
+                                        "id": 1,
+                                        "business_id": 1,
+                                        "position": "Software Developer",
+                                        "level": "Mid-level",
+                                        "type": "Full-time",
+                                        "skill": "Java, Python",
+                                        "salary": 80000,
+                                        "content": "Job description...",
+                                        "requirement": "Requirements...",
+                                        "quantity": 2,
+                                        "benefits": "Benefits...",
+                                        "start_day": "2023-09-01",
+                                        "end_day": "2023-09-30",
+                                        "status": false,
+                                        "created_at": "2023-08-26T00:00:00.000000Z",
+                                        "updated_at": "2023-08-26T00:00:00.000000Z"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "An error occurred while creating the job post"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "business/job/update": {
             "put": {
                 "tags": [
-                    "Jobs"
+                    "Business"
                 ],
                 "summary": "Update job",
-                "description": "Returns update job",
+                "description": "Updates a job post",
                 "operationId": "updateJobPost",
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the job post to update",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated job post data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "position": "Updated Software Developer",
+                                "level": "Senior-level",
+                                "type": "Part-time",
+                                "skill": "Java, Python, JavaScript",
+                                "salary": 100000,
+                                "content": "Updated job description...",
+                                "requirement": "Updated requirements...",
+                                "quantity": 1,
+                                "benefits": "Updated benefits...",
+                                "start_day": "2023-10-01",
+                                "end_day": "2023-10-31"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Job post updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Job post updated successfully",
+                                    "job": {
+                                        "id": 1,
+                                        "business_id": 1,
+                                        "position": "Updated Software Developer",
+                                        "level": "Senior-level",
+                                        "type": "Part-time",
+                                        "skill": "Java, Python, JavaScript",
+                                        "salary": 100000,
+                                        "content": "Updated job description...",
+                                        "requirement": "Updated requirements...",
+                                        "quantity": 1,
+                                        "benefits": "Updated benefits...",
+                                        "start_day": "2023-10-01",
+                                        "end_day": "2023-10-31",
+                                        "status": false,
+                                        "created_at": "2023-08-26T00:00:00.000000Z",
+                                        "updated_at": "2023-08-27T00:00:00.000000Z"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -268,14 +622,127 @@
         "business/job/destroy": {
             "delete": {
                 "tags": [
-                    "Jobs"
+                    "Business"
                 ],
                 "summary": "Destroy job",
-                "description": "Returns destroy job",
+                "description": "Deletes a job post",
                 "operationId": "destroyJobPost",
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the job post to delete",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Job post deleted successfully"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/business": {
+            "get": {
+                "tags": [
+                    "Business"
+                ],
+                "summary": "Get businesses",
+                "description": "Returns a list of businesses",
+                "operationId": "getBusiness",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "name": "Business A",
+                                        "email": "businessA@example.com",
+                                        "avatar": "123.png",
+                                        "phone": "1231231234",
+                                        "location": "HN",
+                                        "website": "http://businessA",
+                                        "career": "50",
+                                        "size": "45",
+                                        "created_at": "2023-08-01T00:00:00.000000Z",
+                                        "updated_at": "2023-08-01T00:00:00.000000Z"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "Business B",
+                                        "email": "businessB@example.com",
+                                        "avatar": "234.png",
+                                        "phone": "3456787654",
+                                        "location": "DN",
+                                        "website": "http://businessB",
+                                        "career": "20",
+                                        "size": "40",
+                                        "created_at": "2023-08-02T00:00:00.000000Z",
+                                        "updated_at": "2023-08-02T00:00:00.000000Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/business/{id}": {
+            "get": {
+                "tags": [
+                    "Business"
+                ],
+                "summary": "Get detail business by ID",
+                "description": "Returns detailed information about a business",
+                "operationId": "getDetailBusiness",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the business to retrieve"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": 1,
+                                    "name": "Business A",
+                                    "email": "business@example.com",
+                                    "avatar": "123.png",
+                                    "phone": "1231231234",
+                                    "location": "HN",
+                                    "website": "http://businessA",
+                                    "career": "50",
+                                    "size": "45",
+                                    "created_at": "2023-08-01T00:00:00.000000Z",
+                                    "updated_at": "2023-08-01T00:00:00.000000Z"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -286,14 +753,54 @@
         "seeker/job/favorites": {
             "get": {
                 "tags": [
-                    "Jobs"
+                    "Seeker"
                 ],
-                "summary": "List favorites job",
-                "description": "Returns favorites job",
+                "summary": "List favorite jobs",
+                "description": "Returns a list of favorite jobs",
                 "operationId": "getFavoriteJobs",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "favorite_jobs": [
+                                        {
+                                            "id": 1,
+                                            "seeker_id": 123,
+                                            "job_id": 456,
+                                            "created_at": "2023-08-01T00:00:00.000000Z",
+                                            "updated_at": "2023-08-01T00:00:00.000000Z",
+                                            "job": {
+                                                "id": 456,
+                                                "business_id": 789,
+                                                "position": "Software Developer",
+                                                "level": "Mid-level",
+                                                "type": "Full-time",
+                                                "skill": "Java, Python",
+                                                "salary": 80000,
+                                                "content": "Job description...",
+                                                "requirement": "Requirements...",
+                                                "quantity": 2,
+                                                "benefits": "Benefits...",
+                                                "start_day": "2023-09-01",
+                                                "end_day": "2023-09-30",
+                                                "status": false,
+                                                "created_at": "2023-08-26T00:00:00.000000Z",
+                                                "updated_at": "2023-08-26T00:00:00.000000Z",
+                                                "business": {
+                                                    "id": 789,
+                                                    "name": "Business A",
+                                                    "email": "business@example.com",
+                                                    "created_at": "2023-08-01T00:00:00.000000Z",
+                                                    "updated_at": "2023-08-01T00:00:00.000000Z"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -304,14 +811,24 @@
         "seeker/job/favorites/create": {
             "post": {
                 "tags": [
-                    "Jobs"
+                    "Seeker"
                 ],
-                "summary": "Add favorites job",
-                "description": "Returns favorites job",
+                "summary": "Add favorite job",
+                "description": "Adds a job to the list of favorite jobs",
                 "operationId": "addToFavorites",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "jobId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation"
                     },
                     "400": {
                         "description": "Bad request"
@@ -322,32 +839,24 @@
         "seeker/job/favorites/remove": {
             "delete": {
                 "tags": [
-                    "Jobs"
+                    "Seeker"
                 ],
-                "summary": "Remove favorites job",
-                "description": "Returns favorites job",
+                "summary": "Remove favorite job",
+                "description": "Removes a job from the list of favorite jobs",
                 "operationId": "removeFromFavorites",
-                "responses": {
-                    "200": {
-                        "description": "successful operation"
-                    },
-                    "400": {
-                        "description": "Bad request"
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "jobId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
-                }
-            }
-        },
-        "/business": {
-            "get": {
-                "tags": [
-                    "Business"
                 ],
-                "summary": "Get business",
-                "description": "Returns list businesses",
-                "operationId": "getBusiness",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Successful operation"
                     },
                     "400": {
                         "description": "Bad request"
@@ -355,26 +864,6 @@
                 }
             }
         },
-        "/business/id": {
-            "get": {
-                "tags": [
-                    "Business"
-                ],
-                "summary": "Get detail business by id",
-                "description": "Returns detail businesses",
-                "operationId": "getDetailBusiness",
-                "responses": {
-                    "200": {
-                        "description": "successful operation"
-                    },
-                    "400": {
-                        "description": "Bad request"
-                    }
-                }
-            }
-        },
-        
-      
         "/seeker/profile": {
             "get": {
                 "tags": [
@@ -385,7 +874,26 @@
                 "operationId": "Profile seeker",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "seeker": {
+                                        "id": 1,
+                                        "name": "duong3",
+                                        "avatar": null,
+                                        "email": "duong3@gmail.com",
+                                        "email_verified_at": null,
+                                        "phone": "1231231234",
+                                        "birthday": "2015-03-10",
+                                        "address": null,
+                                        "remember_token": null,
+                                        "created_at": "2023-08-29T10:20:49.000000Z",
+                                        "updated_at": "2023-08-29T10:20:49.000000Z"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
@@ -401,12 +909,58 @@
                 "summary": "Update Profile seeker",
                 "description": "Return profile seeker",
                 "operationId": "Update Profile seeker",
+                "requestBody": {
+                    "description": "Updated job post data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProfile"
+                            },
+                            "example": {
+                                "name": "duong3",
+                                "avatar": null,
+                                "email": "duong3@gmail.com",
+                                "email_verified_at": null,
+                                "phone": "1231231234",
+                                "birthday": "2015-03-10",
+                                "address": null
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Job post updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Seeker profile updated successfully",
+                                    "seeker": {
+                                        "id": 7,
+                                        "name": "duong3",
+                                        "avatar": null,
+                                        "email": "duong3@gmail.com",
+                                        "email_verified_at": null,
+                                        "phone": "1231231234",
+                                        "birthday": "2015-03-10",
+                                        "address": null,
+                                        "remember_token": null,
+                                        "created_at": "2023-08-29T10:20:49.000000Z",
+                                        "updated_at": "2023-08-29T10:20:49.000000Z"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -491,12 +1045,48 @@
                 "summary": "Seeker apply job",
                 "description": "Return apply",
                 "operationId": "applyForJob",
+                "requestBody": {
+                    "description": "Job post data",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "seeker_id": 1,
+                                "job_id": 3,
+                                "name": "Software Developer",
+                                "phone": "Mid-level",
+                                "cover_letter": "Full-time",
+                                "resume_path": "Java, Python"
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "200": {
-                        "description": "successful operation"
+                    "201": {
+                        "description": "Job post created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Application submitted successfully",
+                                    "application": {
+                                        "seeker_id": 7,
+                                        "job_id": "1",
+                                        "name": "toi la duong",
+                                        "phone": "1231234567",
+                                        "cover_letter": "hiiii",
+                                        "resume_path": "1693419346.pdf",
+                                        "updated_at": "2023-08-30T18:15:46.000000Z",
+                                        "created_at": "2023-08-30T18:15:46.000000Z",
+                                        "id": 3
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "An error occurred while creating the job post"
                     }
                 }
             }
@@ -573,6 +1163,5 @@
                 }
             }
         }
-        
     }
 }
