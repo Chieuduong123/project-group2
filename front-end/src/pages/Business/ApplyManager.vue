@@ -13,32 +13,30 @@
                     Vị trí ứng tuyển
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Email
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Số điện thoại
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    
+                    Action
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="apply in businessStore.applyList" :key="apply.id">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{apply.name}}
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"  v-for="apply in businessStore.applyList" :key="apply.id">
+                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    <img class="w-10 h-10 rounded-full" :src="`${IMAGE_URL}${apply?.seeker?.avatar}`" alt="Jese image">
+                    <div class="pl-3">
+                        <div class="text-base font-semibold">{{apply.name}}</div>
+                        <div class="font-normal text-gray-500">{{apply?.seeker?.email}}</div>
+                    </div>  
                 </th>
                 <td class="px-6 py-4">
-                    Phun sờ nách
-                </td>
-                <td class="px-6 py-4">
-                    llemanhbin@gmail.com
+                    {{apply?.job?.position}}
                 </td>
                 <td class="px-6 py-4">
                     {{apply.phone}}
                 </td>
                 <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" @click="handleGoDetail(apply.id)">View</a>
                 </td>
             </tr>
         </tbody>
@@ -49,7 +47,11 @@
 import { onMounted } from 'vue';
 import { useBusinessStore } from '../../stores/businessStore';
     import Loading from '../../components/Loading.vue';
+import { useRouter } from 'vue-router';
+import { IMAGE_URL } from '../../constants/url';
+
     const businessStore = useBusinessStore()
+    const router = useRouter()
     const handleGetListApply = (token) => {
         businessStore.actGetApplyList(token)
     }
@@ -57,6 +59,10 @@ import { useBusinessStore } from '../../stores/businessStore';
     onMounted(() => {
         handleGetListApply(businessStore.accessToken)
     })
+
+    const handleGoDetail = (id) => {
+        router.push(`/business/apply-manager/${id}`)
+    }
 
 </script>
 <style lang="">
