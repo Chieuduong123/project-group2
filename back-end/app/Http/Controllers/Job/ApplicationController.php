@@ -12,28 +12,28 @@ class ApplicationController extends Controller
     {
         $business = auth()->user();
 
-        // $applications = $business->jobApplications;
         $applications = Application::with(['seeker', 'job'])
             ->whereHas('job', function ($query) use ($business) {
-                $query->where('business_id', '=', $business->id);
+                $query->where('business_id', $business->id);
             })
             ->get();
-        return response()->json([
-            'message' => 200,
-            'applications' => $applications
-        ]);
-    }
 
+        return response()->json([
+            'applications' => $applications
+        ], 200);
+    }
     public function getDetailApplications($id)
     {
         $business = auth()->user();
 
         $application = Application::with(['seeker', 'job'])
             ->whereHas('job', function ($query) use ($business) {
-                $query->where('business_id', '=', $business->id);
+                $query->where('business_id', $business->id);
             })
             ->where('applications.id', '=', $id)
             ->get();
-        return response()->json($application);
+        return response()->json([
+            'application' => $application
+        ], 200);
     }
 }

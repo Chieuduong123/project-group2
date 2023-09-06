@@ -17,6 +17,7 @@ class AuthBusinessController extends Controller
     {
         $email = $request->email;
         $input = $request->all();
+        $input['status'] = $input['status'] ?? false;
         $input['password'] = bcrypt($input['password']);
         $business = Business::create($input);
         $success['token'] =  $business->createToken('JuongJob')->accessToken;
@@ -30,8 +31,12 @@ class AuthBusinessController extends Controller
     {
         $business = Business::where('email', $request->email)->first();
         if ($business && Hash::check($request->password, $business->password)) {
-            $success = $business->createToken('authToken')->accessToken;
-            return response()->json(['message' => 'true', 'token' => $success, 'business' => $business]);
+            if ($business->status == true) {
+                $success = $business->createToken('authToken')->accessToken;
+                return response()->json(['message' => 'true', 'token' => $success, 'business' => $business]);
+            } else {
+                return response()->json(['message' => 'You cannot login because your account is disabled. Please contact support.'], 401);
+            }
         } else {
             return response()->json(['message' => 'Unauthorised'], 401);
         }

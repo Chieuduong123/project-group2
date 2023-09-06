@@ -42,21 +42,21 @@ class SeekerResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->maxLength(255)
-                    ->dehydrateStateUsing(
-                        static fn (null|string $state): null|string =>
-                        filled($state) ? Hash::make($state) : null,
-                    )->required(
-                        static fn (Page $livewire): string =>
-                        $livewire instanceof CreateSeeker,
-                    )->dehydrated(
-                        static fn (null|string $state): bool =>
-                        filled($state),
-                    )->label(
-                        static fn (Page $livewire): string => ($livewire instanceof EditSeeker) ? 'New Password' : 'Password'
-                    ),
+                // Forms\Components\TextInput::make('password')
+                //     ->password()
+                //     ->maxLength(255)
+                //     ->dehydrateStateUsing(
+                //         static fn (null|string $state): null|string =>
+                //         filled($state) ? Hash::make($state) : null,
+                //     )->required(
+                //         static fn (Page $livewire): string =>
+                //         $livewire instanceof CreateSeeker,
+                //     )->dehydrated(
+                //         static fn (null|string $state): bool =>
+                //         filled($state),
+                //     )->label(
+                //         static fn (Page $livewire): string => ($livewire instanceof EditSeeker) ? 'New Password' : 'Password'
+                //     ),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->maxLength(255),

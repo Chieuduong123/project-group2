@@ -11,34 +11,44 @@ class CurriculumVitae extends Model
 
     protected $fillable = [
         'seeker_id',
-        'link_website',
-        'introduce',
-        'work_experience',
-        'education',
-        'skill',
-        'position_apply',
-        'activities',
-        'certificates',
-        'project',
+        'personal_detail_id',
+        'social_id',
+        'soft',
+        'tech',
     ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    protected $table = "curriculum_vitaes";
     protected $casts = [
-        'link_website' => 'array',
-        'work_experience' => 'array',
-        'skill' => 'array',
-        'activities' => 'array',
-        'certificates' => 'array',
-        'project' => 'array',
-
+        'soft' => 'array',
+        'tech' => 'array',
     ];
 
     public function seeker()
     {
         return $this->belongsTo(Seeker::class);
+    }
+
+    public function personalDetail()
+    {
+        return $this->belongsTo(PersonalDetail::class);
+    }
+
+    public function social()
+    {
+        return $this->belongsTo(Social::class);
+    }
+
+    public function educations()
+    {
+        return $this->belongsToMany(Education::class, 'education_cvs', 'cv_id', 'education_id')->withTimestamps();
+    }
+
+    public function experiences()
+    {
+        return $this->belongsToMany(Experience::class, 'experience_cvs', 'cv_id', 'experience_id')->withTimestamps();
+    }
+
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class, 'skills', 'cv_id', 'language_id')->withTimestamps();
     }
 }
