@@ -14,18 +14,15 @@ return new class extends Migration
         Schema::create('curriculum_vitaes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('seeker_id');
-            $table->json('link_website');
-            $table->text('introduce');
-            $table->json('work_experience');
-            $table->string('education');
-            $table->json('skill');
-            $table->string('position_apply');
-            $table->json('activities');
-            $table->json('certificates');
-            $table->json('project');
+            $table->unsignedBigInteger('personal_detail_id');
+            $table->unsignedBigInteger('social_id');
+            $table->json('soft');
+            $table->json('tech');
             $table->timestamps();
 
             $table->foreign('seeker_id')->references('id')->on('seekers')->onDelete('cascade');
+            $table->foreign('personal_detail_id')->references('id')->on('personal_details')->onDelete('cascade');
+            $table->foreign('social_id')->references('id')->on('socials')->onDelete('cascade');
         });
     }
 

@@ -21,7 +21,7 @@ class Job extends Model
         'skill',
         'benefits',
         'start_day',
-        'end_date',
+        'end_day',
         'status',
     ];
 
@@ -50,4 +50,6 @@ class Job extends Model
     {
         return $this->belongsToMany(Seeker::class, 'favorites', 'job_id', 'seeker_id');
     }
+
+ 
 }

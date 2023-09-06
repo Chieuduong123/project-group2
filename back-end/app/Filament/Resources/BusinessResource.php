@@ -6,6 +6,7 @@ use App\Filament\Resources\BusinessResource\Pages;
 use App\Filament\Resources\BusinessResource\Pages\CreateBusiness;
 use App\Filament\Resources\BusinessResource\Pages\EditBusiness;
 use App\Filament\Resources\BusinessResource\RelationManagers;
+use App\Http\Services\SendEmailService;
 use App\Models\Business;
 use Filament\Forms;
 use Filament\Pages\Page;
@@ -25,8 +26,24 @@ class BusinessResource extends Resource
 
     protected static ?string $navigationGroup = 'Management User';
 
+    protected $emailService;
 
-    public static function form(Form $form): Form
+    public function __construct(SendEmailService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
+    public function update($record, array $data)
+    {
+        if ($data['status'] ?? false) {
+            $emailService = app(SendEmailService::class);
+            $emailService->sendVerificationEmail($record->email);
+        }
+
+        parent::update($record, $data);
+    }
+
+    public static function form(Form $form, ?int $id = null): Form
     {
         return $form
             ->schema([
@@ -37,21 +54,21 @@ class BusinessResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->maxLength(255)
-                    ->dehydrateStateUsing(
-                        static fn (null|string $state): null|string =>
-                        filled($state) ? Hash::make($state) : null,
-                    )->required(
-                        static fn (Page $livewire): string =>
-                        $livewire instanceof CreateBusiness,
-                    )->dehydrated(
-                        static fn (null|string $state): bool =>
-                        filled($state),
-                    )->label(
-                        static fn (Page $livewire): string => ($livewire instanceof EditBusiness) ? 'New Password' : 'Password'
-                    ),
+                // Forms\Components\TextInput::make('password')
+                //     ->password()
+                //     ->maxLength(255)
+                //     ->dehydrateStateUsing(
+                //         static fn (null|string $state): null|string =>
+                //         filled($state) ? Hash::make($state) : null,
+                //     )->required(
+                //         static fn (Page $livewire): string =>
+                //         $livewire instanceof CreateBusiness,
+                //     )->dehydrated(
+                //         static fn (null|string $state): bool =>
+                //         filled($state),
+                //     )->label(
+                //         static fn (Page $livewire): string => ($livewire instanceof EditBusiness) ? 'New Password' : 'Password'
+                //     ),
                 Forms\Components\FileUpload::make('logo'),
                 Forms\Components\TextInput::make('location')
                     ->required()
@@ -64,20 +81,31 @@ class BusinessResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('size')
                     ->required(),
+                Forms\Components\Toggle::make('status')
+                    ->required()
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('avatar'),
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('location'),
                 Tables\Columns\TextColumn::make('website'),
                 Tables\Columns\TextColumn::make('career'),
                 Tables\Columns\TextColumn::make('size'),
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([

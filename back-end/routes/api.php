@@ -62,7 +62,8 @@ Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function (
     Route::delete('/favorites/{job}', 'Favorite\FavoriteController@removeFromFavorites');
     Route::post('/job/{job}/apply', 'Apply\ApplyJobController@applyForJob');
     Route::get('/apply/history', 'Apply\ApplyJobController@getApplicationHistory');
+    Route::get('/cv', 'CurriculumVitaes\CVController@getCV');
     Route::post('/cv', 'CurriculumVitaes\CVController@store');
-    Route::post('/cv/{cvId}', 'CurriculumVitaes\CVController@update');
+    Route::put('/cv/{cvId}', 'CurriculumVitaes\CVController@update');
     Route::delete('/cv/{cvId}', 'CurriculumVitaes\CVController@destroy');
 });
