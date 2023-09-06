@@ -1,6 +1,6 @@
 <template lang="">
     <div class="max-w-[1300px] mx-auto mt-[100px] flex gap-5">
-        <div class="rounded w-[30%] h-max flex flex-col gap-5 bg-green-100 py-[40px] px-[20px]">
+        <div class="rounded w-[30%] h-max flex flex-col gap-5 bg-green-100 py-[40px] px-[20px] max-md:hidden">
             <div>
                 <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
                 <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
@@ -30,16 +30,22 @@
             </div>
             <button class="bg-green-500 text-white text-[14px] font-semibold px-[15px] py-[10px] rounded" @click="goDetailCompany(postData?.business?.id)">Xem thêm</button>
         </div>
-        <div class="w-[70%]">
+        <div class="w-[70%] max-md:w-full max-sm:px-[20px]">
             <div class="shadow-lg flex flex-col gap-5 px-[30px] py-[30px] rounded">
                 <div class="flex items-center justify-between border-b pb-[20px]">
-                    <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
-                    <p class="font-medium text-[18px]">${{postData?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
+                    <div class="flex flex-col" @click="goDetailCompany(postData?.business?.id)">
+                        <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
+                        <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="font-medium text-[18px]">${{postData?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
+                        <button class="px-[10px] py-[5px] rounded bg-green-200 text-green-600" @click="handleToggleApplyPopUp">Ứng tuyển</button>
+                    </div>
                 </div>
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-[30px] font-semibold mb-2">{{postData?.position}}</p>
-                        <div class="flex gap-5 items-center">
+                        <div class="flex gap-5 items-center flex-wrap">
                             <div class="flex items-center gap-1">
                                 <EnvironmentOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
                                 <span>{{postData?.business?.location}}</span>
@@ -59,7 +65,6 @@
                             </div>
                         </div>
                     </div>
-                    <button class="px-[10px] py-[5px] rounded bg-green-200 text-green-600" @click="handleToggleApplyPopUp">Ứng tuyển</button>
                 </div>
             </div>
             <div class="mt-[50px] flex flex-col gap-5">

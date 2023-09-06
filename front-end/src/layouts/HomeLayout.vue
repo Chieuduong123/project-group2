@@ -9,14 +9,13 @@ import { useUserStore } from '../stores/userStore';
   
   onMounted(() => {
     if(accessToken) {
-      console.log("Đăng xuất", accessToken);
       userStore.actFetchReLogin(accessToken) 
     }
   })
 </script>
 
 <template lang="">
-    <div class="container">
+    <div class="container mx-auto">
         <HeaderVue/>
         <div class="container mt-[80px]">
             <router-view></router-view>

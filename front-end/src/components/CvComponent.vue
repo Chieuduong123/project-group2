@@ -220,7 +220,7 @@ export default {
     data() {
         return {
             store_setting: useSettingStore(),
-            cv_languages: ["english", "uzbek", "russia"],
+            cv_languages: ["english", "vie"],
             cv_colors: ["#000", "#00a8ef", "#ff5900", "#6055f7", "#0ebb62"],
         }
     },

@@ -4,8 +4,11 @@
         :style="{ background: store_setting.cv_data.settings.colors }">
         {{ store_setting.cv_data.settings.buttons.print_or_download }}
     </button>
-
-    <!-- <div class="sticky bottom-0">
+    <button class="btn rounded-xl w-full text-sm mt-5 text-white  bg-black delay-200 transition p-3 hover:delay-0" @click="handleSave">
+        Lưu
+    </button>
+<!-- 
+    <div class="sticky bottom-0">
         <button @click="store_setting.cv_download()"
             class="btn rounded-xl w-full text-sm mt-2 text-white p-3 delay-150 transition hover:delay-0"
             :style="{ background: store_setting.cv_data.settings.colors }">
@@ -27,19 +30,15 @@
     </button> -->
 </template>
 
-<script>
-import { useSettingStore } from "../stores/settings"
-import cvComponent from "../components/cvComponent.vue"
-export default {
-    components: {
-        cvComponent
-    },
-    data() {
-        return {
-            store_setting: useSettingStore(),
-            cv_languages: ["english", "uzbek", "russia"],
-            cv_colors: ["#000", "#00a8ef", "#ff5900", "#6055f7", "#0ebb62"],
-        }
-    },
-}
+<script setup>
+    import { useSettingStore } from "../stores/settings"
+    import cvComponent from "../components/cvComponent.vue"
+    const store_setting = useSettingStore()
+    const cv_languages= ["english", "uzbek", "russia"]
+    const  cv_colors= ["#000", "#00a8ef", "#ff5900", "#6055f7", "#0ebb62"]
+    
+    const handleSave = () => {
+        console.log(store_setting.cv_data);
+    }
 </script>
+

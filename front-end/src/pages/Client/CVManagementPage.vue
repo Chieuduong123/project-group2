@@ -1,10 +1,10 @@
 <template lang="">
-    <div class="max-w-[1300px] mx-auto mt-[100px]">
+    <div class="max-w-[1300px] mx-auto mt-[100px] max-md:px-[20px] max-xl:px-[50px]">
        <div class="flex items-center gap-10">
             <h1 class="font-semibold text-[24px]">CV đã tạo tại Juong Job.</h1>
-            <button class="px-[10px] py-[5px] rounded bg-green-500 text-white font-medium" @click="createNewCV">+ tạo mới</button>
+            <button class="px-[10px] py-[5px] rounded bg-green-500 text-white font-medium whitespace-nowrap" @click="createNewCV">+ tạo mới</button>
        </div>
-       <div class="flex gap-5 mt-[50px]">
+       <div class="mt-[50px] grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2s">
             <CardCV/>
             <CardCV/>
             <CardCV/>

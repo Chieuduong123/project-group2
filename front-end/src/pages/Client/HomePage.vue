@@ -3,12 +3,12 @@
         <!-- Home banner -->
         <HomeBanner/>
         <!-- Top công ty -->
-        <div class="max-w-[1300px] mx-auto mt-5 border-b">
-            <h2 class="font-semibold text-[23px]">Công ty nổi bật</h2>
-            <div class="mt-10 pb-5">
+        <div class="max-w-[1300px] mx-auto mt-5 border-b max-xl:px-[50px] max-md:px-[20px]">
+            <h2 class="font-semibold text-[23px] max-sm:text-center">Công ty nổi bật</h2>
+            <div class="mt-10 pb-5 w-full">
                 <swiper
                     :modules="modules"
-                    :slides-per-view="6"
+                    :slides-per-view="calculateSlidesPerView()"
                     :space-between="10"
                     navigation
                     :pagination="{ clickable: true }"
@@ -27,9 +27,9 @@
             </div>
         </div>
         <!-- JoB -->
-        <div class="max-w-[1300px] mx-auto mt-[50px]">
-            <h2 class="font-semibold text-[23px] mb-[20px]">Công việc nổi bật</h2>
-            <div class="flex gap-5 flex-wrap">
+        <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
+            <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Công việc nổi bật</h2>
+            <div class="grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2">
                 <PostVue v-for="post in PostPagination" :key="post.id" :post="post"/>
             </div>
         </div>
@@ -38,9 +38,9 @@
             <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
         </div>
         <!-- New Job -->
-        <div class="max-w-[1300px] mx-auto mt-[50px]">
-            <h2 class="font-semibold text-[23px] mb-[20px]">Công việc mới nhất</h2>
-            <div class="flex gap-5 flex-wrap">
+        <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
+            <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Công việc mới nhất</h2>
+            <div class="grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2">
                 <PostVue v-for="post in PostPagination" :key="post.id" :post="post"/>
             </div>
             <div class="flex justify-center mt-5">
@@ -48,11 +48,11 @@
             </div>
         </div>
         <!-- Why us -->
-        <div class="h-screen max-w-[1300px] mx-auto flex items-center">
+        <div class="h-screen max-w-[1300px] mx-auto flex items-center max-xl:px-[50px] max-sm:flex-col max-sm:mt-[50px]">
             <div class="flex-1 flex flex-col gap-5">
-                <h3 class="font-normal text-gray-50px0 text-[18px]">Tại sao lại là chúng tôi</h3>
-                <p class="font-bold text-[30px]"><span class="text-green-50px0">Juong Job. </span>Nơi tìm kiếm cơ hội.</p>
-                <p>
+                <h3 class="font-normal text-gray-50px0 text-[18px] max-sm:text-center">Tại sao lại là chúng tôi</h3>
+                <p class="font-bold text-[30px]  max-sm:text-center"><span class="text-green-500">Juong Job. </span>Nơi tìm kiếm cơ hội.</p>
+                <p class="max-sm:text-center">
                     Phosfluorescently develop empowered communit rather than front-end networks. Competently formula revolut infrastructures with hi standards.
                 </p>
                 <ul class="flex flex-col gap-2">
@@ -105,6 +105,19 @@ import { IMAGE_URL } from "../../constants/url";
     const router = useRouter()
     const postStore = usePostStore()
     const businessStore = useBusinessStore()
+
+    const calculateSlidesPerView = () => {
+      // Tính toán số lượng slides hiển thị trên mỗi view dựa trên độ rộng cửa sổ hoặc thiết bị
+      const windowWidth = window.innerWidth;
+
+      if (windowWidth >= 1200) {
+        return 6; // Hiển thị 6 slides trên màn hình lớn
+      } else if (windowWidth >= 768) {
+        return 4; // Hiển thị 4 slides trên tablet
+      } else {
+        return 1; // Hiển thị 2 slides trên điện thoại
+      }
+    }
     const handleGetAllData = async() => {
         await postStore.actGetAllPost()
     }

@@ -135,6 +135,9 @@ export const fetchCreateFavorite = async (id, token) => {
     }
     return data;
   } catch (error) {
+    if (error.response.status == 403) {
+      toast.warning("Bài này đã có trong danh sách lưu!");
+    }
     console.log(error);
   }
 };

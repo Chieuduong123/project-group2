@@ -1,5 +1,5 @@
 <template lang="">
-<div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px] w-[32%] cursor-pointer" @click="handleGoDetailBusiness(business?.id)">
+<div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px] cursor-pointer" @click="handleGoDetailBusiness(business?.id)">
     <div class="flex items-center">
         <div>
             <img :src="`${IMAGE_URL}${business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">

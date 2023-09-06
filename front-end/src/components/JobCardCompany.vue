@@ -6,7 +6,7 @@
         <div class="w-[80%]">
             <h4 class="font-medium">{{job?.position}}</h4>
             <p>{{job?.business?.name}}</p>
-            <div class="flex gap-5 items-center">
+            <div class="flex gap-5 items-center flex-wrap">
                 <div class="flex items-center gap-1">
                     <EnvironmentOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
                     <span>{{job?.business?.location}}</span>
@@ -16,8 +16,8 @@
                     <span v-for="(type, index) in job?.type" :key="index">{{type}}</span>
                 </div>
             </div>
-            <div class="flex items-center justify-between">
-                <p class="font-medium text-[18px]">${{job?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
+            <div class="flex items-center justify-between max-sm:flex-col max-sm:items-start max-sm:mt-5">
+                <p class="font-medium text-[18px] mb-0">${{job?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
                 <div class="flex items-center gap-2">
                     <button class="px-[10px] py-[5px] rounded bg-green-200 text-green-600">Ứng tuyển</button>
                     <div class="w-[35px] h-[35px] rounded flex justify-center items-center bg-green-200 cursor-pointer" @click="handleAddFavorite($event, job?.id)">

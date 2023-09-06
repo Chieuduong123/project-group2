@@ -86,6 +86,7 @@ import { useUserStore } from "../stores/userStore";
             toast.warning("Vui lòng điền đủ thông tin")
         }else {
             userStore.actApplyJob(job.id, formData, userStore.accessToken)
+            toggle()
         }
     }
 
