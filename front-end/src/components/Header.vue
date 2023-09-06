@@ -4,7 +4,14 @@
             <router-link to="/">
                 <h1 class="font-bold text-[25px] m-0 text-green-500">Juong Job.</h1>
             </router-link>
-            <ul class="flex items-center gap-[30px]">
+            <!-- oVERLAY -->
+            <div v-if="isOpenNav" class="fixed inset-0 bg-black opacity-70 z-20" @click="handleToggleNav">
+            </div>
+            <ul class="flex items-center gap-[30px] max-md:flex-col max-md:bg-white max-md:fixed max-md:w-[70%] z-30 max-md:shadow max-md:pt-[50px] max-md:text-[24px] ease-in-out duration-300" :class="isOpenNav ? 'max-md:right-0 max-md:top-0 max-md:bottom-0 ' : 'max-md:right-[-100%] max-md:top-0 max-md:bottom-0 '">
+                <!-- Close btn -->
+                <div class="absolute top-[10px] left-[10px] cursor-pointer md:hidden" @click="handleToggleNav">
+                    <CloseOutlined :style="{fontSize: '30px'}"/>
+                </div>
                 <li class="li-root relative">
                     <router-link to="/">Việc làm</router-link>
                     <ul class="child-list absolute rounded bg-white shadow-lg min-w-[300px] px-[10px] py-[10px]">
@@ -51,7 +58,7 @@
                 </li>
                 <li v-if="userStore?.isLogged === true" class="li-root relative">
                     <router-link to="cv-management">Hồ sơ & CV</router-link>
-                    <ul class="child-list absolute rounded bg-white shadow-lg min-w-[300px] px-[10px] py-[10px]">
+                    <ul class="child-list absolute rounded bg-white shadow-lg min-w-[300px] px-[10px] py-[10px] max-md:hidden">
                         <router-link to="/cv-management">
                             <li class="li-widget px-[10px] text-green-400 py-[10px] rounded text-[14px] font-medium flex items-center justify-between gap-5">
                                 <div class="flex items-center gap-5">
@@ -114,12 +121,20 @@
                     <router-link to="/blog">Tin tức</router-link>
                 </li> -->
             </ul>
-            <div v-if="userStore?.isLogged" class="flex items-center gap-5">
-                <BellFilled :style="{fontSize: '25px', color: 'green', marginRight: '5px'}"/>
+            <div v-if="userStore?.isLogged" class="flex items-center gap-5 max-sm:gap-2">
+                <div class="flex gap-5 md:hidden max-sm:gap-2">
+                    <router-link to="/history">
+                        <SaveFilled :style="{fontSize: '25px', color: 'green', marginRight: '5px', cursor: 'pointer'}"/>
+                    </router-link>
+                    <router-link to="/favorite">
+                        <HeartFilled :style="{fontSize: '25px', color: 'green', marginRight: '5px', cursor: 'pointer'}"/>
+                    </router-link>
+                </div>
+                <BellFilled :style="{fontSize: '25px', color: 'green', marginRight: '5px', cursor: 'pointer'}"/>
                 <!-- User headlessui -->
-                <Menu as="div" class="relative z-30 inline-block text-left">
+                <Menu as="div" class="relative z-20 inline-block text-left">
                     <MenuButton
-                        class="w-[40px] h-[40px] absolute translate-y-[-50%]"
+                        class="w-[40px] h-[40px]"
                         >
                         <img :src="userStore?.myUser?.avatar ? `${IMAGE_URL}${userStore?.myUser?.avatar}` : 'https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png'" alt="avatar" class="w-full h-full object-cover rounded-full">
                     </MenuButton>
@@ -179,6 +194,10 @@
                         </MenuItems>
                     </transition>
                 </Menu>
+                <!-- Open menu -->
+                <div class="md:hidden cursor-pointer" @click="handleToggleNav">
+                    <AlignRightOutlined :style="{fontSize: '30px'}" />
+                </div>
             </div>
             <div v-else class="flex items-center gap-5">
                 <button class="bg-blue-500 text-white font-semibold text-[14px] px-[10px] py-[5px] rounded" @click="goLoginBusiness">Đăng tuyển</button>
@@ -188,15 +207,19 @@
     </header>
 </template>
 <script setup>
-    import {SearchOutlined, HistoryOutlined,SyncOutlined,BellFilled, HeartOutlined, ArrowRightOutlined,LogoutOutlined, ProfileOutlined, ShopOutlined, StarOutlined} from "@ant-design/icons-vue"
+    import {SearchOutlined, HistoryOutlined,SyncOutlined,HeartFilled, SaveFilled,AlignRightOutlined, BellFilled, HeartOutlined, ArrowRightOutlined,LogoutOutlined, ProfileOutlined, ShopOutlined, StarOutlined, CloseOutlined} from "@ant-design/icons-vue"
     import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     import { IMAGE_URL } from "../constants/url";
     import {useRouter} from "vue-router"
-import { useUserStore } from "../stores/userStore";
-import { computed } from "vue";
+    import { useUserStore } from "../stores/userStore";
+    import { computed, ref } from "vue";
     const router = useRouter()
     const userStore = useUserStore()
+    const isOpenNav = ref(false)
 
+    const handleToggleNav = () => {
+        isOpenNav.value = !isOpenNav.value
+    }
     const handleLogout = (token) => {
         userStore.actFetchLogout(token)
         router.push("/auth-layout")

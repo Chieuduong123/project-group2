@@ -1,16 +1,15 @@
 <template lang="">
     <div class="">
-        <div class="relative w-full h-[200px] bg-green-100">
-            <h1 class="absolute text-white left-[50%] translate-x-[-50%] top-5 text-[30px] font-semibold">Khám phá 100.000+ công ty nổi bật</h1>
-            <img src="	https://static.topcv.vn/top_lists/4b8ef4660883f68e7a54770b8e7341b4-61b968185df9c.jpg" alt="banner" class="object-cover w-full h-full">
-            <div class="absolute left-[50%] translate-x-[-50%] top-[50%] flex items-center gap-2 bg-white pl-[20px] pr-[10px] py-[10px] rounded-full w-max">
+        <div class="relative w-full h-[200px] pt-[20px]" style="background-image: url('https://static.topcv.vn/top_lists/4b8ef4660883f68e7a54770b8e7341b4-61b968185df9c.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <h1 class="text-center text-white text-[30px] font-semibold px-[20px]">Khám phá 100.000+ công ty nổi bật</h1>
+            <div class="w-[70%] absolute left-[50%] translate-x-[-50%] top-[50%] flex items-center gap-2 bg-white pl-[20px] pr-[10px] py-[10px] rounded-full">
                 <SearchOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/>
-                <input v-model="searchRef" type="text" placeholder="Nhập tên công ty" class="outline-none w-[400px] text-[16px]">
-                <button class="px-[10px] py-[5px] font-semibold text-[14px] text-white bg-green-500 rounded-full">Tìm kiếm</button>
+                <input v-model="searchRef" type="text" placeholder="Nhập tên công ty" class="outline-none w-full text-[16px]">
+                <!-- <button class="px-[10px] py-[5px] font-semibold text-[14px] text-white bg-green-500 rounded-full">Tìm kiếm</button> -->
             </div>
         </div>
-        <h1 class="text-center font-semibold text-[34px] mt-[50px]">DANH SÁCH CÁC TOP CÔNG TY</h1>
-        <div v-if="businessData.length > 0" class="max-w-[1300px] mx-auto flex gap-5 flex-wrap mt-10">
+        <h1 class="text-center font-semibold text-[34px] mt-[50px] px-[20px]">DANH SÁCH CÁC TOP CÔNG TY</h1>
+        <div v-if="businessData.length > 0" class="max-w-[1300px] mx-auto max-xl:px-[50px] max-md:px-[20px] grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2s mt-10">
             <CompanyCard v-for="business in businessData" :key="business.id" :business="business"/>
         </div>
         <h1 v-else class="mt-[50px] text-center text-[24px] text-gray-500 font-semibold">Không tìm thấy công ty nào</h1>

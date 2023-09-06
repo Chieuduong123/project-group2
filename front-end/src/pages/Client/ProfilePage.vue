@@ -1,6 +1,6 @@
 <template lang="">
-    <div class="max-w-[1300px] mx-auto mt-[150px] flex gap-5">
-        <div class="w-[60%] shadow p-[20px] rounded-xl">
+    <div class="max-w-[1300px] mx-auto mt-[150px] flex gap-5 max-md:flex-col-reverse max-sm:px-[20px]">
+        <div class="w-[60%] max-md:w-full shadow p-[20px] rounded-xl">
             <h3 class="font-semibold text-[20px]">Cài đặt thông tin cá nhân</h3>
             <form action="" class="flex flex-col gap-4 mt-5" @submit.prevent="handleSubmit">
                 <div class="flex flex-col gap-1">
@@ -26,8 +26,8 @@
                 <button type="submit" class="text-white font-semibold px-[10px] py-[5px] rounded bg-green-500">Xác nhận</button>
             </form>
         </div>
-        <div class="w-[40%] shadow rounded-xl p-[20px]">
-            <div class="flex items-center justify-between border-b pb-[10px]">
+        <div class="w-[40%] max-sm:w-full max-md:w-full shadow rounded-xl p-[20px]">
+            <div class="flex items-center  gap-5 border-b pb-[10px]">
                 <div class="relative rounded-full ">
                     <div class="avatar-container">
                         <img

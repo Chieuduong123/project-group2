@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px] w-[32%]" @click="handleGoDetailPost(post?.id)">
+    <div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px]" @click="handleGoDetailPost(post?.id)">
         <div class="flex items-start justify-between">
             <div>
                 <img :src="`${IMAGE_URL}${post?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
@@ -31,25 +31,29 @@
                 <EnvironmentOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
                 <span>{{post?.business.location}}</span>
             </div>
-            <div class="flex gap-5">
+            <div class="flex items-center gap-1">
+                <AppstoreOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
+                <div v-for="(skill, index) in post?.skill.slice(0,3)" :key="index" class="px-[5px] py-[5px] bg-[#333] text-[#fafafa] rounded">{{skill}}</div>
+            </div>
+            <div class="flex gap-5 flex-col">
                 <div class="flex items-center gap-1">
                     <ClockCircleOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
-                    <span v-for="(type, index) in post?.type">{{type}}/</span>
+                    <span v-for="(type, index) in post?.type" class="px-[5px] py-[5px] bg-[#333] text-[#fafafa] rounded">{{type}}</span>
                 </div>
                 <div class="flex items-center gap-1">
-                    <ClockCircleOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
-                    <span v-for="(level, index) in post?.level" :key="index">{{level}}/</span>
+                    <IdcardOutlined  :style="{fontSize: '12px', color: '#9BA4B5'}"/>
+                    <span v-for="(level, index) in post?.level" :key="index" class="px-[5px] py-[5px] bg-[#333] text-[#fafafa] rounded">{{level}}</span>
                 </div>
             </div>
         </div>
         <div class="flex items-center justify-between">
-            <p class="font-medium text-[18px]">${{post?.salary}}<span class="text-[14px] font-normal">/Tháng</span></p>
+            <div class="font-medium text-[18px]">${{post?.salary}}<span class="text-[14px] font-normal">/Tháng</span></div>
             <button v-if="isHistory === false" class="px-[10px] py-[5px] rounded bg-green-200 text-green-600">Ứng tuyển</button>
         </div>
     </div>
 </template>
 <script setup>
-    import {HeartOutlined, EnvironmentOutlined, ClockCircleOutlined, MoreOutlined} from "@ant-design/icons-vue"
+    import {HeartOutlined, EnvironmentOutlined, ClockCircleOutlined, MoreOutlined, IdcardOutlined, AppstoreOutlined} from "@ant-design/icons-vue"
     import {defineProps} from "vue"
     import { useRouter } from "vue-router";
 import { IMAGE_URL } from "../constants/url";
@@ -86,6 +90,7 @@ import { useToast } from "vue-toastification";
             toast.warning("Vui lòng đăng nhập")
         };
     }
+
 
 </script>
 <style lang="">

@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="max-w-[1300px] mx-auto flex justify-between py-[50px] flex-wrap gap-10 mt-[150px] border-t">
+    <div class="max-w-[1300px] mx-auto flex justify-between py-[50px] flex-wrap gap-10 mt-[150px] border-t max-xl:px-[50px]">
         <div class="flex flex-col gap-5">
             <h1 class="font-bold text-[25px] text-green-500">Juong Job.</h1>
             <div>

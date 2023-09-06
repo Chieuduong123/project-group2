@@ -45,6 +45,9 @@ export const fetchCreateApply = async (idJob, apply, token) => {
     toast.success("Ứng tuyển thành công");
     return data;
   } catch (error) {
+    if (error.response.status === 403) {
+      toast.warning("Bạn đã ứng tuyển vị trí này trước đó!");
+    }
     console.log(error);
   }
 };

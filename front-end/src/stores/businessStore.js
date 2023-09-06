@@ -18,6 +18,7 @@ export const useBusinessStore = defineStore("businessStore", {
       business: {},
       myBusiness: {},
       applyList: [],
+      apply: [],
       accessToken: "" || localStorage.getItem("tokenBusiness"),
       isLoggedBusiness:
         JSON.parse(localStorage.getItem("isLoggedBusiness")) || false,
@@ -140,8 +141,7 @@ export const useBusinessStore = defineStore("businessStore", {
         this.isLoading = true;
         fetchGetApplyById(applyId, token).then((res) => {
           this.isLoading = false;
-          // this.applyList = res.data?.applications;
-          console.log("detail", res);
+          this.apply = res.data[0];
         });
       } catch (error) {
         this.isLoading = false;

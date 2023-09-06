@@ -1,54 +1,69 @@
 <template lang="">
     <div>
-        <h1>Thông tin ứng viên</h1>
-        <div class="mt-[50px] flex items-center gap-12">
-            <div class="flex flex-col justify-evenly">
+        <h1>Thông tin ứng viên: <span>{{businessStore.apply?.seeker?.name}}</span></h1>
+        <div class="mt-[50px] flex items-center gap-12 px-[100px]">
+            <div class="flex flex-col justify-evenly flex-1">
                 <div class="flex items-center gap-2">
                     <p class="font-medium" >Họ và Tên:</p>
-                    <p>Lê Mạnh Bin</p>
+                    <p>{{businessStore.apply?.seeker?.name}}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <p class="font-medium" >Vị trí ứng tuyển:</p>
+                    <p>{{businessStore.apply?.job?.position}}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <p class="font-medium" >Email:</p>
-                    <p>llemanhbin@gmail.com</p>
+                    <p>{{businessStore.apply?.seeker?.email}}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <p class="font-medium" >Số điện thoại:</p>
-                    <p>0365160470</p>
+                    <p>{{businessStore.apply?.seeker?.phone}}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <p class="font-medium" >Ngày sinh:</p>
-                    <p>0365160470</p>
+                    <p>{{businessStore.apply?.seeker?.birthday}}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <p class="font-medium" >Địa chỉ:</p>
-                    <p>0365160470</p>
+                    <p>{{businessStore.apply?.seeker?.address}}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <p class="font-medium" >Thông tin thêm:</p>
+                    <p>{{businessStore.apply?.cover_letter}}</p>
                 </div>
             </div>
-            <div class="flex flex-col items-center gap-5">
+            <div class="flex flex-col items-center gap-5 flex-1">
                 <div class="h-[200px] w-[200px] rounded-[10px] overflow-hidden">
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" alt="" class ="w-full h-full object-cover">
+                    <img :src="`${IMAGE_URL}${businessStore.apply?.seeker?.avatar}`" alt="" class ="w-full h-full object-cover">
                 </div>
-                <button class="px-[15px] py-[10px] bg-gray-500 text-white font-semibold rounded">Xem CV</button>
+                <a :href="`${CV_URL}${businessStore.apply?.resume_path}`" target="_blank" class="flex items-center gap-2 px-[15px] py-[10px] bg-gray-500 text-white font-semibold rounded" >
+                    <FilePdfOutlined />
+                    Xem CV
+                </a>
             </div>
         </div>
     </div>
+    <Loading v-if="businessStore.isLoading"/>
+
 </template>
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import {FilePdfOutlined} from "@ant-design/icons-vue"
 import { useBusinessStore } from '../../stores/businessStore';
 import { onMounted } from 'vue';
-import { CV_URL } from '../../constants/url';
-import pdfjs from 'pdfjs-dist';
+import { CV_URL, IMAGE_URL } from '../../constants/url';
+import Loading from '../../components/Loading.vue';
     const route = useRoute()
-
+    const router = useRouter()
     const businessStore = useBusinessStore()
     const handleGetDetailApply = (applyId, token) => {
         businessStore.actGetApplyById(applyId, token)
-    }
+    }  
 
     onMounted(() => {
         handleGetDetailApply(route.params.id, businessStore.accessToken)
     })
+
     
 </script>
 <style lang="">
