@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->date('from_date');
-            $table->date('to_date');
+            $table->string('from_date');
+            $table->string('to_date');
             $table->string('location');
             $table->string('title');
             $table->text('summary');

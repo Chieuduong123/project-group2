@@ -18,6 +18,8 @@ class FavoriteResource extends Resource
     protected static ?string $model = Favorite::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Management Jobs and others';
+
 
     public static function form(Form $form): Form
     {
@@ -51,14 +53,14 @@ class FavoriteResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -66,5 +68,5 @@ class FavoriteResource extends Resource
             'create' => Pages\CreateFavorite::route('/create'),
             'edit' => Pages\EditFavorite::route('/{record}/edit'),
         ];
-    }    
+    }
 }

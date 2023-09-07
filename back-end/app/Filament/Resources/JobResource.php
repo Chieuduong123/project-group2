@@ -11,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,6 +21,8 @@ class JobResource extends Resource
     protected static ?string $model = Job::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Management Jobs and others';
+
 
     public static function form(Form $form): Form
     {
@@ -65,11 +68,35 @@ class JobResource extends Resource
                 Tables\Columns\TextColumn::make('level'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('salary'),
-                Tables\Columns\TextColumn::make('content'),
+                Tables\Columns\TextColumn::make('content')->limit(30)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (strlen($state) <= $column->getLimit()) {
+                            return null;
+                        }
+                        return $state;
+                    }),
                 Tables\Columns\TextColumn::make('skill'),
-                Tables\Columns\TextColumn::make('requirement'),
+                Tables\Columns\TextColumn::make('requirement')->limit(30)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (strlen($state) <= $column->getLimit()) {
+                            return null;
+                        }
+                        return $state;
+                    }),
                 Tables\Columns\TextColumn::make('quantity'),
-                Tables\Columns\TextColumn::make('benefits'),
+                Tables\Columns\TextColumn::make('benefits')->limit(30)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (strlen($state) <= $column->getLimit()) {
+                            return null;
+                        }
+                        return $state;
+                    }),
                 Tables\Columns\TextColumn::make('start_day')
                     ->date(),
                 Tables\Columns\TextColumn::make('end_day')
@@ -97,6 +124,7 @@ class JobResource extends Resource
             //
         ];
     }
+
 
     public static function getPages(): array
     {

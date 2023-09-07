@@ -6,6 +6,7 @@ use App\Filament\Resources\BusinessResource\Pages;
 use App\Filament\Resources\BusinessResource\Pages\CreateBusiness;
 use App\Filament\Resources\BusinessResource\Pages\EditBusiness;
 use App\Filament\Resources\BusinessResource\RelationManagers;
+use App\Filament\Resources\BusinessResource\Widgets\BusinessOverview;
 use App\Http\Services\SendEmailService;
 use App\Models\Business;
 use Filament\Forms;
@@ -123,6 +124,13 @@ class BusinessResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            BusinessOverview::class,
         ];
     }
 

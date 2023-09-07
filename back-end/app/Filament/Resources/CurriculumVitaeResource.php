@@ -19,20 +19,23 @@ class CurriculumVitaeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'Management Jobs and others';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('seeker_id')
+                Forms\Components\Textarea::make('personalDetail.job_title')->label('Position')
                     ->required(),
-                Forms\Components\TextInput::make('personal_detail_id')
-                    ->required(),
-                Forms\Components\TextInput::make('social_id')
+                Forms\Components\Textarea::make('educations.location')->label('Education')
                     ->required(),
                 Forms\Components\Textarea::make('soft')
                     ->required(),
                 Forms\Components\Textarea::make('tech')
                     ->required(),
+                Forms\Components\TextInput::make('social.github')->label('GitHub')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -40,14 +43,13 @@ class CurriculumVitaeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('seeker_id'),
-                Tables\Columns\TextColumn::make('personalDetail.last_name'),
-                Tables\Columns\TextColumn::make('social_id'),
+                Tables\Columns\TextColumn::make('seeker.name')->label('Name Seeker'),
+                Tables\Columns\TextColumn::make('personalDetail.job_title')->label('Position'),
+                Tables\Columns\TextColumn::make('educations.location')->label('Education'),
                 Tables\Columns\TextColumn::make('soft'),
                 Tables\Columns\TextColumn::make('tech'),
+                Tables\Columns\TextColumn::make('social.github')->label('GitHub'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([
