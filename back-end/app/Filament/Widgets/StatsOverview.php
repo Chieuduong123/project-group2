@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Filament\Widgets;
+
+use App\Models\Business;
+use App\Models\CurriculumVitae;
+use App\Models\Job;
+use App\Models\Seeker;
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Card;
+
+class StatsOverview extends BaseWidget
+{
+    protected function getCards(): array
+    {
+        return [
+            Card::make('Totals Business', Business::count()),
+            Card::make('Totals Seeker', Seeker::count()),
+            Card::make('Totals Jobs', Job::count()),
+            Card::make('Totals CVs', CurriculumVitae::count()),
+        ];
+    }
+}

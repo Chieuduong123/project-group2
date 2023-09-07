@@ -18,6 +18,8 @@ class ApplicationResource extends Resource
     protected static ?string $model = Application::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Management Jobs and others';
+
 
     public static function form(Form $form): Form
     {
@@ -68,14 +70,14 @@ class ApplicationResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -83,5 +85,5 @@ class ApplicationResource extends Resource
             'create' => Pages\CreateApplication::route('/create'),
             'edit' => Pages\EditApplication::route('/{record}/edit'),
         ];
-    }    
+    }
 }
