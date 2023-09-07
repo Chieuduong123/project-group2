@@ -24,6 +24,7 @@ import NotFoundPage from "./pages/Client/NotFoundPage.vue";
 import HistoryPage from "./pages/Client/HistoryPage.vue";
 import ChangePassword from "./pages/Client/ChangePassword.vue";
 import SearchResultPage from "./pages/Client/SearchResultPage.vue";
+import CVDetailPage from "./pages/Client/CVDetailPage.vue";
 const routes = [
   {
     path: "/",
@@ -34,6 +35,7 @@ const routes = [
       { path: "company", component: CompanyPage },
       { path: "company/:id", component: CompanyDetail },
       { path: "cv-management", component: CVManagement },
+      { path: "cv/:id", component: CVDetailPage },
       { path: "about", component: AboutPage },
       { path: "blog", component: BlogPage },
       { path: "create-cv", component: CreateCVPage },

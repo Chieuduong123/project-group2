@@ -7,38 +7,85 @@
     <button class="btn rounded-xl w-full text-sm mt-5 text-white  bg-black delay-200 transition p-3 hover:delay-0" @click="handleSave">
         Lưu
     </button>
-<!-- 
-    <div class="sticky bottom-0">
-        <button @click="store_setting.cv_download()"
-            class="btn rounded-xl w-full text-sm mt-2 text-white p-3 delay-150 transition hover:delay-0"
-            :style="{ background: store_setting.cv_data.settings.colors }">
-            {{ store_setting.cv_data.settings.buttons.download_as_json }}
-        </button>
-    </div> -->
-
-    <!-- <label for="file"
-        class="btn rounded-xl mt-2 block bottom-0 cursor-pointer w-100 p-3 text-center text-sm text-white delay-100 transition hover:delay-0"
-        :style="{ background: store_setting.cv_data.settings.colors }">
-        {{ store_setting.cv_data.settings.buttons.update_json_file }}
-    </label> -->
-
-    <!-- <input type="file" v-on:change="store_setting.cv_updata" style="display: none;" id="file">
-    <button @click="store_setting.cv_remove()"
-        class="btn rounded-xl w-full text-sm mt-2 text-white p-3 delay-50 transition hover:delay-0"
-        :style="{ background: store_setting.cv_data.settings.colors }">
-        {{ store_setting.cv_data.settings.buttons.remove_all_data }}
-    </button> -->
 </template>
 
 <script setup>
     import { useSettingStore } from "../stores/settings"
     import cvComponent from "../components/cvComponent.vue"
+    import { ref } from "vue";
     const store_setting = useSettingStore()
     const cv_languages= ["english", "uzbek", "russia"]
     const  cv_colors= ["#000", "#00a8ef", "#ff5900", "#6055f7", "#0ebb62"]
-    
+    const languageRef = ref([]);
+    const educationRef = ref([]);
+    const experienceRef = ref([]);
+
+    const handleMapLanguages = () => {
+        store_setting.cv_data.skills.language.map(lang => {
+            languageRef.value = [
+                ...languageRef.value,
+                {
+                    name: lang.name,
+                    level: lang.level
+                }
+            ]
+        })
+    }
+
+    const handleMapEducation = () => {
+        store_setting.cv_data.educations_and_certifications.map(edu => {
+            educationRef.value = [
+                ...educationRef.value,
+                {
+                    from_date: edu.from,
+                    to_date: edu.to,
+                    location: edu.location,
+                    title: edu.title,
+                    summary: edu.summary,
+                }
+            ]
+        })
+    }
+    const handleMapExperience = () => {
+        store_setting.cv_data.experiences.map(exp => {
+            experienceRef.value = [
+                ...experienceRef.value,
+                {
+                    from_date: exp.from,
+                    to_date: exp.to,
+                    location: exp.location,
+                    title: exp.title,
+                    summary: exp.summary,
+                }
+            ]
+        })
+    }
     const handleSave = () => {
-        console.log(store_setting.cv_data);
+        handleMapLanguages()
+        handleMapEducation()
+        handleMapExperience()
+        const dataCV = {
+            first_name: store_setting?.cv_data?.personal_details?.first_name,
+            last_name: store_setting?.cv_data?.personal_details?.last_name,
+            job_title: store_setting?.cv_data?.personal_details?.job_title,
+            location: store_setting?.cv_data?.personal_details?.location,
+            email: store_setting?.cv_data?.personal_details?.email,
+            phone: store_setting?.cv_data?.personal_details?.phone,
+            about_me: store_setting?.cv_data?.personal_details?.about_me,
+            github: store_setting?.cv_data?.socials?.github,
+            instagram: store_setting?.cv_data?.socials?.instagram,
+            facebook: "",
+            linkendin: store_setting?.cv_data?.socials?.linkedin,
+            telegram: store_setting?.cv_data?.socials?.telegram,
+            twitter: store_setting?.cv_data?.socials?.twitter,
+            web: store_setting?.cv_data?.socials?.web,
+            soft: store_setting?.cv_data?.skills?.soft,
+            tech: store_setting?.cv_data?.skills?.tech,
+            languages: languageRef.value,
+            education: educationRef.value,
+            experience: experienceRef.value
+        }
+        console.log(dataCV);
     }
 </script>
 

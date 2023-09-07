@@ -5,20 +5,37 @@
             <button class="px-[10px] py-[5px] rounded bg-green-500 text-white font-medium whitespace-nowrap" @click="createNewCV">+ tạo mới</button>
        </div>
        <div class="mt-[50px] grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2s">
-            <CardCV/>
-            <CardCV/>
-            <CardCV/>
+            <CardCV v-for="cv in userStore.listCV" :key="cv.id" :cvData="cv" @click="showDetailCV(cv.id)"/>
        </div>
     </div>
+    <Loading v-if="userStore.isLoading"/>
 </template>
 <script setup>
     import { useRouter } from 'vue-router';
+    
 import CardCV from '../../components/CardCV.vue';
+import { useUserStore } from '../../stores/userStore';
+import { onMounted } from 'vue';
+import Loading from '../../components/Loading.vue';
 
     const router = useRouter()
+    const userStore = useUserStore()
 
+    const handleGetAllCV = async(token) => {
+        await userStore.actGetCV(token)
+    }
+
+    onMounted(() => {
+        handleGetAllCV(userStore.accessToken)
+    })
+
+    // console.log(userStore);
     const createNewCV = () => {
         router.push("/create-cv")
+    }
+
+    const showDetailCV = (id) => {
+        router.push(`/cv/${id}`)
     }
 </script>
 <style lang="">
