@@ -7,6 +7,12 @@ import {
   getInforMe,
 } from "../api/userApi";
 import { fetchCreateApply, fetchHistoryApply } from "../api/applyApi";
+import {
+  fetchCreateCV,
+  fetchDeleteCV,
+  fetchGetCV,
+  fetchUpdateCV,
+} from "../api/cvApi";
 
 export const useUserStore = defineStore("userStore", {
   state: () => {
@@ -15,6 +21,8 @@ export const useUserStore = defineStore("userStore", {
       user: {},
       myUser: {},
       histories: [],
+      listCV: [],
+      cv: {},
       accessToken: "" || localStorage.getItem("token"),
       isLogged: JSON.parse(localStorage.getItem("isLogged")) || false,
       isLoading: false,
@@ -110,6 +118,54 @@ export const useUserStore = defineStore("userStore", {
         fetchHistoryApply(token).then((res) => {
           this.isLoading = false;
           this.histories = res?.data?.application_history;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+    actGetCV(token) {
+      try {
+        this.isLoading = true;
+        fetchGetCV(token).then((res) => {
+          this.isLoading = false;
+          this.listCV = res?.data;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+    actCreateCV(cv, token) {
+      try {
+        this.isLoading = true;
+        fetchCreateCV(cv, token).then((res) => {
+          console.log("cretae", res);
+          this.isLoading = false;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+    actDeleteCV(id, token) {
+      try {
+        this.isLoading = true;
+        fetchDeleteCV(id, token).then((res) => {
+          console.log("cretae", res);
+          this.isLoading = false;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+    actUpdateCV(id, cv, token) {
+      try {
+        this.isLoading = true;
+        fetchUpdateCV(id, cv, token).then((res) => {
+          console.log("cretae", res);
+          this.isLoading = false;
         });
       } catch (error) {
         console.log(error);
