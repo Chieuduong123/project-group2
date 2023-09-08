@@ -64,6 +64,7 @@ import Loading from '../../components/Loading.vue';
         handleGetDetailApply(route.params.id, businessStore.accessToken)
     })
 
+    console.log("======",businessStore.apply);
     
 </script>
 <style lang="">

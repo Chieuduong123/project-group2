@@ -5,7 +5,7 @@
             <button class="px-[10px] py-[5px] rounded bg-green-500 text-white font-medium whitespace-nowrap" @click="createNewCV">+ tạo mới</button>
        </div>
        <div class="mt-[50px] grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2s">
-            <CardCV v-for="cv in userStore.listCV" :key="cv.id" :cvData="cv" @click="showDetailCV(cv.id)"/>
+            <CardCV v-for="cv in userStore.listCV" :key="cv.personal_detail.id" :cvData="cv" @click="showDetailCV(cv.personal_detail.id)"/>
        </div>
     </div>
     <Loading v-if="userStore.isLoading"/>

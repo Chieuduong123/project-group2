@@ -52,6 +52,8 @@ export const useBusinessStore = defineStore("businessStore", {
       } catch (error) {
         this.isLoading = false;
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     actFetchReLoginBusiness(accessToken) {
@@ -141,7 +143,7 @@ export const useBusinessStore = defineStore("businessStore", {
         this.isLoading = true;
         fetchGetApplyById(applyId, token).then((res) => {
           this.isLoading = false;
-          this.apply = res.data[0];
+          this.apply = res.data.application[0];
         });
       } catch (error) {
         this.isLoading = false;

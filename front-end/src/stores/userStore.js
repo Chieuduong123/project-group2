@@ -11,6 +11,7 @@ import {
   fetchCreateCV,
   fetchDeleteCV,
   fetchGetCV,
+  fetchGetCVById,
   fetchUpdateCV,
 } from "../api/cvApi";
 
@@ -129,7 +130,19 @@ export const useUserStore = defineStore("userStore", {
         this.isLoading = true;
         fetchGetCV(token).then((res) => {
           this.isLoading = false;
-          this.listCV = res?.data;
+          this.listCV = res?.data.CV;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+    actGetCVById(id, token) {
+      try {
+        this.isLoading = true;
+        fetchGetCVById(id, token).then((res) => {
+          this.isLoading = false;
+          this.cv = res?.data.CV[0];
         });
       } catch (error) {
         console.log(error);
@@ -152,7 +165,7 @@ export const useUserStore = defineStore("userStore", {
       try {
         this.isLoading = true;
         fetchDeleteCV(id, token).then((res) => {
-          console.log("cretae", res);
+          this.actGetCV(token);
           this.isLoading = false;
         });
       } catch (error) {

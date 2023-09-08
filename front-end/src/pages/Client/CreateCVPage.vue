@@ -389,7 +389,7 @@
   
         <br>
         <!-- MAIN BUTTONS -->
-        <mainButtons></mainButtons>
+        <!-- <mainButtons></mainButtons> -->
         <button v-print="'#printMe'"
             class="btn rounded-xl w-full text-sm mt-16 text-white delay-200 transition p-3 hover:delay-0"
             :style="{ background: store_setting.cv_data.settings.colors }">
@@ -409,11 +409,13 @@
   
   <script setup>
     import { useSettingStore } from "../../stores/settings";
+    import {useUserStore} from "../../stores/userStore"
   import CvComponent from "../../components/CvComponent.vue";
   import mainButtons from "../../components/mainButtons.vue";
   import { ref } from 'vue'
   import { Collapse } from 'vue-collapsed'
   const store_setting = useSettingStore()
+  const userStore = useUserStore()
     const cv_languages= ["english", "vietnam"]
     const  cv_colors= ["#000", "#00a8ef", "#ff5900", "#6055f7", "#0ebb62"]
     const languageRef = ref([]);
@@ -509,7 +511,7 @@
             education: educationRef.value,
             experience: experienceRef.value
         }
-        console.log(dataCV);
+        userStore.actCreateCV(dataCV,userStore.accessToken)
     }
   </script>
   
