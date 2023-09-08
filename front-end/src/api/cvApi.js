@@ -29,6 +29,18 @@ export const fetchGetCV = async (token) => {
     console.log(error);
   }
 };
+export const fetchGetCVById = async (id, token) => {
+  try {
+    const data = axios.get(`${BASE_URL}seeker/cv/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const fetchDeleteCV = async (id, token) => {
   try {
