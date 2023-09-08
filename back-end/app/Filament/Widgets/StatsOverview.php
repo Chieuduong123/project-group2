@@ -14,10 +14,18 @@ class StatsOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('Totals Business', Business::count()),
-            Card::make('Totals Seeker', Seeker::count()),
-            Card::make('Totals Jobs', Job::count()),
-            Card::make('Totals CVs', CurriculumVitae::count()),
+            Card::make('Totals Business', Business::count())
+                ->description('The total count of business in the system')
+                ->descriptionColor('success'),
+            Card::make('Totals Seeker', Seeker::count())
+                ->description('The total count of seekers in the system')
+                ->descriptionColor('success'),
+            Card::make('Totals Jobs', Job::count())
+                ->description('The total count of jobs in the system')
+                ->descriptionColor('success'),
+            Card::make('Totals CVs', CurriculumVitae::count())
+                ->description('The total count of CVs in the system')
+                ->descriptionColor('success'),
         ];
     }
 }

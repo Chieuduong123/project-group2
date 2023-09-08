@@ -3,13 +3,23 @@
 namespace App\Http\Controllers\Apply;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\ApplicationService;
 use App\Models\Application;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ApplyJobController extends Controller
 {
+    private $applicationService;
+
+    public function __construct(
+        ApplicationService $applicationService
+    ) {
+        $this->applicationService = $applicationService;
+    }
+
 
     public function applyForJob(Request $request, $jobId)
     {
@@ -53,14 +63,15 @@ class ApplyJobController extends Controller
                 ]);
                 $application->save();
             }
+            // $application = $this->applicationService->applyForJob($seeker, $jobId, $request->all());
             return response()->json([
                 'message' => 'Application submitted successfully',
                 'application' => $application
             ], 201);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while submitting the application',
-                'error' => $e->getMessage()
             ], 500);
         }
     }

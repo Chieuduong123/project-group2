@@ -25,10 +25,10 @@ class FavoriteResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('seeker_id')
-                    ->required(),
-                Forms\Components\TextInput::make('job_id')
-                    ->required(),
+                // Forms\Components\TextInput::make('seeker_id')
+                //     ->required(),
+                // Forms\Components\TextInput::make('job_id')
+                //     ->required(),
             ]);
     }
 
@@ -36,12 +36,11 @@ class FavoriteResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('seeker_id'),
-                Tables\Columns\TextColumn::make('job_id'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('seeker.name'),
+                Tables\Columns\TextColumn::make('job.position'),
+                Tables\Columns\TextColumn::make('job.business.name'),
+
+
             ])
             ->filters([
                 //

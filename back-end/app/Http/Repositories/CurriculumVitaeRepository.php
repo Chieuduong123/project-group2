@@ -42,18 +42,4 @@ class CurriculumVitaeRepository
         $cv->languages()->attach($language->id);
     }
 
-    public function detachEducation(CurriculumVitae $cv, Education $education)
-    {
-        $cv->educations()->detach($education->id);
-    }
-
-    public function detachExperience(CurriculumVitae $cv, Experience $experience)
-    {
-        $cv->experiences()->detach($experience->id);
-    }
-
-    public function detachLanguage(CurriculumVitae $cv, Language $language)
-    {
-        $cv->languages()->detach($language->id);
-    }
 }
