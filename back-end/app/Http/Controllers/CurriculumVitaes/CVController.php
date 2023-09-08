@@ -9,10 +9,15 @@ use App\Http\Services\DestroyCVService;
 use App\Http\Services\UpdateCVService;
 use App\Models\CurriculumVitae;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CVController extends Controller
 {
     private $cvResponse;
+    private $createCVService;
+    private $updateCVService;
+    private $destroyCVService;
+
 
     public function __construct(
         CVResponse $cvResponse,
@@ -40,9 +45,9 @@ class CVController extends Controller
 
             return response()->json(['CV' => $CVs], 201);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while fetching CVs',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -71,9 +76,9 @@ class CVController extends Controller
 
             return response()->json(['CV' => $CVs], 201);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while fetching CVs',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -90,9 +95,9 @@ class CVController extends Controller
 
             return response()->json($response, 201);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while creating the CV',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -118,34 +123,33 @@ class CVController extends Controller
 
             return response()->json($response, 201);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while updating the CV',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
 
     public function destroy($cvId)
     {
-        // try {
-        //     $seeker = auth()->user();
-        //     $curriculumVitae = CurriculumVitae::findOrFail($cvId);
+        try {
+            $seeker = auth()->user();
+            $curriculumVitae = CurriculumVitae::findOrFail($cvId);
 
-        //     if ($curriculumVitae->seeker_id !== $seeker->id) {
-        //         return response()->json([
-        //             'message' => 'You are not authorized to destroy this CV'
-        //         ], 403);
-        //     }
+            if ($curriculumVitae->seeker_id !== $seeker->id) {
+                return response()->json([
+                    'message' => 'You are not authorized to destroy this CV'
+                ], 403);
+            }
 
-        //     $this->destroyCVService->destroyCV($curriculumVitae,);
+            $this->destroyCVService->destroyCV($curriculumVitae);
 
-
-        //     return response()->json(['message' => 'Delete CV successfull'], 201);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'message' => 'An error occurred while updating the CV',
-        //         'error' => $e->getMessage()
-        //     ], 500);
-        // }
+            return response()->json(['message' => 'Delete CV successfully'], 201);
+        } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
+            return response()->json([
+                'message' => 'An error occurred while deleting the CV',
+            ], 500);
+        }
     }
 }

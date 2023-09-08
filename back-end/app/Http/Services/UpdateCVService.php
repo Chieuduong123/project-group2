@@ -47,20 +47,20 @@ class UpdateCVService
 
         $this->cvRepository->update($cv, $data);
 
-        foreach ($data['education'] as $educationData) {
-            $education = $this->educationRepository->create($educationData);
+        collect($data['education'])->each(function ($experienceData) use ($cv) {
+            $education = $this->educationRepository->create($experienceData);
             $cv->educations()->sync([$education->id], false);
-        }
+        });
 
-        foreach ($data['experience'] as $experienceData) {
+        collect($data['experience'])->each(function ($experienceData) use ($cv) {
             $experience = $this->experienceRepository->create($experienceData);
             $cv->experiences()->sync([$experience->id], false);
-        }
+        });
 
-        foreach ($data['languages'] as $languageData) {
+        collect($data['languages'])->each(function ($languageData) use ($cv) {
             $language = $this->languageRepository->create($languageData);
             $cv->languages()->sync([$language->id], false);
-        }
+        });
 
         return $cv;
     }

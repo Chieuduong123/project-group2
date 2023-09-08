@@ -7,6 +7,7 @@ class CVResponse
     public function CVResponse($curriculumVitae)
     {
         return [
+            'id' => $curriculumVitae->id,
             'seeker' => $curriculumVitae->seeker_id,
             'personal_detail' => $curriculumVitae->personalDetail->toArray(),
             'social' => $curriculumVitae->social->toArray(),

@@ -25,10 +25,7 @@ class ApplicationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('seeker_id')
-                    ->required(),
-                Forms\Components\TextInput::make('job_id')
-                    ->required(),
+
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -36,9 +33,9 @@ class ApplicationResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('resume_path')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('resume_path')
+                    ->label('Resume')
+                    ->required(),
                 Forms\Components\Textarea::make('cover_letter')
                     ->required()
                     ->maxLength(65535),
@@ -49,15 +46,15 @@ class ApplicationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('seeker_id'),
-                Tables\Columns\TextColumn::make('job_id'),
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('job.position'),
                 Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('resume_path'),
+                Tables\Columns\TextColumn::make('resume_path')
+                    ->label('Resume')
+                    ->url(fn ($record) => asset('cv' . '/' . $record->resume_path))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('cover_letter'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([

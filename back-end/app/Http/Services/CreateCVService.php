@@ -51,23 +51,26 @@ class CreateCVService
         $cv = $this->cvRepository->create($cvData);
 
         if (!empty($data['education'])) {
-            foreach ($data['education'] as $educationData) {
-                $education = $this->educationRepository->create($educationData);
+            collect($data['education'])->each(function ($experienceData) use ($cv) {
+                $education = $this->educationRepository->create($experienceData);
                 $this->cvRepository->attachEducation($cv, $education);
-            }
+            });
         }
 
         if (!empty($data['experience'])) {
-            foreach ($data['experience'] as $experienceData) {
+            collect($data['experience'])->each(function ($experienceData) use ($cv) {
                 $experience = $this->experienceRepository->create($experienceData);
                 $this->cvRepository->attachExperience($cv, $experience);
-            }
+            });
         }
 
-        foreach ($data['languages'] as $languageData) {
-            $language = $this->languageRepository->create($languageData);
-            $this->cvRepository->attachLanguage($cv, $language);
+        if (!empty($data['languages'])) {
+            collect($data['languages'])->each(function ($languageData) use ($cv) {
+                $language = $this->languageRepository->create($languageData);
+                $this->cvRepository->attachLanguage($cv, $language);
+            });
         }
+
         return $cv;
     }
 }

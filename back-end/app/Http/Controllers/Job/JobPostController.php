@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Job;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobPostRequest;
 use App\Models\Job;
+use Illuminate\Support\Facades\Log;
 
 class JobPostController extends Controller
 {
@@ -18,9 +19,9 @@ class JobPostController extends Controller
                 'jobs' => $jobs
             ]);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while fetching job posts',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -41,9 +42,9 @@ class JobPostController extends Controller
                 'job' => $job
             ]);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while fetching job post details',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -75,9 +76,9 @@ class JobPostController extends Controller
                 'job' => $job
             ], 201);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while creating the job post',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -115,9 +116,9 @@ class JobPostController extends Controller
                 'job' => $job
             ]);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while updating the job post',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -139,12 +140,10 @@ class JobPostController extends Controller
                 'message' => 'Job post deleted successfully'
             ]);
         } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
             return response()->json([
                 'message' => 'An error occurred while deleting the job post',
-                'error' => $e->getMessage()
             ], 500);
         }
     }
-
-    
 }
