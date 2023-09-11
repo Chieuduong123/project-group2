@@ -51,5 +51,8 @@ class Job extends Model
         return $this->belongsToMany(Seeker::class, 'favorites', 'job_id', 'seeker_id');
     }
 
- 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }

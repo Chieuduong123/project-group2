@@ -11,12 +11,23 @@ class JobController extends Controller
     public function search(Request $request)
     {
         $query = Job::query();
+
         if ($request->has('position')) {
             $query->where('position', 'LIKE', '%' . $request->input('position') . '%');
         }
+
         if ($request->has('level')) {
-            $query->where('level', 'LIKE', '%' . $request->input('level') . '%');
+            $levels = $request->input('level');
+            if (!is_array($levels)) {
+                $levels = [$levels];
+            }
+            $query->where(function ($query) use ($levels) {
+                foreach ($levels as $level) {
+                    $query->orWhere('level', 'LIKE', '%' . $level . '%');
+                }
+            });
         }
+
         if ($request->has('location')) {
             $query->whereHas('business', function ($q) use ($request) {
                 $q->where('location', 'LIKE', '%' . $request->input('location') . '%');
@@ -35,8 +46,9 @@ class JobController extends Controller
     {
         $showJob = Job::with('business')
             ->where('status', true)
+            ->orderBy('created_at', 'desc')
             ->get()
-            ->makeHidden(['created_at', 'updated_at', 'status']);
+            ->makeHidden(['updated_at', 'status']);
 
         return response()->json($showJob);
     }
@@ -57,7 +69,23 @@ class JobController extends Controller
             ->where(function ($query) {
                 $query->where('status', true);
             })
+            ->orderBy('created_at', 'desc')
             ->get();
         return response()->json($jobs);
+    }
+
+    public function jobsWithHighest()
+    {
+        $jobsWithFavorites = Job::withCount('favorites')
+            ->having('favorites_count', '>=', 5)
+            ->get();
+
+        $jobsWithApplications = Job::withCount('applications')
+            ->having('applications_count', '>=', 10)
+            ->get();
+
+        $jobs = $jobsWithFavorites->union($jobsWithApplications);
+
+        return response()->json(['jobs' => $jobs]);
     }
 }

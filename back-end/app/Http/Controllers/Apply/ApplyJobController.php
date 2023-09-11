@@ -36,7 +36,7 @@ class ApplyJobController extends Controller
                 ], 403);
             }
 
-            $job = Job::findOrFail($jobId);
+            $job = Job::where('status', 1)->findOrFail($jobId);
 
             $validator = Validator::make(
                 $request->all(),

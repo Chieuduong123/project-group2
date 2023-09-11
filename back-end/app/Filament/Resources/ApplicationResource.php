@@ -48,6 +48,7 @@ class ApplicationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('job.position'),
+                Tables\Columns\TextColumn::make('job.business.name'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('resume_path')
                     ->label('Resume')

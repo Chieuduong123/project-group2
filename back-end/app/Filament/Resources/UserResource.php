@@ -60,8 +60,6 @@ class UserResource extends Resource
                 Forms\Components\DatePicker::make('birthday'),
                 Forms\Components\TextInput::make('address')
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_admin')
-                    ->required(),
                 CheckboxList::make('roles')
                     ->relationship('roles', 'name')
                     ->columns(2)
@@ -76,7 +74,6 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\BooleanColumn::make('is_admin')->sortable()->searchable(),
                 TextColumn::make('roles.name')->sortable()->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime('d-M-Y')

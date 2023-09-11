@@ -17,8 +17,6 @@ class CVController extends Controller
     private $createCVService;
     private $updateCVService;
     private $destroyCVService;
-
-
     public function __construct(
         CVResponse $cvResponse,
         CreateCVService $createCVService,
