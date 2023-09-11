@@ -9,7 +9,7 @@ class SeekerController extends Controller
 {
     public function infoSeeker($id)
     {
-        $seeker = Seeker::findOrFail($id);
+        $seeker = Seeker::with('curriculumVitaes')->findOrFail($id);
         return response()->json($seeker);
     }
 }

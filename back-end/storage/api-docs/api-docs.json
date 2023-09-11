@@ -389,6 +389,43 @@
                 }
             }
         },
+        "/job/highest": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get list rate high of jobs",
+                "description": "Returns a list rate high of job postings",
+                "operationId": "getJobWithHighest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "business_id": 1,
+                                        "position": "Software Developer",
+                                        "level": "Mid-level",
+                                        "salary": 80000,
+                                        "content": "...",
+                                        "business": {
+                                            "id": 1,
+                                            "name": "ABC Company",
+                                            "location": "City XYZ"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
         "/business/job": {
             "get": {
                 "tags": [
@@ -1099,6 +1136,42 @@
                 "summary": "Get application history of seeker",
                 "description": "Return history apply",
                 "operationId": "getApplicationHistory",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/cv": {
+            "get": {
+                "tags": [
+                    "Curriculum Vitaes"
+                ],
+                "summary": "Get CV",
+                "description": "Return CV",
+                "operationId": "getCV",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/seeker/cv/id": {
+            "get": {
+                "tags": [
+                    "Curriculum Vitaes"
+                ],
+                "summary": "Get detail CV",
+                "description": "Return detail CV",
+                "operationId": "getCV",
                 "responses": {
                     "200": {
                         "description": "successful operation"

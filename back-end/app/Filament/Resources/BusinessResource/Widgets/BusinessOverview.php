@@ -13,7 +13,7 @@ class BusinessOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('All Business', Business::all()->count()),
+            Card::make('All Business', Business::where('status', 1)->count()),
         ];
     }
 }

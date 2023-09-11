@@ -15,6 +15,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
@@ -82,7 +83,7 @@ class BusinessResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('size')
                     ->required(),
-                Forms\Components\Toggle::make('status')
+                Forms\Components\Toggle::make('status')->label('approve')
                     ->required()
             ]);
     }
@@ -110,7 +111,8 @@ class BusinessResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
-                //
+                Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
+                Filter::make('unapproved')->query(fn (Builder $query): Builder => $query->where('status', false)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
