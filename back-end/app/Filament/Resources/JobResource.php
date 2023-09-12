@@ -71,7 +71,6 @@ class JobResource extends Resource
                 Tables\Columns\TextColumn::make('content')->limit(30)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
-
                         if (strlen($state) <= $column->getLimit()) {
                             return null;
                         }
@@ -81,7 +80,6 @@ class JobResource extends Resource
                 Tables\Columns\TextColumn::make('requirement')->limit(30)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
-
                         if (strlen($state) <= $column->getLimit()) {
                             return null;
                         }
@@ -103,6 +101,7 @@ class JobResource extends Resource
                     ->date(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('view_count')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
             ])

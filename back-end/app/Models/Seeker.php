@@ -43,4 +43,9 @@ class Seeker extends Authenticatable
     {
         return $this->hasMany(CurriculumVitae::class);
     }
+
+    // public function jobs()
+    // {
+    //     return $this->belongsToMany(Job::class, 'job_views')->withTimestamps()->withPivot('viewed_at');
+    // }
 }

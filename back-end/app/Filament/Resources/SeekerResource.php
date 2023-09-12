@@ -73,15 +73,11 @@ class SeekerResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('avatar'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('birthday')
                     ->date(),
                 Tables\Columns\TextColumn::make('address'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([
