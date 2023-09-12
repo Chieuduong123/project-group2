@@ -39,6 +39,8 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         this.isLoading = false;
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     async actLoginUser(user) {
@@ -73,6 +75,8 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         this.isLoading = false;
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     actFetchLogout(token) {
@@ -87,6 +91,8 @@ export const useUserStore = defineStore("userStore", {
         });
       } catch (error) {
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     actEditProfile(profile, token) {
@@ -99,6 +105,8 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         this.isLoading = true;
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
 
@@ -110,6 +118,8 @@ export const useUserStore = defineStore("userStore", {
         });
       } catch (error) {
         console.log(error);
+        this.isLoading = false;
+      } finally {
         this.isLoading = false;
       }
     },
@@ -123,6 +133,8 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         console.log(error);
         this.isLoading = false;
+      } finally {
+        this.isLoading = false;
       }
     },
     actGetCV(token) {
@@ -135,6 +147,8 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         console.log(error);
         this.isLoading = false;
+      } finally {
+        this.isLoading = false;
       }
     },
     actGetCVById(id, token) {
@@ -143,9 +157,12 @@ export const useUserStore = defineStore("userStore", {
         fetchGetCVById(id, token).then((res) => {
           this.isLoading = false;
           this.cv = res?.data.CV[0];
+          console.log("store", this.cv);
         });
       } catch (error) {
         console.log(error);
+        this.isLoading = false;
+      } finally {
         this.isLoading = false;
       }
     },
@@ -171,17 +188,21 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         console.log(error);
         this.isLoading = false;
+      } finally {
+        this.isLoading = false;
       }
     },
     actUpdateCV(id, cv, token) {
       try {
         this.isLoading = true;
         fetchUpdateCV(id, cv, token).then((res) => {
-          console.log("cretae", res);
+          this.actGetCVById(id);
           this.isLoading = false;
         });
       } catch (error) {
         console.log(error);
+        this.isLoading = false;
+      } finally {
         this.isLoading = false;
       }
     },

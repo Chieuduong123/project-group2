@@ -30,7 +30,7 @@
         <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
             <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Công việc nổi bật</h2>
             <div class="grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2">
-                <PostVue v-for="post in PostPagination" :key="post.id" :post="post"/>
+                <PostVue v-for="post in postStore.posts.slice(0, 6)" :key="post.id" :post="post"/>
             </div>
         </div>
         <!-- Banner -->

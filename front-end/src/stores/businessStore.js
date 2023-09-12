@@ -124,6 +124,8 @@ export const useBusinessStore = defineStore("businessStore", {
       } catch (error) {
         this.isLoading = false;
         console.log(error);
+      } finally {
+        this.isLoading = false;
       }
     },
     actGetApplyList(token) {

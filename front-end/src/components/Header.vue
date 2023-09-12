@@ -57,7 +57,7 @@
                     </ul>
                 </li>
                 <li v-if="userStore?.isLogged === true" class="li-root relative">
-                    <router-link to="cv-management">Hồ sơ & CV</router-link>
+                    <router-link to="/cv-management">Hồ sơ & CV</router-link>
                     <ul class="child-list absolute rounded bg-white shadow-lg min-w-[300px] px-[10px] py-[10px] max-md:hidden">
                         <router-link to="/cv-management">
                             <li class="li-widget px-[10px] text-green-400 py-[10px] rounded text-[14px] font-medium flex items-center justify-between gap-5">

@@ -137,5 +137,12 @@ export const useSettingStore = defineStore("settings", {
         }
       }
     },
+    async cv_getDetail(cv) {
+      if (!JSON.parse(localStorage.getItem("cv_data"))) {
+        localStorage.setItem("cv_data", JSON.stringify(cv));
+      }
+      localStorage.setItem("cv_data", JSON.stringify(cv));
+      this.cv_data = cv;
+    },
   },
 });
