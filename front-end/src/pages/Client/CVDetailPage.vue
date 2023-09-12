@@ -2,21 +2,21 @@
   <div class="container-fluid flex mt-5">
     <div id="sidebar" class="bg-lightblue w-[600px] h-screen overflow-y-scroll d-grid p-5">
       <!-- LANGUAGE SETTING -->
-      <div class="section">
+      <!-- <div class="section">
         <h1 class="text-xl capitalize">
           {{ store_setting.cv_data.settings.languages.cv_languages }}
-        </h1>
+        </h1> -->
 
-        <ul class="flex flex-wrap gap-2 mt-5">
+        <!-- <ul class="flex flex-wrap gap-2 mt-5"> -->
           <!-- FROM MY SCRIPT -->
-          <li v-for="cv_language in cv_languages" :key="cv_language">
+          <!-- <li v-for="cv_language in cv_languages" :key="cv_language">
             <button class="text-sm bg-white py-2.5 px-4 rounded-xl capitalize transition hover:bg-gray-light active:"
               @click="store_setting.cv_change_languages(cv_language)">
               {{ cv_language.toLocaleLowerCase() }}
             </button>
           </li>
         </ul>
-      </div>
+      </div> -->
       <!-- END LANGUAGE SETTING -->
 
 
@@ -403,29 +403,30 @@
     <!-- CV SECTION -->
     <CvComponent></CvComponent>
     <!-- CV SECTION -->
-
   </div>
-  <Loading v-if="userStore.isLoading"/>
+      <Loading v-if="isLoadingRef"/>
 </template>
 
 <script setup>
   import { useSettingStore } from "../../stores/settings";
 import CvComponent from "../../components/CvComponent.vue";
 import mainButtons from "../../components/mainButtons.vue";
-import { onMounted, ref, watch } from 'vue'
-import { Collapse } from 'vue-collapsed'
+import { effect, onMounted, ref, watch, watchEffect } from 'vue'
+import { Collapse } from 'vue-collapsed';
 import { useRoute } from "vue-router";
 import { useUserStore } from "../../stores/userStore";
 import Loading from "../../components/Loading.vue";
+import { fetchGetCVById } from "../../api/cvApi";
 
 const store_setting = useSettingStore()
 const userStore = useUserStore()
   const cv_languages= ["english", "vietnam"]
   const  cv_colors= ["#000", "#00a8ef", "#ff5900", "#6055f7", "#0ebb62"]
-  const detailCV = ref(null)
   const languageRef = ref([]);
   const educationRef = ref([]);
   const experienceRef = ref([]);
+  const detailHienThi = ref(null)
+  const isLoadingRef = ref(false)
   const route = useRoute()
   const idCV = route.params.id
   const isOpen = ref(false)
@@ -450,17 +451,115 @@ const userStore = useUserStore()
     isOpen4.value = !isOpen4.value
   }
 
+
+  const handleSetDataCV = (data) => {
+    detailHienThi.value = {
+        settings: {
+            languages: {
+                cv_languages: "Ngôn ngữ",
+                cv_colors: "Màu sắc",
+                cv_personal_details: "Thông tin cá nhân",
+                first_name: "Họ",
+                last_name: "Tên",
+                job_title: "Chức vụ" / "Vị trí hiện tại"            ,
+                about_me: "Giới thiệu",
+                contact: "Liên hệ",
+                email: "Email",
+                phone: "Số điện thoại",
+                location: "Địa chỉ",
+                skills: "Kỹ năng",
+                tech: "Kỹ năng",
+                soft: "Kỹ năng mềm",
+                language: "Ngôn ngữ",
+                add_language: "Thêm ngôn ngữ",
+                social: "Mạng xã hội",
+                experience: "Kinh nghiệm",
+                add_experience: "Thêm kinh nghiệm",
+                from: "Từ",
+                to: "Đến",
+                summary: "Tóm tắt",
+                educations_and_certifications: "Học vấn",
+                add_educations_and_certifications: "Thêm học vấn"
+            },
+            colors: "#000",
+            buttons: {
+                print_or_download: "In hoặc tải (PDF)",
+                download_as_json: "Tải dạng JSON",
+                update_json_file: "Upload JSON file",
+                remove_all_data: "Xoá toàn bộ thông tin"
+            }
+        },
+        personal_details: {
+            first_name: data?.personal_detail?.first_name,
+            last_name: data?.personal_detail?.last_name,
+            job_title: data?.personal_detail?.job_title,
+            about_me: data?.personal_detail?.about_me,
+            email: data?.personal_detail?.email,
+            phone: data?.personal_detail?.phone,
+            location: data?.personal_detail?.location
+        },
+        skills: {
+            isTech: true,
+            tech: data?.skill?.tech,
+            isSoft: true,
+            soft: data?.skill?.soft,
+            isAllLanguage: true,
+            language: data?.skill?.languages?.map(lang => ({
+                      name: lang.name,
+                      level: Number(lang.level),
+                      isLanguage: true,
+                    })) || []
+        },
+        socials: {
+            github: data?.social?.github,
+            twitter: data?.social?.twitter,
+            instagram: data?.social?.instagram,
+            linkedin: data?.social?.linkendin,
+            telegram: data?.social?.telegram,
+            web: data?.social?.web,
+        },
+        experiences: data?.experience?.map(exp => ({
+                      isExperience: true,
+                      title: exp.title,
+                      location: exp.location,
+                      from: exp.from_date,
+                      to: exp.to_date,
+                      summary: exp.summary
+                    })),
+        educations_and_certifications: data?.education?.map(edu => ({
+                                          isTrue: true,
+                                          from: edu.from_date,
+                                          to: edu.to_date,
+                                          location: edu.location,
+                                          title: edu.title,
+                                          summary: edu.summary,
+                                        }))
+    }
+  }
   const handleGetDetailCV =async (id, token) => {
-    await userStore.actGetCVById(id, token)
+    if(id) {
+      isLoadingRef.value = true
+      await userStore.actGetCVById(id, token)
+      const data = await fetchGetCVById(id, token)
+      if(data.data.CV.length > 0) {
+        isLoadingRef.value = false
+        await handleSetDataCV(data.data.CV[0])
+      }
+    }
+  }
+
+  const handleHienThiCV = async (cv) => {
+    await store_setting.cv_getDetail(cv)
   }
 
   onMounted( async() => {
-    await handleGetDetailCV(idCV, userStore.accessToken)
-    detailCV.value = userStore?.cv
-    console.log("=====", detailCV.value.personal_detail.first_name, userStore?.cv);
+    if(idCV) {
+      await handleGetDetailCV(idCV, userStore.accessToken)
+    }
+    if(userStore.cv.id) {
+      await handleHienThiCV(detailHienThi.value)
+    }
   })
-
-
   
 
   const handleMapLanguages = () => {
@@ -542,3 +641,4 @@ const userStore = useUserStore()
   visibility: visible;
 }
 </style>
+
