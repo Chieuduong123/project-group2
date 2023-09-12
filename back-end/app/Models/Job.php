@@ -23,6 +23,7 @@ class Job extends Model
         'start_day',
         'end_day',
         'status',
+        'view_count'
     ];
 
     /**
@@ -55,4 +56,9 @@ class Job extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    // public function seekers()
+    // {
+    //     return $this->belongsToMany(Seeker::class, 'job_views')->withTimestamps()->withPivot('viewed_at');
+    // }
 }

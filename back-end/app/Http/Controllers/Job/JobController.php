@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Job;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
 {
@@ -55,11 +56,25 @@ class JobController extends Controller
 
     public function getDetailJobPosting($id)
     {
-        $job = Job::with('business')
-            ->where('id', $id)
-            ->first();
+        try {
+            $job = Job::find($id);
+            if ($job->status == false) {
+                return response()->json([
+                    'message' => 'You are not display this job post'
+                ], 403);
+            }
+            $job->update([
+                'view_count' => $job->view_count + 1,
+            ]);
+            $job->business;
 
-        return response()->json($job);
+            return response()->json($job);
+        } catch (\Exception $e) {
+            Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
+            return response()->json([
+                'message' => 'An error occurred while fetching job',
+            ], 500);
+        }
     }
 
     public function getJobByBusiness($business)
@@ -71,6 +86,7 @@ class JobController extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->get();
+
         return response()->json($jobs);
     }
 
