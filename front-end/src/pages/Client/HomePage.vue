@@ -30,7 +30,10 @@
         <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
             <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Công việc nổi bật</h2>
             <div class="grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2">
-                <PostVue v-for="post in postStore.posts.slice(0, 6)" :key="post.id" :post="post"/>
+                <PostVue v-for="post in TopPostPagination" :key="post.id" :post="post"/>
+            </div>
+            <div class="flex justify-center mt-5">
+                <PaginationVue :pageArray="topPageArray" :currentPage="topCurrentPage" :goToPage="topGoToPage"/>
             </div>
         </div>
         <!-- Banner -->
@@ -97,7 +100,7 @@
     import PostVue from "../../components/Post.vue"
     import PaginationVue from "../../components/Pagination.vue";
     import { usePostStore } from "../../stores/postStore";
-    import { computed, onMounted } from "vue";
+    import { computed, onMounted, ref } from "vue";
     import { useBusinessStore } from "../../stores/businessStore";
     import { useRouter } from "vue-router";
 import { IMAGE_URL } from "../../constants/url";
@@ -105,6 +108,10 @@ import { IMAGE_URL } from "../../constants/url";
     const router = useRouter()
     const postStore = usePostStore()
     const businessStore = useBusinessStore()
+
+    const itemsPerPage = ref(6)
+    const totalPages = ref(1)
+    const currentPageInit = ref(1)
 
     const calculateSlidesPerView = () => {
       // Tính toán số lượng slides hiển thị trên mỗi view dựa trên độ rộng cửa sổ hoặc thiết bị
@@ -118,8 +125,11 @@ import { IMAGE_URL } from "../../constants/url";
         return 1; // Hiển thị 2 slides trên điện thoại
       }
     }
-    const handleGetAllData = async() => {
+    const handleGetTopData = async() => {
         await postStore.actGetAllPost()
+    }
+    const handleGetAllData = async() => {
+        await postStore.actGetTopPost()
     }
 
     const handleGetAllBusiness = async() => {
@@ -128,7 +138,9 @@ import { IMAGE_URL } from "../../constants/url";
     onMounted(() => {
         handleGetAllData()
         handleGetAllBusiness()
+        handleGetTopData()
     })
+    console.log("Top", postStore.topPosts);
 
     const postsData = computed(() => {
         return postStore.posts
@@ -141,8 +153,32 @@ import { IMAGE_URL } from "../../constants/url";
     const handleGoDetailBusiness = (id) => {
         router.push(`company/${id}`)
     }
+// Pagination top post
+    const TopPostPagination = computed(() => {
+        totalPages.value = Math.ceil(postStore?.topPosts.length / itemsPerPage.value)
+        const startIndex = (currentPageInit.value - 1) * itemsPerPage.value;
+        totalPages.value = Math.ceil(postStore.topPosts.length / itemsPerPage.value)
+        const endIndex = startIndex + itemsPerPage.value;
+        return postStore?.topPosts?.slice(startIndex, endIndex);
+    });
 
-    // Pagination
+    const topPageArray = computed(() => {
+        const arr = [];
+        for (let i = 1; i <= totalPages.value; i++) {
+            arr.push(i);
+        }
+        return arr;
+    });
+
+
+    const topGoToPage = (pageNumber) => {
+        currentPageInit.value = pageNumber;
+    };
+
+    const topCurrentPage = computed(() => {
+        return currentPageInit.value
+    })
+    // Pagination post
     const PostPagination = computed(() => {
         const startIndex = (postStore.currentPage - 1) * postStore.itemsPerPage;
         const endIndex = startIndex + postStore.itemsPerPage;

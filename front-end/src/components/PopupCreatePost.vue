@@ -6,17 +6,17 @@
             <button class="absolute right-[10px] top-[10px]" @click="onToggleCreate"><CloseOutlined :style="{fontSize: '25px'}" /></button>
             <div class="flex items-center justify-between gap-5">
                 <div class="flex flex-col gap-1 w-full">
-                    <label for="" class="text-[13px] font-medium">Tên vị trí</label>
+                    <label for="" class="text-[13px] font-medium">Tên vị trí <RedTick/></label>
                     <input type="text" v-model="postData.position" placeholder="Nhập tên vị trí" class="border rounded px-[10px] py-[5px] text-[14px] outline-none">
                 </div>
                 <div class="flex flex-col gap-1 w-full">
-                    <label for="" class="text-[13px] font-medium">Số lượng tuyển</label>
+                    <label for="" class="text-[13px] font-medium">Số lượng tuyển <RedTick/></label>
                     <input type="number" v-model="postData.quantity" placeholder="Nhập số lượng tuyển" class="border rounded px-[10px] py-[5px] text-[14px] outline-none">
                 </div>
             </div>
             <div class="flex items-center justify-between gap-5">
                 <div class="flex flex-col gap-1 w-full">
-                    <label for="" class="text-[13px] font-medium">Level</label>
+                    <label for="" class="text-[13px] font-medium">Level <RedTick/></label>
                     <a-select
                         v-model:value="postData.level"
                         mode="tags"
@@ -27,19 +27,19 @@
                     ></a-select>
                 </div>
                 <div class="flex flex-col gap-1 w-full">
-                    <label for="" class="text-[13px] font-medium">Mức lương</label>
+                    <label for="" class="text-[13px] font-medium">Mức lương <RedTick/></label>
                     <input type="number" v-model="postData.salary" placeholder="Nhập số lượng tuyển" class="border rounded px-[10px] py-[5px] text-[14px] outline-none">
                 </div>
             </div>
             <div class="flex items-center justify-between gap-5">
                 <div class="flex flex-col gap-1 w-full">
-                    <label for="" class="text-[13px] font-medium">Thời gian tuyển dụng</label>
+                    <label for="" class="text-[13px] font-medium">Thời gian tuyển dụng <RedTick/></label>
                     <a-space direction="vertical" :size="12">
                         <a-range-picker v-model:value="value1" />
                     </a-space>
                 </div>
                 <div class="flex flex-col gap-1 w-full">
-                    <label for="" class="text-[13px] font-medium">Loại công việc</label>
+                    <label for="" class="text-[13px] font-medium">Loại công việc <RedTick/></label>
                     <a-select
                         v-model:value="postData.type"
                         mode="tags"
@@ -51,15 +51,15 @@
                 </div>
             </div>
             <div class="flex flex-col gap-1">
-                <label for="" class="text-[13px] font-medium">Mô tả công việc</label>
+                <label for="" class="text-[13px] font-medium">Mô tả công việc <RedTick/></label>
                 <ckeditor :editor="editor" v-model="postData.content" ></ckeditor>
             </div>
             <div class="flex flex-col gap-1">
-                <label for="" class="text-[13px] font-medium">Yêu cầu</label>
+                <label for="" class="text-[13px] font-medium">Yêu cầu <RedTick/></label>
                 <ckeditor :editor="editor" v-model="postData.requirement" ></ckeditor>            
             </div>
             <div class="flex flex-col gap-1">
-                <label for="" class="text-[13px] font-medium">Kỹ năng</label>
+                <label for="" class="text-[13px] font-medium">Kỹ năng <RedTick/></label>
                 <a-select
                     v-model:value="postData.skill"
                     mode="tags"
@@ -69,7 +69,7 @@
                 ></a-select>
             </div>
             <div class="flex flex-col gap-1">
-                <label for="" class="text-[13px] font-medium">Quyền lợi</label>
+                <label for="" class="text-[13px] font-medium">Quyền lợi <RedTick/></label>
                 <ckeditor :editor="editor" v-model="postData.benefits" ></ckeditor>
             </div>
             <button  class="bg-green-500 rounded font-medium text-[#fff] px-[10px] py-[5px] text-[15px]" @click.prevent="onCLick">Submit</button>
@@ -83,6 +83,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     import {skillData} from "../constants/skillData"
 import { useToast } from "vue-toastification";
 import { usePostStore } from "../stores/postStore";
+import RedTick from "./RedTick.vue";
 import { useBusinessStore } from "../stores/businessStore";
     const levelArray = ["Intern", "Fresher", "Junior", "Middle", "Senior"]
     const typeJobArray = ["Full time",  "Part time", "Remote"]

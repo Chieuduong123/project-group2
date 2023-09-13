@@ -63,6 +63,11 @@
                                 <span>Số lượng tuyển:</span>
                                 <span >{{postData?.quantity}}</span>
                             </div>
+                            <div class="flex items-center gap-1">
+                                <EyeOutlined :style="{fontSize: '14px', color: '#9BA4B5'}"/>
+                                <span>Lượt xem:</span>
+                                <span >{{postData?.view_count}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,7 +109,7 @@
     <ApplyPopup v-if="isApply" :toggle="handleToggleApplyPopUp" :user="userStore.myUser" :job="postData"/>
 </template>
 <script setup>
-    import {EnvironmentOutlined, ClockCircleOutlined, CheckCircleOutlined, UsergroupAddOutlined} from "@ant-design/icons-vue"
+    import {EnvironmentOutlined, EyeOutlined, ClockCircleOutlined, CheckCircleOutlined, UsergroupAddOutlined} from "@ant-design/icons-vue"
     import { useRoute, useRouter } from "vue-router";
     import { usePostStore } from "../../stores/postStore";
     import { computed, onMounted, ref } from "vue";

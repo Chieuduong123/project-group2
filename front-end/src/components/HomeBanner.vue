@@ -20,11 +20,11 @@
                 <StarOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/>
                 <select name="" id="" v-model="levelSelect" class="text-gray-500 outline-none">
                     <option value="">Tất cả kinh nghiệm</option>
-                    <option value="intern">Intern</option>
-                    <option value="fresher">Fresher</option>
-                    <option value="junior">Junior</option>
-                    <option value="middle">Middle</option>
-                    <option value="senior">Senior</option>
+                    <option value="Intern">Intern</option>
+                    <option value="Fresher">Fresher</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Middle">Middle</option>
+                    <option value="Senior">Senior</option>
                 </select>
             </div>
             <button class="px-[15px] py-[10px] bg-green-500 text-white rounded font-semibold" @click="handleSearch">Tìm kiếm</button>

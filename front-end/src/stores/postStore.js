@@ -7,6 +7,7 @@ import {
   fetchFavoritePost,
   fetchGetAllPost,
   fetchGetPostByIdBusiness,
+  fetchGetTopPost,
   fetchPostById,
   fetchPostByIdBusiness,
   fetchPostByTokenBusiness,
@@ -18,6 +19,7 @@ export const usePostStore = defineStore("postStore", {
   state: () => {
     return {
       posts: [],
+      topPosts: [],
       post: {},
       postCompany: [],
       favorites: [],
@@ -34,8 +36,19 @@ export const usePostStore = defineStore("postStore", {
         fetchGetAllPost().then((res) => {
           this.isLoading = false;
           this.posts = res?.data;
-          console.log("res", res);
           this.totalPages = Math.ceil(res.data.length / this.itemsPerPage);
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+    actGetTopPost() {
+      try {
+        this.isLoading = true;
+        fetchGetTopPost().then((res) => {
+          this.isLoading = false;
+          this.topPosts = res?.data.jobs;
         });
       } catch (error) {
         this.isLoading = false;

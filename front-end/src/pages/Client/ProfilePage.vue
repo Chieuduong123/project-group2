@@ -4,19 +4,19 @@
             <h3 class="font-semibold text-[20px]">Cài đặt thông tin cá nhân</h3>
             <form action="" class="flex flex-col gap-4 mt-5" @submit.prevent="handleSubmit">
                 <div class="flex flex-col gap-1">
-                    <label for="" class="text-[14px] font-medium">Họ và tên</label>
+                    <label for="" class="text-[14px] font-medium">Họ và tên <RedTick/></label>
                     <input type="text" v-model="profileRef.name" placeholder="Nhập họ và tên" class="px-[10px] py-[5px] outline-none rounded border">
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="" class="text-[14px] font-medium">Ngày sinh</label>
+                    <label for="" class="text-[14px] font-medium">Ngày sinh <RedTick/></label>
                     <input type="date" v-model="profileRef.birthday" class="px-[10px] py-[5px] outline-none rounded border">
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="" class="text-[14px] font-medium">Địa chỉ</label>
+                    <label for="" class="text-[14px] font-medium">Địa chỉ <RedTick/></label>
                     <input type="text" v-model="profileRef.address" placeholder="Nhập địa chỉ" class="px-[10px] py-[5px] outline-none rounded border">
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="" class="text-[14px] font-medium">Số điện thoại</label>
+                    <label for="" class="text-[14px] font-medium">Số điện thoại <RedTick/></label>
                     <input type="text" v-model="profileRef.phone" placeholder="Nhập số điện thoại" class="px-[10px] py-[5px] outline-none rounded border">
                 </div>
                 <div class="flex flex-col gap-1">
@@ -55,6 +55,7 @@
     import { useUserStore } from "../../stores/userStore";
     import { ref, watchEffect } from "vue";
     import LoadingVue from "../../components/Loading.vue";
+    import RedTick from "../../components/RedTick.vue";
 import { useToast } from "vue-toastification";
     const userStore = useUserStore()
     const toast = useToast()

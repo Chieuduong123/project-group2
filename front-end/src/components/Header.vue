@@ -170,6 +170,20 @@
                                 active ? 'bg-green-500 text-white' : 'text-gray-900',
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
+                                @click="goSettingRecommend"
+                            >
+                                <SettingOutlined :style="{fontSize: '20px', color: 'green', marginRight: '5px'}"/>
+                                Cài đặt gợi ý việc làm
+                            </button>
+                            </MenuItem>
+                        </div>
+                        <div class="px-1 py-1">
+                            <MenuItem v-slot="{ active }">
+                            <button
+                                :class="[
+                                active ? 'bg-green-500 text-white' : 'text-gray-900',
+                                'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                ]"
                                 @click="goChangePasswordPage"
                             >
                                 <SyncOutlined :style="{fontSize: '20px', color: 'green', marginRight: '5px'}"/>
@@ -207,7 +221,7 @@
     </header>
 </template>
 <script setup>
-    import {SearchOutlined, HistoryOutlined,SyncOutlined,HeartFilled, SaveFilled,AlignRightOutlined, BellFilled, HeartOutlined, ArrowRightOutlined,LogoutOutlined, ProfileOutlined, ShopOutlined, StarOutlined, CloseOutlined} from "@ant-design/icons-vue"
+    import {SearchOutlined, SettingOutlined, HistoryOutlined,SyncOutlined,HeartFilled, SaveFilled,AlignRightOutlined, BellFilled, HeartOutlined, ArrowRightOutlined,LogoutOutlined, ProfileOutlined, ShopOutlined, StarOutlined, CloseOutlined} from "@ant-design/icons-vue"
     import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     import { IMAGE_URL } from "../constants/url";
     import {useRouter} from "vue-router"
@@ -230,6 +244,10 @@
 
     const goProfile = () => {
         router.push("/profile")
+    }
+
+    const goSettingRecommend = () => {
+        router.push("/setting-recommend")
     }
 
     const goChangePasswordPage = () => {
