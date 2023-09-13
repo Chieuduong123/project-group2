@@ -4,7 +4,7 @@
         <Menu as="div" class="relative z-30 inline-block text-left">
             <MenuButton>
                 <div class="flex items-center gap-2 cursor-pointer">
-                    <img :src="`${IMAGE_URL}${businessStore?.myBusiness?.avatar}`" alt="avatar" class="w-[40px] h-[40px] rounded-full" v-if="businessStore?.myBusiness?.avatar">
+                    <img :src="`${IMAGE_URL}${businessStore?.myBusiness?.avatar}`" alt="avatar" class="w-[40px] h-[40px] rounded-full object-cover" v-if="businessStore?.myBusiness?.avatar">
                     <span v-else class="w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px]"> 
                         B
                     </span>

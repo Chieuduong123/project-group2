@@ -22,10 +22,6 @@
                         <input type="text" v-model="businessProfile.location" placeholder="Nhập địa chỉ công ty" class="outline-none text-[13px] px-[10px] py-[7px] border-[1px]">
                     </div>
                 </div>
-                <div class="flex flex-col gap-1 w-[100%] rounded">
-                    <label for="" class="text-[14px] font-semibold">Mô tả</label>
-                    <input type="text" v-model="businessProfile.career" placeholder="Nhập số mô tả" class="outline-none text-[13px] px-[10px] py-[7px] border-[1px]">
-                </div>
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col gap-1 w-[100%] rounded">
                         <label for="" class="text-[14px] font-semibold">Website</label>
@@ -35,6 +31,10 @@
                         <label for="" class="text-[14px] font-semibold">Số lượng nhân sự</label>
                         <input type="text" v-model="businessProfile.size" placeholder="Nhập số lượng nhân sự" class="outline-none text-[13px] px-[10px] py-[7px] border-[1px]">
                     </div>
+                </div>
+                <div class="flex flex-col gap-1 w-[100%] rounded">
+                    <label for="" class="text-[14px] font-semibold">Mô tả</label>
+                    <textarea name="" id="" cols="30" rows="10" v-model="businessProfile.career" placeholder="Nhập số mô tả" class="outline-none text-[13px] px-[10px] py-[7px] border-[1px]"></textarea>
                 </div>
                 <button :type="submit" class="text-[16px] font-medium px-[40px] py-[10px] text-white bg-green-500 rounded ">Submit</button>
             </form>

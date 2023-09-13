@@ -11,6 +11,14 @@ export const fetchGetAllPost = async () => {
     console.log(error);
   }
 };
+export const fetchGetTopPost = async () => {
+  try {
+    const data = await axios.get(`${BASE_URL}job/highest`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const fetchPostById = async (id) => {
   try {

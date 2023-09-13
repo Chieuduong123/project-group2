@@ -9,8 +9,13 @@
             </div>
         </div>
         <h1 class="text-center font-semibold text-[34px] mt-[50px] px-[20px]">DANH SÁCH CÁC TOP CÔNG TY</h1>
-        <div v-if="businessData.length > 0" class="max-w-[1300px] mx-auto max-xl:px-[50px] max-md:px-[20px] grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2s mt-10">
-            <CompanyCard v-for="business in businessData" :key="business.id" :business="business"/>
+        <div v-if="businessData.length > 0">
+            <div class="max-w-[1300px] mx-auto max-xl:px-[50px] max-md:px-[20px] grid grid-cols-3 gap-5 max-sm:grid-cols-1 max-xl:grid-cols-2s mt-10">
+                <CompanyCard v-for="business in PostPagination" :key="business.id" :business="business"/>
+            </div>
+            <div class="flex justify-center mt-5">
+                <Pagination :pageArray="pageArray" :currentPage="currentPage" :goToPage="goToPage"/>
+            </div>
         </div>
         <h1 v-else class="mt-[50px] text-center text-[24px] text-gray-500 font-semibold">Không tìm thấy công ty nào</h1>
     </div>
@@ -23,13 +28,16 @@
     import { useRouter } from "vue-router";
     import {computed, onMounted, ref} from "vue"
     import Loading from "../../components/Loading.vue";
+    import Pagination from "../../components/Pagination.vue";
     const businessStore = useBusinessStore()
     const searchRef = ref("")
-
+    const itemsPerPage = ref(6)
+    const totalPages = ref(1)
+    const currentPageInit = ref(1)
     const handleGetAllBusiness = async() => {
         await businessStore.actGetAllBusiness()
     }
-    onMounted(() => {
+    onMounted(async () => {
         handleGetAllBusiness()
     })
 
@@ -37,6 +45,36 @@
         return businessStore.businesses.filter((business) => {
             return business?.name?.toLowerCase().includes(searchRef.value.toLowerCase());
         })
+    })
+
+    // Pagination
+    const PostPagination = computed(() => {
+        const startIndex = (currentPageInit.value - 1) * itemsPerPage.value;
+        const endIndex = startIndex + itemsPerPage.value;
+        totalPages.value = Math.ceil(businessStore.businesses.length / itemsPerPage.value)
+        const filteredBusinesses = businessStore.businesses.filter((business) => {
+            const businessName = business?.name?.toLowerCase();
+            const searchQuery = searchRef.value.toLowerCase();
+            return businessName.includes(searchQuery);
+        });
+
+        return filteredBusinesses.slice(startIndex, endIndex);
+    });
+
+    const pageArray = computed(() => {
+        const arr = [];
+        for (let i = 1; i <= totalPages.value; i++) {
+            arr.push(i);
+        }
+        return arr;
+    });
+
+    const goToPage = (pageNumber) => {
+        currentPageInit.value = pageNumber;
+    };
+
+    const currentPage = computed(() => {
+        return currentPageInit.value
     })
 
 

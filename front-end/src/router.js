@@ -25,6 +25,7 @@ import HistoryPage from "./pages/Client/HistoryPage.vue";
 import ChangePassword from "./pages/Client/ChangePassword.vue";
 import SearchResultPage from "./pages/Client/SearchResultPage.vue";
 import CVDetailPage from "./pages/Client/CVDetailPage.vue";
+import RecommendJobSetting from "./pages/Client/RecommendJobSetting.vue";
 const routes = [
   {
     path: "/",
@@ -44,6 +45,7 @@ const routes = [
       { path: "history", component: HistoryPage },
       { path: "change-password", component: ChangePassword },
       { path: "search", component: SearchResultPage },
+      { path: "setting-recommend", component: RecommendJobSetting },
     ],
   },
   {

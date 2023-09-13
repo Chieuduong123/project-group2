@@ -75,6 +75,12 @@ export const useBusinessStore = defineStore("businessStore", {
     actFetchLogoutBusiness(token) {
       try {
         this.isLoading = true;
+        this.isLoggedBusiness = false;
+        localStorage.setItem("tokenBusiness", "");
+        localStorage.setItem("isLoggedBusiness", JSON.stringify(false));
+        this.isLoggedBusiness = false;
+        this.accessToken = "";
+        this.myBusiness = {};
         fetchLogoutBusiness(token).then(() => {
           this.isLoading = false;
           localStorage.setItem("tokenBusiness", "");

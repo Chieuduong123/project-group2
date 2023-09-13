@@ -34,7 +34,7 @@
                     </div>
                     <div v-if="jobCompany.length > 0" class="flex flex-col justify-between h-[85%]">
                         <div class="flex flex-col gap-5 px-[20px]">
-                            <JobCardCompany v-for="job in jobCompany" :key="job.id" :job="job"/>
+                            <JobCardCompany v-for="job in PostPagination" :key="job.id" :job="job"/>
                         </div>
                         <div class="flex justify-center mt-5">
                             <Pagination :pageArray="pageArray" :currentPage="currentPage" :goToPage="goToPage"/>
@@ -60,6 +60,10 @@
                         <p class="font-semibold flex items-center gap-1"><PhoneOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/> Số điện thoại</p>
                         <p class="text-[14px]">{{companyData?.phone}}</p>
                     </div>
+                    <div class="flex flex-col gap-2 pb-5 border-b">
+                        <p class="font-semibold flex items-center gap-1"><SolutionOutlined :style="{fontSize: '20px', color: '#9BA4B5'}"/> Giới thiệu</p>
+                        <p class="text-[14px]">{{companyData?.career}}</p>
+                    </div>
                     <div class="flex flex-col gap-5">
                         <p class="font-semibold">Xem bản đồ</p>
                         <iframe
@@ -75,10 +79,10 @@
             </div>
        </div>
     </div>
-    <Loading v-if="businessStore.isLoading"/>
+    <Loading v-if="postStore?.isLoading && businessStore?.isLoading"/>
 </template>
 <script setup>
-    import {GlobalOutlined, TeamOutlined, SearchOutlined, EnvironmentOutlined, MailOutlined, PhoneOutlined} from "@ant-design/icons-vue"
+    import {GlobalOutlined,SolutionOutlined, TeamOutlined, SearchOutlined, EnvironmentOutlined, MailOutlined, PhoneOutlined} from "@ant-design/icons-vue"
     import JobCardCompany from "../../components/JobCardCompany.vue"
     import { useRoute, useRouter } from "vue-router";
     import { useBusinessStore } from "../../stores/businessStore";
@@ -134,6 +138,7 @@
         // Pagination
     const PostPagination = computed(() => {
         const startIndex = (currentPageInit.value - 1) * itemsPerPage.value;
+        totalPages.value = Math.ceil(postStore.postCompany.length / itemsPerPage.value)
         const endIndex = startIndex + itemsPerPage.value;
         return jobCompany.value.slice(startIndex, endIndex);
     });

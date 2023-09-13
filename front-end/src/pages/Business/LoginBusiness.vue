@@ -56,7 +56,7 @@ import { useToast } from 'vue-toastification';
     }
 
     onMounted(() => {
-        if(businessStore.isLoggedBusiness === true) {
+        if(businessStore.isLoggedBusiness == true) {
             router.push("/business")
         }
     })
