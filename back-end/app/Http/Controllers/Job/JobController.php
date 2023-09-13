@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Job;
 
 use App\Http\Controllers\Controller;
 use App\Models\Job;
+use App\Models\RecommendJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
@@ -103,5 +105,42 @@ class JobController extends Controller
         $jobs = $jobsWithFavorites->union($jobsWithApplications);
 
         return response()->json(['jobs' => $jobs]);
+    }
+
+    public function recommendJob()
+    {
+        $seeker = auth()->user();
+        $recommendJob = RecommendJob::where('seeker_id', $seeker->id)->first();
+
+        // compare job between -recommend_jobs- and -jobs- 
+        $matchingJobs = Job::with(['business'])
+            ->where(function ($query) use ($recommendJob) {
+                $query->where('position', 'like', '%' . $recommendJob->position . '%')
+                    ->where('skill', 'like', '%' . $recommendJob->skill . '%')
+                    ->where('type', 'like', '%' . $recommendJob->type . '%')
+                    ->where('level', 'like', '%' . $recommendJob->level . '%')
+                    ->where('salary', '>=', $recommendJob->salary)
+                    ->where(function ($subQuery) use ($recommendJob) {
+                        $subQuery->whereHas('business', function ($businessQuery) use ($recommendJob) {
+                            $businessQuery->where('location', 'like', '%' . $recommendJob->location . '%');
+                        });
+                    });
+            })
+            ->get();
+
+        if ($matchingJobs->isEmpty()) {
+            $matchingJobs = Job::with(['business'])
+                ->where(function ($query) use ($recommendJob) {
+                    $query->where('position', 'like', '%' . $recommendJob->position . '%')
+                        ->orWhere(function ($subQuery) use ($recommendJob) {
+                            $subQuery->whereHas('business', function ($businessQuery) use ($recommendJob) {
+                                $businessQuery->where('location', 'like', '%' . $recommendJob->location . '%');
+                            });
+                        });
+                })
+                ->get();
+        }
+
+        return response()->json(['matching_jobs' => $matchingJobs]);
     }
 }

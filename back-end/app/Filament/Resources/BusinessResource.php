@@ -93,6 +93,8 @@ class BusinessResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('avatar'),
                 Tables\Columns\TextColumn::make('email'),
@@ -103,8 +105,6 @@ class BusinessResource extends Resource
                 Tables\Columns\TextColumn::make('website'),
                 Tables\Columns\TextColumn::make('career'),
                 Tables\Columns\TextColumn::make('size'),
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

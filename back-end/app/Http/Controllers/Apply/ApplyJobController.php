@@ -12,15 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ApplyJobController extends Controller
 {
-    private $applicationService;
-
-    public function __construct(
-        ApplicationService $applicationService
-    ) {
-        $this->applicationService = $applicationService;
-    }
-
-
     public function applyForJob(Request $request, $jobId)
     {
         try {
@@ -63,7 +54,6 @@ class ApplyJobController extends Controller
                 ]);
                 $application->save();
             }
-            // $application = $this->applicationService->applyForJob($seeker, $jobId, $request->all());
             return response()->json([
                 'message' => 'Application submitted successfully',
                 'application' => $application
