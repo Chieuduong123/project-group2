@@ -62,6 +62,8 @@ class JobResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('business.id')->sortable(),
                 Tables\Columns\TextColumn::make('business.name'),
                 Tables\Columns\TextColumn::make('position'),
@@ -99,9 +101,7 @@ class JobResource extends Resource
                     ->date(),
                 Tables\Columns\TextColumn::make('end_day')
                     ->date(),
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('view_count')->sortable(),
+                Tables\Columns\TextColumn::make('view_count')->label('Viewer')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
             ])

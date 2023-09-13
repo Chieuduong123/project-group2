@@ -10,6 +10,7 @@ use App\Http\Controllers\Favorite\FavoriteController;
 use App\Http\Controllers\Job\ApplicationController;
 use App\Http\Controllers\Job\JobController;
 use App\Http\Controllers\Job\JobPostController;
+use App\Http\Controllers\Job\RecommendJobController;
 use App\Http\Controllers\Profile\BusinessProfileController;
 use App\Http\Controllers\Profile\SeekerProfileController;
 use App\Http\Controllers\Seeker\AuthSeekerController;
@@ -82,4 +83,7 @@ Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function (
     Route::post('/cv', [CVController::class, 'store']);
     Route::put('/cv/{cvId}', [CVController::class, 'update']);
     Route::delete('/cv/{cvId}', [CVController::class, 'destroy']);
+    Route::post('/job/recommend', [RecommendJobController::class, 'store']);
+    Route::post('/job/recommend/{recommendId}', [RecommendJobController::class, 'update']);
+    Route::get('/job/recommend', [JobController::class, 'recommendJob']);
 });
