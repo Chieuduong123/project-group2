@@ -83,7 +83,8 @@ Route::group(['prefix' => 'seeker', 'middleware' => ['auth:seeker']], function (
     Route::post('/cv', [CVController::class, 'store']);
     Route::put('/cv/{cvId}', [CVController::class, 'update']);
     Route::delete('/cv/{cvId}', [CVController::class, 'destroy']);
+    Route::get('/recommend', [RecommendJobController::class, 'getRecommend']);
     Route::post('/job/recommend', [RecommendJobController::class, 'store']);
     Route::post('/job/recommend/{recommendId}', [RecommendJobController::class, 'update']);
-    Route::get('/job/recommend', [JobController::class, 'recommendJob']);
+    Route::get('/recommend/job', [JobController::class, 'recommendJob']);
 });

@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Job;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobPostRequest;
+use App\Http\Services\JobService;
 use App\Models\Job;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class JobPostController extends Controller
 {
+    private $jobService;
+    public function __construct(
+        JobService $jobService
+    ) {
+        $this->jobService = $jobService;
+    }
     public function getBusinessJobs()
     {
         try {
@@ -52,28 +60,12 @@ class JobPostController extends Controller
     public function store(JobPostRequest $request)
     {
         try {
-            $business = auth()->user();
-            $job = new Job();
-            $job->fill([
-                $job->business_id = $business->id,
-                $job->position = $request->input('position'),
-                $job->level = $request->input('level'),
-                $job->type = $request->input('type'),
-                $job->skill = $request->input('skill'),
-                $job->salary = $request->input('salary'),
-                $job->content = $request->input('content'),
-                $job->requirement = $request->input('requirement'),
-                $job->quantity = $request->input('quantity'),
-                $job->benefits = $request->input('benefits'),
-                $job->start_day = $request->input('start_day'),
-                $job->end_day = $request->input('end_day'),
-                $job->status = false,
-            ]);
-            $job->save();
+            $jobData = $request->all();
+            $job = $this->jobService->createJob($jobData);
 
             return response()->json([
                 'message' => 'Job post created successfully',
-                'job' => $job
+                'job    ' => $job
             ], 201);
         } catch (\Exception $e) {
             Log::error('Error : ' . $e->getMessage() . '---Line: ' . $e->getLine());
@@ -83,7 +75,7 @@ class JobPostController extends Controller
         }
     }
 
-    public function update(JobPostRequest $request, $jobId)
+    public function update(Request $request, $jobId)
     {
         try {
             $business = auth()->user();
@@ -95,21 +87,8 @@ class JobPostController extends Controller
                 ], 403);
             }
 
-            $job->fill([
-                $job->business_id = $business->id,
-                $job->position = $request->input('position'),
-                $job->level = $request->input('level'),
-                $job->skill = $request->input('skill'),
-                $job->salary = $request->input('salary'),
-                $job->content = $request->input('content'),
-                $job->requirement = $request->input('requirement'),
-                $job->quantity = $request->input('quantity'),
-                $job->benefits = $request->input('benefits'),
-                $job->start_day = $request->input('start_day'),
-                $job->end_day = $request->input('end_day'),
-                $job->status = false,
-            ]);
-            $job->update();
+            $jobData = $request->all();
+            $job = $this->jobService->updateJob($job, $jobData);
 
             return response()->json([
                 'message' => 'Job post updated successfully',

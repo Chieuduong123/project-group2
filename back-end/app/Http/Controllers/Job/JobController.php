@@ -114,22 +114,24 @@ class JobController extends Controller
 
         // compare job between -recommend_jobs- and -jobs- 
         $matchingJobs = Job::with(['business'])
+            ->where('status', true)
             ->where(function ($query) use ($recommendJob) {
-                $query->where('position', 'like', '%' . $recommendJob->position . '%')
-                    ->where('skill', 'like', '%' . $recommendJob->skill . '%')
-                    ->where('type', 'like', '%' . $recommendJob->type . '%')
-                    ->where('level', 'like', '%' . $recommendJob->level . '%')
-                    ->where('salary', '>=', $recommendJob->salary)
-                    ->where(function ($subQuery) use ($recommendJob) {
-                        $subQuery->whereHas('business', function ($businessQuery) use ($recommendJob) {
-                            $businessQuery->where('location', 'like', '%' . $recommendJob->location . '%');
-                        });
+                $query->where(function ($subQuery) use ($recommendJob) {
+                    $subQuery->where('skill', 'like', '%' . $recommendJob->skill . '%')
+                        ->orWhere('position', 'like', '%' . $recommendJob->position . '%')
+                        ->where('type', 'like', '%' . $recommendJob->type . '%')
+                        ->where('level', 'like', '%' . $recommendJob->level . '%')
+                        ->where('salary', '>=', $recommendJob->salary);
+                })
+                    ->orWhereHas('business', function ($businessQuery) use ($recommendJob) {
+                        $businessQuery->where('location', 'like', '%' . $recommendJob->location . '%');
                     });
             })
             ->get();
 
         if ($matchingJobs->isEmpty()) {
             $matchingJobs = Job::with(['business'])
+                ->where('status', true)
                 ->where(function ($query) use ($recommendJob) {
                     $query->where('position', 'like', '%' . $recommendJob->position . '%')
                         ->orWhere(function ($subQuery) use ($recommendJob) {

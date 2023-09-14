@@ -83,7 +83,7 @@ class BusinessResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('size')
                     ->required(),
-                Forms\Components\Toggle::make('status')->label('approve')
+                Forms\Components\Toggle::make('status')->label('Approve')
                     ->required()
             ]);
     }
