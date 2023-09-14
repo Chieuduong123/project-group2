@@ -59,14 +59,18 @@
             </form>
         </div>
     </div>
+    <Loading v-if="userStore.isLoading"/>
 </template>
 <script setup>
-    import { ref } from 'vue';
+    import { onMounted, ref, watchEffect } from 'vue';
 import { skillData } from '../../constants/skillData';
 import { dataLocation } from '../../constants/dataLocation';
 import { useToast } from 'vue-toastification';
 import RedTick from "../../components/RedTick.vue"
+import { useUserStore } from '../../stores/userStore';
+import Loading from '../../components/Loading.vue';
 const toast = useToast()
+const userStore = useUserStore()
     const levelArray = ["Intern", "Fresher", "Junior", "Middle", "Senior"]
     const typeJobArray = ["Full time",  "Part time", "Remote"]
     const recommendRef = ref({
@@ -89,13 +93,35 @@ const toast = useToast()
         value: type,
     }));
 
+    const handleGetRecommend = (token) => {
+        userStore.actGetRecommend(token)
+    }
+
+    onMounted(() => {
+        handleGetRecommend(userStore.accessToken)
+    })
+
+    watchEffect(() => {
+        const recommend = userStore.recommend;
+        if(recommend) {
+            recommendRef.value.position = recommend.position;
+            recommendRef.value.level = recommend.level;
+            recommendRef.value.salary = recommend.salary;
+            recommendRef.value.type = recommend.type;
+            recommendRef.value.skill = recommend.skill;
+            recommendRef.value.location = recommend.location;
+        }
+    })
+    
     const handleSubmit = () => {
         if(!recommendRef.value.position || recommendRef.value.level.length == 0 || recommendRef.value.type.length == 0 || recommendRef.value.skill.length == 0 || !recommendRef.value.salary || !recommendRef.value.location) {
             toast.warning("Vui lòng nhập đầy đủ thông tin")
-        }else {
-            console.log(recommendRef.value);
         }
-        
+        if(userStore?.recommend) {
+            userStore.actUpdateRecommend(userStore.recommend?.id ,recommendRef.value, userStore.accessToken)
+        }else {
+            userStore.actCreateRecommend(recommendRef.value, userStore.accessToken)
+        }
     }
 </script>
 <style lang="">

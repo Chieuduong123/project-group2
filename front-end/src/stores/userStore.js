@@ -1,9 +1,13 @@
 import { defineStore } from "pinia";
 import {
+  fetchCreateRecommend,
   fetchEditProfile,
+  fetchGetPostRecommend,
+  fetchGetRecommend,
   fetchLogin,
   fetchLogout,
   fetchRegister,
+  fetchUpdateRecommend,
   getInforMe,
 } from "../api/userApi";
 import { fetchCreateApply, fetchHistoryApply } from "../api/applyApi";
@@ -24,6 +28,7 @@ export const useUserStore = defineStore("userStore", {
       histories: [],
       listCV: [],
       cv: {},
+      recommend: {},
       accessToken: "" || localStorage.getItem("token"),
       isLogged: JSON.parse(localStorage.getItem("isLogged")) || false,
       isLoading: false,
@@ -202,6 +207,65 @@ export const useUserStore = defineStore("userStore", {
       } catch (error) {
         console.log(error);
         this.isLoading = false;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    actGetRecommend(token) {
+      try {
+        this.isLoading = true;
+        fetchGetRecommend(token).then((res) => {
+          console.log("get recommend", res.data[0]);
+          this.recommend = res.data[0];
+          this.isLoading = false;
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    actCreateRecommend(payload, token) {
+      try {
+        this.isLoading = true;
+        fetchCreateRecommend(payload, token).then((res) => {
+          console.log("create recommend", res);
+          this.isLoading = false;
+          this.actGetRecommend(token);
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    actUpdateRecommend(idRecommend, payload, token) {
+      try {
+        this.isLoading = true;
+        fetchUpdateRecommend(idRecommend, payload, token).then((res) => {
+          console.log("update recommend", res);
+          this.isLoading = false;
+          this.actGetRecommend(token);
+        });
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    actGetPostRecommend(token) {
+      try {
+        this.isLoading = true;
+        fetchGetPostRecommend(token).then((res) => {
+          console.log("re post", res);
+          this.isLoading = false;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
       } finally {
         this.isLoading = false;
       }
