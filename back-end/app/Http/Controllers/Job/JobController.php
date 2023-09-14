@@ -117,17 +117,30 @@ class JobController extends Controller
             ->where('status', true)
             ->where(function ($query) use ($recommendJob) {
                 $query->where(function ($subQuery) use ($recommendJob) {
-                    $subQuery->where('skill', 'like', '%' . $recommendJob->skill . '%')
-                        ->orWhere('position', 'like', '%' . $recommendJob->position . '%')
-                        ->where('type', 'like', '%' . $recommendJob->type . '%')
-                        ->where('level', 'like', '%' . $recommendJob->level . '%')
-                        ->where('salary', '>=', $recommendJob->salary);
+                    if (is_array($recommendJob->skill) || is_object($recommendJob->skill)) {
+                        foreach ($recommendJob->skill as $skill) {
+                            $subQuery->where('skill', 'like', '%' . $skill . '%');
+                        }
+                    }
+                    if (is_array($recommendJob->type) || is_object($recommendJob->type)) {
+                        foreach ($recommendJob->type as $type) {
+                            $subQuery->where('type', 'like', '%' . $type . '%');
+                        }
+                    }
+                    if (is_array($recommendJob->level) || is_object($recommendJob->level)) {
+                        foreach ($recommendJob->level as $level) {
+                            $subQuery->where('level', 'like', '%' . $level . '%');
+                        }
+                    }
+                    $subQuery->where('salary', '>=', $recommendJob->salary)
+                        ->orWhere('position', 'like', '%' . $recommendJob->position . '%');
                 })
                     ->orWhereHas('business', function ($businessQuery) use ($recommendJob) {
                         $businessQuery->where('location', 'like', '%' . $recommendJob->location . '%');
                     });
             })
             ->get();
+
 
         if ($matchingJobs->isEmpty()) {
             $matchingJobs = Job::with(['business'])
