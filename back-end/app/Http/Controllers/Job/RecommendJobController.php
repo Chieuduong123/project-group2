@@ -16,6 +16,13 @@ class RecommendJobController extends Controller
     ) {
         $this->recommendJobService = $recommendJobService;
     }
+
+    public function getRecommend()
+    {
+        $seeker = auth()->user();
+        $recommendJob = RecommendJob::where('seeker_id', $seeker->id)->get();
+        return response()->json($recommendJob);
+    }
     public function store(Request $request)
     {
         try {

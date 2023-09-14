@@ -53,7 +53,7 @@ class JobResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('end_day')
                     ->required(),
-                Forms\Components\Toggle::make('status')
+                Forms\Components\Toggle::make('status')->label('Approve')
                     ->required()
             ]);
     }
