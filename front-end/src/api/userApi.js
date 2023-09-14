@@ -71,3 +71,58 @@ export const fetchEditProfile = async (profile, token) => {
     console.log(error);
   }
 };
+export const fetchGetRecommend = async (token) => {
+  try {
+    const data = await axios.get(`${BASE_URL}seeker/recommend`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const fetchCreateRecommend = async (payload, token) => {
+  try {
+    const data = await axios.post(`${BASE_URL}seeker/job/recommend`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success("Cập nhật thành công");
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const fetchUpdateRecommend = async (idRecommend, payload, token) => {
+  try {
+    const data = await axios.post(
+      `${BASE_URL}seeker/job/recommend/${idRecommend}`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    toast.success("Cập nhật thành công");
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchGetPostRecommend = async (token) => {
+  try {
+    const data = await axios.get(`${BASE_URL}seeker/job/recommend`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
