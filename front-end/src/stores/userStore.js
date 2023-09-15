@@ -28,7 +28,7 @@ export const useUserStore = defineStore("userStore", {
       histories: [],
       listCV: [],
       cv: {},
-      recommend: {},
+      recommend: [],
       accessToken: "" || localStorage.getItem("token"),
       isLogged: JSON.parse(localStorage.getItem("isLogged")) || false,
       isLoading: false,
@@ -260,7 +260,7 @@ export const useUserStore = defineStore("userStore", {
       try {
         this.isLoading = true;
         fetchGetPostRecommend(token).then((res) => {
-          console.log("re post", res);
+          this.recommend = res.data.matching_jobs;
           this.isLoading = false;
         });
       } catch (error) {
