@@ -116,7 +116,7 @@ export const fetchUpdateRecommend = async (idRecommend, payload, token) => {
 
 export const fetchGetPostRecommend = async (token) => {
   try {
-    const data = await axios.get(`${BASE_URL}seeker/job/recommend`, {
+    const data = await axios.get(`${BASE_URL}seeker/recommend/job`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

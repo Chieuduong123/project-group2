@@ -18,7 +18,7 @@
                     <swiper-slide v-for="business in businessData" :key="business?.id" @click="handleGoDetailBusiness(business?.id)">
                         <div class="flex flex-col items-center gap-2">
                             <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
-                                <img :src="`${IMAGE_URL}${business?.avatar}` || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-cover w-[50px] h-[50px] rounded">
+                                <img :src="`${IMAGE_URL}${business?.avatar}` || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-cover h-[50px] rounded">
                             </div>
                             <span class="text-[18px] font-semibold text-center">{{business?.name}}</span>
                         </div>
@@ -37,6 +37,26 @@
             </div>
         </div>
         <!-- Banner -->
+        <div class="max-w-[1300px] mx-auto mt-[50px]">
+            <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
+        </div>
+        <!-- Suggest job -->
+        <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
+            <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Dành cho bạn</h2>
+            <swiper
+                :modules="modules"
+                :slides-per-view="3"
+                :space-between="10"
+                navigation
+                :pagination="{ clickable: true }"
+                :loop="true"
+                :autoplay="{delay: 2000}"
+            >
+                <swiper-slide v-for="post in userStore?.recommend" :key="post.id">
+                    <PostVue  :post="post"/>
+                </swiper-slide>
+            </swiper>
+        </div>
         <div class="max-w-[1300px] mx-auto mt-[50px]">
             <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
         </div>
@@ -104,11 +124,12 @@
     import { useBusinessStore } from "../../stores/businessStore";
     import { useRouter } from "vue-router";
 import { IMAGE_URL } from "../../constants/url";
+import { useUserStore } from "../../stores/userStore";
     const modules= [Navigation, Pagination, Scrollbar, A11y, Autoplay]
     const router = useRouter()
     const postStore = usePostStore()
     const businessStore = useBusinessStore()
-
+    const userStore = useUserStore()
     const itemsPerPage = ref(6)
     const totalPages = ref(1)
     const currentPageInit = ref(1)
@@ -126,21 +147,25 @@ import { IMAGE_URL } from "../../constants/url";
       }
     }
     const handleGetTopData = async() => {
-        await postStore.actGetAllPost()
+        await postStore.actGetTopPost()
     }
     const handleGetAllData = async() => {
-        await postStore.actGetTopPost()
+        await postStore.actGetAllPost()
     }
 
     const handleGetAllBusiness = async() => {
         await businessStore.actGetAllBusiness()
     }
+    const handleGetRecommendPost = async() => {
+        await userStore.actGetPostRecommend(userStore.accessToken)
+    }
     onMounted(() => {
         handleGetAllData()
         handleGetAllBusiness()
         handleGetTopData()
+        handleGetRecommendPost()
     })
-    console.log("Top", postStore.topPosts);
+   
 
     const postsData = computed(() => {
         return postStore.posts

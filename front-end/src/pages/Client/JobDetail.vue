@@ -2,7 +2,7 @@
     <div class="max-w-[1300px] mx-auto mt-[100px] flex gap-5">
         <div class="rounded w-[30%] h-max flex flex-col gap-5 bg-green-100 py-[40px] px-[20px] max-md:hidden">
             <div>
-                <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
+                <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
                 <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
             </div>
             <p class="text-gray-500">
@@ -34,7 +34,7 @@
             <div class="shadow-lg flex flex-col gap-5 px-[30px] py-[30px] rounded">
                 <div class="flex items-center justify-between border-b pb-[20px]">
                     <div class="flex flex-col" @click="goDetailCompany(postData?.business?.id)">
-                        <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
+                        <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
                         <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
                     </div>
                     <div class="flex flex-col">

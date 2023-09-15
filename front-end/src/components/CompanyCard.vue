@@ -2,7 +2,7 @@
 <div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px] cursor-pointer" @click="handleGoDetailBusiness(business?.id)">
     <div class="flex items-center">
         <div>
-            <img :src="`${IMAGE_URL}${business?.avatar}`" alt="logo" class="h-[50px] w-[50px] rounded object-cover">
+            <img :src="`${IMAGE_URL}${business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
             <p class="mt-2">{{business?.name}}</p>
         </div>
     </div>
@@ -24,7 +24,7 @@
             <div class="rounded-full w-[20px] h-[20px] flex items-center justify-center bg-green-500">
                 <InfoOutlined :style="{fontSize: '11px', color: '#fff'}"/>
             </div>
-            <p class="w-[90%]">{{business?.career}}</p>
+            <p class="w-[90%] line-clamp-4">{{business?.career}}</p>
         </div>
 
 

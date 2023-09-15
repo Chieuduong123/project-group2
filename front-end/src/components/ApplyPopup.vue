@@ -21,7 +21,7 @@
                     <input type="text" v-model="applyRef.phone" placeholder="Nhập số điện thoại" class="px-[10px] py-[5px] outline-none border rounded">
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="" class="text-[14px] font-medium">resume_path của bạn <span class="text-red-500 text-[10px]">(pdf)</span></label>
+                    <label for="" class="text-[14px] font-medium">CV của bạn <span class="text-red-500 text-[10px]">(pdf)</span></label>
                     <input type="file"  class="px-[10px] py-[5px] outline-none border rounded" @change="handleChangeFile">
                 </div>
                 <div class="flex flex-col gap-2">
