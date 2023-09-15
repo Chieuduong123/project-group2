@@ -3,19 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SeekerResource\Pages;
-use App\Filament\Resources\SeekerResource\Pages\CreateSeeker;
-use App\Filament\Resources\SeekerResource\Pages\EditSeeker;
-use App\Filament\Resources\SeekerResource\RelationManagers;
 use App\Models\Seeker;
 use Filament\Forms;
-use Filament\Pages\Page;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
 use Livewire\TemporaryUploadedFile;
 
 class SeekerResource extends Resource
@@ -68,11 +62,14 @@ class SeekerResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $seeker = new Seeker();
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('avatar'),
-                Tables\Columns\TextColumn::make('email'),
+                // ImageColumn::make('avatar')
+                //     ->defaultImageUrl(fn (Seeker $record) => asset('avatars' . '/' . $record->avatar)),
+                Tables\Columns\ImageColumn::make('avatar')->url(fn ($record) => asset('avatars' . '/' . $record->avatar)),
+                Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('birthday')
                     ->date(),

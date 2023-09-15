@@ -6,7 +6,8 @@ use App\Filament\Resources\BusinessResource\Pages;
 use App\Filament\Resources\BusinessResource\Pages\CreateBusiness;
 use App\Filament\Resources\BusinessResource\Pages\EditBusiness;
 use App\Filament\Resources\BusinessResource\RelationManagers;
-use App\Filament\Resources\BusinessResource\Widgets\BusinessOverview;
+use App\Filament\Resources\BusinessResource\Widgets\BusinessChart;
+use App\Filament\Widgets\JobChart;
 use App\Http\Services\SendEmailService;
 use App\Models\Business;
 use Filament\Forms;
@@ -71,7 +72,7 @@ class BusinessResource extends Resource
                 //     )->label(
                 //         static fn (Page $livewire): string => ($livewire instanceof EditBusiness) ? 'New Password' : 'Password'
                 //     ),
-                Forms\Components\FileUpload::make('logo'),
+                Forms\Components\FileUpload::make('avatar'),
                 Forms\Components\TextInput::make('location')
                     ->required()
                     ->maxLength(255),
@@ -96,8 +97,8 @@ class BusinessResource extends Resource
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('avatar'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\ImageColumn::make('avatar'),
+                Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('phone'),
@@ -132,9 +133,10 @@ class BusinessResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            BusinessOverview::class,
+            BusinessChart::class,
         ];
     }
+
 
     public static function getPages(): array
     {

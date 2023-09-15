@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+
 
 class ResetPasswordController extends Controller
 {
@@ -17,9 +18,10 @@ class ResetPasswordController extends Controller
             'password' => 'required|string|confirmed'
         ]);
 
-        $reset_password_status = Password::reset($credentials, function ($user, $password) {
-            $user->password = $password;
-            $user->save();
+        $reset_password_status = Password::broker('seekers')->reset($credentials, function ($seeker, $password) {
+            $seeker->password = bcrypt($password);
+            $seeker->setRememberToken(Str::random(60));
+            $seeker->save();
         });
 
         if ($reset_password_status == Password::INVALID_TOKEN) {

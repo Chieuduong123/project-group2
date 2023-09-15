@@ -43,13 +43,13 @@ class CurriculumVitaeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('seeker.name')->label('Name Seeker'),
+                Tables\Columns\TextColumn::make('seeker.name')->label('Name Seeker')->size('lg')->color('success')->weight('bold'),
                 Tables\Columns\TextColumn::make('personalDetail.job_title')->label('Position'),
                 Tables\Columns\TextColumn::make('educations.location')->label('Education'),
-                Tables\Columns\TextColumn::make('soft'),
-                Tables\Columns\TextColumn::make('tech'),
+                Tables\Columns\TextColumn::make('soft')->size('sm'),
+                Tables\Columns\TextColumn::make('tech')->size('sm'),
                 Tables\Columns\TextColumn::make('social.github')->label('GitHub'),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('created_at')->size('sm')
                     ->dateTime(),
             ])
             ->filters([
@@ -60,6 +60,10 @@ class CurriculumVitaeResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+            ])
+            ->contentGrid([
+                'md' => 3,
+                'xl' => 3,
             ]);
     }
 

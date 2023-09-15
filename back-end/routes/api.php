@@ -43,6 +43,7 @@ Route::get('/job/business/{business}', [JobController::class, 'getJobByBusiness'
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
 
+
 Route::group(['prefix' => 'business'], function () {
     Route::post('/register', [AuthBusinessController::class, 'register']);
     Route::post('/login', [AuthBusinessController::class, 'login']);

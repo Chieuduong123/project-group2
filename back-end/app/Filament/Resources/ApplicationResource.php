@@ -42,7 +42,7 @@ class ApplicationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->size('lg')->color('success')->weight('bold'),
                 Tables\Columns\TextColumn::make('job.position'),
                 Tables\Columns\TextColumn::make('job.business.name'),
                 Tables\Columns\TextColumn::make('phone'),
@@ -62,6 +62,10 @@ class ApplicationResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+            ])
+            ->contentGrid([
+                'md' => 3,
+                'xl' => 5,
             ]);
     }
 

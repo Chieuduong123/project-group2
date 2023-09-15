@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-
-class Seeker extends Authenticatable
+class Seeker extends Authenticatable implements CanResetPassword
 {
-    use HasFactory, HasApiTokens, SoftDeletes;
+    use HasFactory, HasApiTokens, SoftDeletes, Notifiable;
     protected $fillable = [
         'name',
         'email',
@@ -44,8 +45,4 @@ class Seeker extends Authenticatable
         return $this->hasMany(CurriculumVitae::class);
     }
 
-    // public function jobs()
-    // {
-    //     return $this->belongsToMany(Job::class, 'job_views')->withTimestamps()->withPivot('viewed_at');
-    // }
 }

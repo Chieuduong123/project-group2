@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Job;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\RecommendJobService;
 use App\Models\Job;
 use App\Models\RecommendJob;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
 {
+    private $recommendJobService;
+    public function __construct(
+        RecommendJobService $recommendJobService
+    ) {
+        $this->recommendJobService = $recommendJobService;
+    }
     public function search(Request $request)
     {
         $query = Job::query();
