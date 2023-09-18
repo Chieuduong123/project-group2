@@ -70,10 +70,10 @@ class BusinessResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
                 Forms\Components\FileUpload::make('avatar')
-                   ->preserveFilenames()
-                    ->getUploadedFileNameForStorageUsing(function (UploadedFile $file): string {
-                        $filename = now()->timestamp . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-                        return 'avatars/' . $filename;
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        $fileName = $file->getClientOriginalExtension();
+                        $name = explode('.', $fileName);
+                        return (string) str('avatars/' . $name[0] . '.png');
                     }),
                 Forms\Components\TextInput::make('location')
                     ->required()
@@ -99,7 +99,9 @@ class BusinessResource extends Resource
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('name')->weight('bold')->searchable(),
-                Tables\Columns\ImageColumn::make('avatar'),
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->disk('public')
+                    ->url(fn ($record) => asset('/' . $record->avatar)),
                 Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime(),
