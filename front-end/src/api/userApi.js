@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { BASE_URL } from "../constants/url";
+
 const toast = useToast();
 export const fetchRegister = async (payload) => {
   try {
@@ -121,6 +122,16 @@ export const fetchGetPostRecommend = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchForgotPassword = async (email) => {
+  try {
+    const data = await axios.post(`${BASE_URL}password/email`, email);
+    toast.success("Vui lòng kiểm tra email của bạn!");
     return data;
   } catch (error) {
     console.log(error);

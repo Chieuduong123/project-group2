@@ -14,3 +14,8 @@ li {
   cursor: pointer;
 }
 
+.swiper-pagination, .swiper-pagination-clickable, .swiper-pagination-bullets, .swiper-pagination-horizontal {
+  display: none;
+}
+
+

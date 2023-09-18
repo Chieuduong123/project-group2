@@ -29,11 +29,11 @@
         <div class="flex flex-col gap-5">
             <div class="flex items-center gap-1">
                 <EnvironmentOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
-                <span>{{post?.business.location}}</span>
+                <span>{{post?.business?.location}}</span>
             </div>
             <div class="flex items-center gap-1">
                 <AppstoreOutlined :style="{fontSize: '12px', color: '#9BA4B5'}"/>
-                <div v-for="(skill, index) in post?.skill.slice(0,3)" :key="index" class="px-[5px] py-[5px] bg-[#333] text-[#fafafa] rounded">{{skill}}</div>
+                <div v-for="(skill, index) in post?.skill?.slice(0,3)" :key="index" class="px-[5px] py-[5px] bg-[#333] text-[#fafafa] rounded">{{skill}}</div>
             </div>
             <div class="flex gap-5 flex-col">
                 <div class="flex items-center gap-1">

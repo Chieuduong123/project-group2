@@ -26,6 +26,7 @@ import ChangePassword from "./pages/Client/ChangePassword.vue";
 import SearchResultPage from "./pages/Client/SearchResultPage.vue";
 import CVDetailPage from "./pages/Client/CVDetailPage.vue";
 import RecommendJobSetting from "./pages/Client/RecommendJobSetting.vue";
+import ForgotPasswordPage from "./pages/Client/ForgotPasswordPage.vue";
 const routes = [
   {
     path: "/",
@@ -56,6 +57,7 @@ const routes = [
       { path: "register", component: RegisterPage },
       { path: "register-business", component: RegisterToBusiness },
       { path: "login-business", component: LoginBusiness },
+      { path: "forgot-password", component: ForgotPasswordPage },
     ],
   },
   {

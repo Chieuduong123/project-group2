@@ -20,6 +20,9 @@
                             <EyeInvisibleOutlined v-if="isShow" :style="{cursor: 'pointer'}" @click="handleToggleShowPassword"/>
                         </div>
                     </div>
+                    <div class="flex justify-end w-full">
+                        <p class="font-semibold text-[14px] text-right cursor-pointer" @click="goForgotPassword">Quên mật khẩu</p>
+                    </div>
                     <button :type="submit" class="text-[16px] font-medium px-[40px] py-[10px] text-white bg-green-500 rounded ">Đăng nhập</button>
                 </form>
                 <p class="font-normal text-[13px] mt-5">Tôi chưa có tài khoản ? <span class="text-green-500 cursor-pointer" @click="goRegisterPage">Đăng ký</span></p>
@@ -72,6 +75,10 @@ const userLogin = ref({
 
     const goRegisterPage = () => {
         router.push("/auth-layout/register")
+    }
+
+    const goForgotPassword = () => {
+        router.push("/auth-layout/forgot-password")
     }
 
 
