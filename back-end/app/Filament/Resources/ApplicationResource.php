@@ -4,7 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ApplicationResource\Pages;
 use App\Models\Application;
+use App\Models\Job;
+use App\Models\Seeker;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -22,6 +25,20 @@ class ApplicationResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('seeker_id')
+                    ->label('Seeker')
+                    ->options(Seeker::all()->pluck('name', 'id')->toArray())
+                    ->reactive(),
+                Select::make('job_id')
+                    ->label('Business')
+                    ->options(Job::with('business')->get()->pluck('business.name')->toArray())
+                    ->reactive()
+                    ->searchable(),
+                Select::make('job_id')
+                    ->label('Job')
+                    ->options(Job::first()->pluck('position')->toArray())
+                    ->reactive()
+                    ->searchable(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -44,7 +61,7 @@ class ApplicationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->size('lg')->color('success')->weight('bold'),
                 Tables\Columns\TextColumn::make('job.position'),
-                Tables\Columns\TextColumn::make('job.business.name'),
+                Tables\Columns\TextColumn::make('job.business.name')->weight('bold')->searchable(),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('resume_path')
                     ->label('Resume')
@@ -64,8 +81,8 @@ class ApplicationResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ])
             ->contentGrid([
-                'md' => 3,
-                'xl' => 5,
+                'md' => 4,
+                'xl' => 2,
             ]);
     }
 

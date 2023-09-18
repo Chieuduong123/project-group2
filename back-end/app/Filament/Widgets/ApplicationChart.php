@@ -22,6 +22,7 @@ class ApplicationChart extends LineChartWidget
                 ];
             })
             ->sortBy('name');
+        $business = $business->take(15);
 
         $chart = [
             'labels' => $business->pluck('name')->toArray(),
@@ -34,5 +35,44 @@ class ApplicationChart extends LineChartWidget
         ];
 
         return $chart;
+    }
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'xAxes' => [
+                    [
+                        'ticks' => [
+                            'maxRotation' => 0,
+                            'minRotation' => 0,
+                            'callback' => 'function(value) { return value; }',
+                        ],
+                        'offset' => true,
+                        'gridLines' => [
+                            'drawBorder' => false,
+                        ],
+                    ],
+                ],
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true,
+                            'precision' => 0,
+                        ],
+                        'gridLines' => [
+                            'drawBorder' => false,
+                        ],
+                    ],
+                ],
+            ],
+            'pan' => [
+                'enabled' => true,
+                'mode' => 'x',
+            ],
+            'zoom' => [
+                'enabled' => true,
+                'mode' => 'x',
+            ],
+        ];
     }
 }

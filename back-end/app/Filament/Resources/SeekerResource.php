@@ -3,14 +3,26 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SeekerResource\Pages;
+use App\Filament\Resources\SeekerResource\Pages\CreateSeeker;
+use App\Filament\Resources\SeekerResource\Pages\EditSeeker;
 use App\Models\Seeker;
 use Filament\Forms;
+use Filament\Pages\Page;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Support\Facades\Hash;
 use Livewire\TemporaryUploadedFile;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
 
 class SeekerResource extends Resource
 {
@@ -29,28 +41,23 @@ class SeekerResource extends Resource
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('avatar')
                     ->preserveFilenames()
-                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                        return (string) str($file->getClientOriginalName())->prepend(now()->timestamp);
+                    ->getUploadedFileNameForStorageUsing(function (UploadedFile $file): string {
+                        $filename = now()->timestamp . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+                        return 'avatars/' . $filename;
                     }),
+                // SpatieMediaLibraryFileUpload::make('avatar'),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                // Forms\Components\TextInput::make('password')
-                //     ->password()
-                //     ->maxLength(255)
-                //     ->dehydrateStateUsing(
-                //         static fn (null|string $state): null|string =>
-                //         filled($state) ? Hash::make($state) : null,
-                //     )->required(
-                //         static fn (Page $livewire): string =>
-                //         $livewire instanceof CreateSeeker,
-                //     )->dehydrated(
-                //         static fn (null|string $state): bool =>
-                //         filled($state),
-                //     )->label(
-                //         static fn (Page $livewire): string => ($livewire instanceof EditSeeker) ? 'New Password' : 'Password'
-                //     ),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->afterStateHydrated(function (Forms\Components\TextInput $component, $state) {
+                        $component->state('');
+                    })
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->maxLength(255),
@@ -68,7 +75,19 @@ class SeekerResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 // ImageColumn::make('avatar')
                 //     ->defaultImageUrl(fn (Seeker $record) => asset('avatars' . '/' . $record->avatar)),
-                Tables\Columns\ImageColumn::make('avatar')->url(fn ($record) => asset('avatars' . '/' . $record->avatar)),
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->disk('avatars')
+                    ->visibility('private')
+                    ->url(fn ($record) => asset('storage' . '/' . $record->avatar)),
+                // Tables\Columns\ImageColumn::make('avatar')->url(function ($record) {
+                //     return Storage::disk('avatars')->url('/' . $record->avatar);
+                // }),
+                // Tables\Columns\ImageColumn::make('avatar')
+                //     ->label('Imagen')
+                //     ->size(80)
+                //     ->getValueUsing(
+                //         fn ($record) => Storage::disk('products')->url($record->id . '/' . $record->file_name)
+                //     ),
                 Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('birthday')
@@ -94,6 +113,7 @@ class SeekerResource extends Resource
             //
         ];
     }
+
 
     public static function getPages(): array
     {

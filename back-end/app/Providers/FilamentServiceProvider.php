@@ -25,7 +25,8 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Filament::serving(function () {
-            if (Auth::hasAnyRole(['admin', 'moderator'])) {
+            $user = Auth::user();
+            if ($user && $user->roles()->whereIn('name', ['admin', 'moderator'])->exists()) {
                 Filament::registerUserMenuItems([
                     UserMenuItem::make()
                         ->label('Manager Seekers')

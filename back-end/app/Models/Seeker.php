@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Seeker extends Authenticatable implements CanResetPassword
+class Seeker extends Authenticatable implements CanResetPassword, HasMedia
 {
-    use HasFactory, HasApiTokens, SoftDeletes, Notifiable;
+    use HasFactory, HasApiTokens, SoftDeletes, Notifiable, InteractsWithMedia;
     protected $fillable = [
         'name',
         'email',
@@ -45,4 +48,33 @@ class Seeker extends Authenticatable implements CanResetPassword
         return $this->hasMany(CurriculumVitae::class);
     }
 
+    public function attachLogo($path, $fileName = ''): self
+    {
+        if ($fileName === '') {
+            $extension = Str::afterLast($path, '.');
+            $fileName = strtolower(str_replace(['#', '/', '\\', ' '], '-', $this->name)) . '_' . $this->id . '.' . $extension;
+        }
+
+        $this->addMedia($path)
+            ->usingFileName($fileName)
+            ->usingName($this->name . '_' . $this->id)
+            ->toMediaCollection('brands');
+
+        return $this;
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('brands')
+            ->useDisk('brands')
+            ->acceptsMimeTypes([
+                'image/jpeg',
+                'image/png',
+                'image/svg+xml',
+                'image/webp',
+                'image/gif',
+                'image/svg',
+            ])
+            ->singleFile();
+    }
 }
