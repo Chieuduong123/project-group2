@@ -40,10 +40,10 @@ class SeekerResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('avatar')
-                    ->preserveFilenames()
-                    ->getUploadedFileNameForStorageUsing(function (UploadedFile $file): string {
-                        $filename = now()->timestamp . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-                        return 'avatars/' . $filename;
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        $fileName = $file->getClientOriginalExtension();
+                        $name = explode('.', $fileName);
+                        return (string) str('avatars/' . $name[0] . '.png');
                     }),
                 // SpatieMediaLibraryFileUpload::make('avatar'),
                 Forms\Components\TextInput::make('email')
@@ -73,21 +73,9 @@ class SeekerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                // ImageColumn::make('avatar')
-                //     ->defaultImageUrl(fn (Seeker $record) => asset('avatars' . '/' . $record->avatar)),
                 Tables\Columns\ImageColumn::make('avatar')
                     ->disk('avatars')
-                    ->visibility('private')
-                    ->url(fn ($record) => asset('storage' . '/' . $record->avatar)),
-                // Tables\Columns\ImageColumn::make('avatar')->url(function ($record) {
-                //     return Storage::disk('avatars')->url('/' . $record->avatar);
-                // }),
-                // Tables\Columns\ImageColumn::make('avatar')
-                //     ->label('Imagen')
-                //     ->size(80)
-                //     ->getValueUsing(
-                //         fn ($record) => Storage::disk('products')->url($record->id . '/' . $record->file_name)
-                //     ),
+                    ->url(fn ($record) => asset('/' . $record->avatar)),
                 Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('birthday')
