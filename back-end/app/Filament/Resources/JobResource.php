@@ -11,8 +11,11 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Layout;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -60,15 +63,17 @@ class JobResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $options = Job::pluck('type', 'id')->toArray();
+
         return $table
             ->columns([
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('business.id')->sortable(),
                 Tables\Columns\TextColumn::make('business.name')->weight('bold'),
-                Tables\Columns\TextColumn::make('position'),
-                Tables\Columns\TextColumn::make('level'),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('position')->searchable(),
+                Tables\Columns\TextColumn::make('level')->searchable(),
+                Tables\Columns\TextColumn::make('type')->searchable(),
                 Tables\Columns\TextColumn::make('salary'),
                 Tables\Columns\TextColumn::make('content')->limit(30)
                     ->tooltip(function (TextColumn $column): ?string {
@@ -108,6 +113,28 @@ class JobResource extends Resource
             ->filters([
                 Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
                 Filter::make('unapproved')->query(fn (Builder $query): Builder => $query->where('status', false)),
+                SelectFilter::make('type')
+                    ->multiple()
+                    ->options(Job::pluck('type', 'type')->unique()->toArray())
+                    ->attribute('type'),
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from'),
+                        Forms\Components\DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
+
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -122,6 +149,14 @@ class JobResource extends Resource
         return [
             //
         ];
+    }
+    protected function shouldPersistTableFiltersInSession(): bool
+    {
+        return true;
+    }
+    protected function getTableFiltersLayout(): ?string
+    {
+        return Layout::AboveContent;
     }
 
 

@@ -26,7 +26,7 @@ class BusinessProfileController extends Controller
             ]);
             $image = $request->file('avatar');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('avatars'), $filename);
+            $image->move(public_path('storage/avatars'), $filename);
             $business->avatar = $filename;
         } else {
             $business->avatar = $request->old('avatar');

@@ -17,9 +17,13 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Livewire\TemporaryUploadedFile;
 
 class BusinessResource extends Resource
 {
@@ -57,22 +61,20 @@ class BusinessResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                // Forms\Components\TextInput::make('password')
-                //     ->password()
-                //     ->maxLength(255)
-                //     ->dehydrateStateUsing(
-                //         static fn (null|string $state): null|string =>
-                //         filled($state) ? Hash::make($state) : null,
-                //     )->required(
-                //         static fn (Page $livewire): string =>
-                //         $livewire instanceof CreateBusiness,
-                //     )->dehydrated(
-                //         static fn (null|string $state): bool =>
-                //         filled($state),
-                //     )->label(
-                //         static fn (Page $livewire): string => ($livewire instanceof EditBusiness) ? 'New Password' : 'Password'
-                //     ),
-                Forms\Components\FileUpload::make('avatar'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->afterStateHydrated(function (Forms\Components\TextInput $component, $state) {
+                        $component->state('');
+                    })
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
+                Forms\Components\FileUpload::make('avatar')
+                   ->preserveFilenames()
+                    ->getUploadedFileNameForStorageUsing(function (UploadedFile $file): string {
+                        $filename = now()->timestamp . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+                        return 'avatars/' . $filename;
+                    }),
                 Forms\Components\TextInput::make('location')
                     ->required()
                     ->maxLength(255),
@@ -96,7 +98,7 @@ class BusinessResource extends Resource
             ->columns([
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->weight('bold')->searchable(),
                 Tables\Columns\ImageColumn::make('avatar'),
                 Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('email_verified_at')
@@ -114,6 +116,10 @@ class BusinessResource extends Resource
             ->filters([
                 Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
                 Filter::make('unapproved')->query(fn (Builder $query): Builder => $query->where('status', false)),
+                SelectFilter::make('location')
+                    ->multiple()
+                    ->options(Business::pluck('location', 'location')->unique()->toArray())
+                    ->attribute('location'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
