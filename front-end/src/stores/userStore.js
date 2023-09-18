@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import {
   fetchCreateRecommend,
   fetchEditProfile,
+  fetchForgotPassword,
   fetchGetPostRecommend,
   fetchGetRecommend,
   fetchLogin,
@@ -233,6 +234,7 @@ export const useUserStore = defineStore("userStore", {
           console.log("create recommend", res);
           this.isLoading = false;
           this.actGetRecommend(token);
+          this.actGetPostRecommend(token);
         });
       } catch (error) {
         console.log(error);
@@ -247,6 +249,7 @@ export const useUserStore = defineStore("userStore", {
         fetchUpdateRecommend(idRecommend, payload, token).then((res) => {
           console.log("update recommend", res);
           this.isLoading = false;
+          this.actGetPostRecommend(token);
           this.actGetRecommend(token);
         });
       } catch (error) {
@@ -260,7 +263,20 @@ export const useUserStore = defineStore("userStore", {
       try {
         this.isLoading = true;
         fetchGetPostRecommend(token).then((res) => {
-          this.recommend = res.data.matching_jobs;
+          this.recommend = res?.data?.matching_jobs;
+          this.isLoading = false;
+        });
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    actForgotPassword(email) {
+      try {
+        this.isLoading = true;
+        fetchForgotPassword(email).then((res) => {
           this.isLoading = false;
         });
       } catch (error) {

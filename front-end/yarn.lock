@@ -489,6 +489,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.47.0.tgz#5478fdf443ff8158f9de171c704ae45308696c7d"
   integrity sha512-P6omY1zv5MItm93kLM8s2vr1HICJH8v0dvddDhysbIuZ+vcjOHg5Zbkf1mTkcmi2JA9oBG2anOkRnW8WJTS8Og==
 
+"@fancyapps/ui@^5.0.22":
+  version "5.0.22"
+  resolved "https://registry.yarnpkg.com/@fancyapps/ui/-/ui-5.0.22.tgz#b11a567c68a2271296dd3e9aa2e2c7829022203a"
+  integrity sha512-44A5/Hm59mn53FqZRyM4HO/R7UWE79UxgNyHmaudSe+HuU5Kl1g6lxR4Ol1QFaqNS97Pbdytlu4SxYsOX1BTxw==
+
 "@headlessui/vue@^1.7.16":
   version "1.7.16"
   resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.7.16.tgz#bdc9d32d329248910325539b99e6abfce0c69f89"
@@ -4438,6 +4443,11 @@ vue-demi@^0.13.11:
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
   integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
+vue-demi@latest:
+  version "0.14.6"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.6.tgz#dc706582851dc1cdc17a0054f4fec2eb6df74c92"
+  integrity sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==
+
 vue-html2pdf@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/vue-html2pdf/-/vue-html2pdf-1.8.0.tgz#c69a2c285ac4de88245435cd36d64075e1a1f23e"
@@ -4459,6 +4469,13 @@ vue-router@4:
   integrity sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
+
+vue-split-carousel@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/vue-split-carousel/-/vue-split-carousel-3.0.2.tgz#cd0bdefa898c3f74edd6249631ecc62711f51e56"
+  integrity sha512-r/AA3yvmgoBmoS+0XniDMRw00FLsjoAxZNTfwlKRimjAkMcmUK57H7CWo1xKzv2IIrCoB+B6vTE2zBrIScnPxg==
+  dependencies:
+    vue-demi latest
 
 vue-toastification@^2.0.0-rc.5:
   version "2.0.0-rc.5"

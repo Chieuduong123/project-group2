@@ -98,7 +98,7 @@
     const postStore = usePostStore()
     const searchTemp = ref("")
     const searchRef = ref("")
-    const itemsPerPage = ref(3)
+    const itemsPerPage = ref(4)
     const totalPages = ref(1)
     const currentPageInit = ref(1)
     const handleGetBusinessById = async(id) => {

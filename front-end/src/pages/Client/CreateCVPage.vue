@@ -405,6 +405,7 @@
       <!-- CV SECTION -->
   
     </div>
+    <Loading userStore.isLoading/>
   </template>
   
   <script setup>
@@ -412,6 +413,7 @@
     import {useUserStore} from "../../stores/userStore"
   import CvComponent from "../../components/CvComponent.vue";
   import mainButtons from "../../components/mainButtons.vue";
+  import LoadingVue from "../../components/Loading.vue";
   import { ref } from 'vue'
   import { Collapse } from 'vue-collapsed'
   const store_setting = useSettingStore()

@@ -13,6 +13,7 @@
     "@ant-design/icons-vue": "^6.1.0",
     "@ckeditor/ckeditor5-build-classic": "^39.0.1",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
+    "@fancyapps/ui": "^5.0.22",
     "@headlessui/vue": "^1.7.16",
     "@vee-validate/rules": "^4.11.3",
     "@vuelidate/core": "^2.0.3",
@@ -30,6 +31,7 @@
     "vue-html2pdf": "^1.8.0",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "4",
+    "vue-split-carousel": "^3.0.2",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-print-nb": "^0.1.4",
     "vueditor": "^0.3.1"

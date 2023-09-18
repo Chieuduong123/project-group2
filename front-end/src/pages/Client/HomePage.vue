@@ -41,7 +41,7 @@
             <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
         </div>
         <!-- Suggest job -->
-        <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
+        <div v-if="userStore?.recommend" class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
             <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Dành cho bạn</h2>
             <swiper
                 :modules="modules"
@@ -56,9 +56,6 @@
                     <PostVue  :post="post"/>
                 </swiper-slide>
             </swiper>
-        </div>
-        <div class="max-w-[1300px] mx-auto mt-[50px]">
-            <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
         </div>
         <!-- New Job -->
         <div class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
@@ -104,6 +101,7 @@
             </div>
         </div>
     </div>
+    <Loading v-if="postStore?.isLoading"/>
 </template>
 <script setup>
     import {ClockCircleOutlined, SafetyCertificateOutlined, UploadOutlined} from "@ant-design/icons-vue"
@@ -123,6 +121,7 @@
     import { computed, onMounted, ref } from "vue";
     import { useBusinessStore } from "../../stores/businessStore";
     import { useRouter } from "vue-router";
+    import Loading from "../../components/Loading.vue";
 import { IMAGE_URL } from "../../constants/url";
 import { useUserStore } from "../../stores/userStore";
     const modules= [Navigation, Pagination, Scrollbar, A11y, Autoplay]

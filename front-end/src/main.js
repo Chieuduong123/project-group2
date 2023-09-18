@@ -11,6 +11,8 @@ import Antd from "ant-design-vue";
 import "ant-design-vue/dist/reset.css";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+import "@fancyapps/ui/dist/carousel/carousel.css";
+
 createApp(App)
   .use(createPinia())
   .component("Collapse", Collapse)
