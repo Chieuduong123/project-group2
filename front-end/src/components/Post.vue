@@ -2,7 +2,8 @@
     <div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px]" @click="handleGoDetailPost(post?.id)">
         <div class="flex items-start justify-between">
             <div>
-                <img :src="`${IMAGE_URL}${post?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
+                <img v-if="handleCheckLinkImage(post?.business?.avatar)" :src="post?.business?.avatar" alt="logo" class="h-[50px] rounded object-contain max-w-[50%]">
+                <img v-else :src="`${IMAGE_URL}${post?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
                 <p class="mt-2">{{post?.business?.name}}</p>
             </div>
             <div class="flex items-center gap-2">
@@ -74,6 +75,9 @@ import { useToast } from "vue-toastification";
         router.push(`/job/${id}`)
     }
 
+    const handleCheckLinkImage = (url) => {
+        return url.startsWith("https://");
+    }
     const handleAddFavorite = (e, id) => {
         e.stopPropagation();
         if(userStore.accessToken) {

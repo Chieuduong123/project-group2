@@ -1,7 +1,8 @@
 <template lang="">
     <div class="p-[20px] flex gap-5 border rounded-md" @click="handleGoDetailPost(job?.id)">
         <div class="w-[100px] h-[100px] rounded border overflow-hidden">
-            <img :src="`${IMAGE_URL}${job?.business?.avatar}`" alt="logo" class="w-full h-full object-contain">
+            <img v-if="handleCheckLinkImage(job?.business?.avatar)" :src="job?.business?.avatar" alt="logo" class="w-full h-full object-contain">
+            <img  v-else :src="`${IMAGE_URL}${job?.business?.avatar}`" alt="logo" class="w-full h-full object-contain">
         </div>
         <div class="w-[80%]">
             <h4 class="font-medium">{{job?.position}}</h4>
@@ -43,6 +44,10 @@ import { IMAGE_URL } from "../constants/url";
 
     const handleGoDetailPost = (id) => {
         router.push(`/job/${id}`)
+    }
+
+    const handleCheckLinkImage = (url) => {
+        return url.startsWith("https://");
     }
 
     const handleAddFavorite = (e, id) => {

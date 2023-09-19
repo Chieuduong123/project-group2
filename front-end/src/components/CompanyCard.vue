@@ -2,7 +2,8 @@
 <div class="flex flex-col gap-3 shadow rounded-xl bg-white px-[30px] py-[30px] cursor-pointer" @click="handleGoDetailBusiness(business?.id)">
     <div class="flex items-center">
         <div>
-            <img :src="`${IMAGE_URL}${business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
+            <img v-if="handleCheckLinkImage(business?.avatar)" :src="business?.avatar" alt="logo" class="h-[50px] rounded object-contain max-w-[50%]">
+            <img v-else :src="`${IMAGE_URL}${business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
             <p class="mt-2">{{business?.name}}</p>
         </div>
     </div>
@@ -44,6 +45,9 @@ import { fetchPostByIdBusiness } from "../api/postApi";
     const quantityJob = ref(null)
     const postStore = usePostStore()
 
+    const handleCheckLinkImage = (url) => {
+        return url.startsWith("https://");
+    }
     const handleGoDetailBusiness = (id) => {
         router.push(`company/${id}`)
     }
