@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -28,6 +29,6 @@ class ResetPasswordController extends Controller
             return response()->json(["msg" => "Invalid token provided"], 400);
         }
 
-        return response()->json(["msg" => "Password has been successfully changed"]);
+        return view('auth.reset_password_success');
     }
 }

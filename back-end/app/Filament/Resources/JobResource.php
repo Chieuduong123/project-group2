@@ -144,7 +144,7 @@ class JobResource extends Resource
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('business.id')->sortable(),
-                Tables\Columns\TextColumn::make('business.name')->weight('bold'),
+                Tables\Columns\TextColumn::make('business.name')->weight('bold')->searchable(),
                 Tables\Columns\TextColumn::make('position')->searchable(),
                 Tables\Columns\TextColumn::make('level')->searchable(),
                 Tables\Columns\TextColumn::make('type')->searchable(),

@@ -15,7 +15,7 @@ class BusinessController extends Controller
 
     public function getDetailBusiness($id)
     {
-        $business = Business::findOrFail($id);
+        $business = Business::withCount('jobs')->findOrFail($id);
         return response()->json($business);
     }
 }
