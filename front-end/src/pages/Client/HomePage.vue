@@ -42,7 +42,7 @@
             <img src="../../assets/images/banner2.png" alt="banner" class="w-full h-[300px] object-cover rounded-xl">
         </div>
         <!-- Suggest job -->
-        <div v-if="userStore?.recommend" class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
+        <div v-if="userStore?.recommend && userStore?.accessToken" class="max-w-[1300px] mx-auto mt-[50px] max-xl:px-[50px]">
             <h2 class="font-semibold text-[23px] mb-[20px] max-sm:text-center">Dành cho bạn</h2>
             <swiper
                 :modules="modules"
@@ -166,7 +166,9 @@ import { useUserStore } from "../../stores/userStore";
         handleGetAllData()
         handleGetAllBusiness()
         handleGetTopData()
-        handleGetRecommendPost()
+        if(userStore.accessToken) {
+            handleGetRecommendPost()
+        }
     })
    
 

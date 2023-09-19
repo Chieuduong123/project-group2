@@ -23,6 +23,7 @@ export const fetchGetTopPost = async () => {
 export const fetchPostById = async (id) => {
   try {
     const data = await axios.get(`${BASE_URL}job/${id}`);
+    console.log("daa", data);
     return data;
   } catch (error) {
     console.log(error);
