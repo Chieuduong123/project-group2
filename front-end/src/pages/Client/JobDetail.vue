@@ -2,7 +2,8 @@
     <div class="max-w-[1300px] mx-auto mt-[100px] flex gap-5">
         <div class="rounded w-[30%] h-max flex flex-col gap-5 bg-green-100 py-[40px] px-[20px] max-md:hidden">
             <div>
-                <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
+                <img v-if="handleCheckLinkImage(postData?.business?.avatar)" :src="postData?.business?.avatar" alt="logo" class="h-[50px] rounded object-cover">
+                <img v-else :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
                 <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
             </div>
             <p class="text-gray-500">
@@ -34,7 +35,8 @@
             <div class="shadow-lg flex flex-col gap-5 px-[30px] py-[30px] rounded">
                 <div class="flex items-center justify-between border-b pb-[20px]">
                     <div class="flex flex-col" @click="goDetailCompany(postData?.business?.id)">
-                        <img :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
+                        <img v-if="handleCheckLinkImage(postData?.business?.avatar)" :src="postData?.business?.avatar" alt="logo" class="h-[50px] rounded object-cover">
+                        <img v-else :src="`${IMAGE_URL}${postData?.business?.avatar}`" alt="logo" class="h-[50px] rounded object-cover">
                         <p class="mt-2 font-medium">{{postData?.business?.name}}</p>
                     </div>
                     <div class="flex flex-col">
@@ -130,6 +132,10 @@ import { fetchPostByIdBusiness } from "../../api/postApi";
     const goDetailCompany = (id) => {
         router.push(`/company/${id}`)
     }
+
+    const handleCheckLinkImage = (url) => {
+        return url?.startsWith("https://");
+    }
     const handleToggleApplyPopUp = () => {
         if(userStore.isLogged === true && userStore.accessToken) {
             isApply.value = !isApply.value
@@ -137,7 +143,6 @@ import { fetchPostByIdBusiness } from "../../api/postApi";
             toast.warning("Vui lòng đăng nhập trước khi ứng tuyển")
         }
     }
-
 
     const handleGetPostById = async(idPost) => {
        await postStore.actGetPostById(idPost)

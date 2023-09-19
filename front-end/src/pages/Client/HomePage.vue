@@ -18,7 +18,8 @@
                     <swiper-slide v-for="business in businessData" :key="business?.id" @click="handleGoDetailBusiness(business?.id)">
                         <div class="flex flex-col items-center gap-2">
                             <div class="w-[200px] h-[100px] rounded-[10px] flex items-center justify-center border">
-                                <img :src="`${IMAGE_URL}${business?.avatar}` || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-cover h-[50px] rounded">
+                                <img v-if="handleCheckLinkImage(business?.avatar)" :src="business?.avatar || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-contain h-[50px] rounded">
+                                <img v-else :src="`${IMAGE_URL}${business?.avatar}` || `https://tieusu.com/wp-content/uploads/2023/06/tieu-su-Rose-BlackPink.jpg`" alt="image" class="object-cover h-[50px] rounded">
                             </div>
                             <span class="text-[18px] font-semibold text-center">{{business?.name}}</span>
                         </div>
@@ -133,6 +134,9 @@ import { useUserStore } from "../../stores/userStore";
     const totalPages = ref(1)
     const currentPageInit = ref(1)
 
+    const handleCheckLinkImage = (url) => {
+        return url?.startsWith("https://");
+    }
     const calculateSlidesPerView = () => {
       // Tính toán số lượng slides hiển thị trên mỗi view dựa trên độ rộng cửa sổ hoặc thiết bị
       const windowWidth = window.innerWidth;

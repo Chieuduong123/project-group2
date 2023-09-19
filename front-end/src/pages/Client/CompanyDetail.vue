@@ -4,8 +4,9 @@
             <div class="h-[40%]">
                 <img src="../../assets/images/banner2.png" alt="img" class="object-cover w-full h-full ">
             </div>
-            <div class="absolute translate-y-[-50%] translate-x-[50%] max-sm:left-[50%] max-sm:translate-x-[-50%] w-[150px] bg-white h-[150px] rounded-full overflow-hidden">
-                <img :src="`${IMAGE_URL}${companyData?.avatar}` || 'https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'" alt="logo" class="w-full h-full object-contain">
+            <div class="absolute translate-y-[-50%] translate-x-[50%] max-sm:left-[50%] max-sm:translate-x-[-50%] w-[150px] bg-white h-[150px] rounded-full overflow-hidden p-5">
+                <img v-if="handleCheckLinkImage(companyData?.avatar)" :src="companyData?.avatar || 'https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'" alt="logo" class="w-full h-full object-contain">
+                <img v-else :src="`${IMAGE_URL}${companyData?.avatar}` || 'https://plus.unsplash.com/premium_photo-1682309761340-3f8b1cbaa655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zmxhc2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'" alt="logo" class="w-full h-full object-contain">
             </div>
             <div class="h-60% text-white flex flex-col gap-3 translate-x-[30%] max-md:translate-x-[40%] max-sm:mt-[70px] max-sm:gap-1 max-sm:translate-x-[35%]">
                 <h2 class="font-semibold text-[24px] mt-2">{{companyData?.name}}</h2>
@@ -103,6 +104,10 @@
     const currentPageInit = ref(1)
     const handleGetBusinessById = async(id) => {
        await businessStore.actGetBusinessById(id)
+    }
+
+    const handleCheckLinkImage = (url) => {
+        return url?.startsWith("https://");
     }
 
     const handleGetPostByBusinessId = async(id) => {
