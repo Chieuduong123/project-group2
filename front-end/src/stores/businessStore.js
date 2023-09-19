@@ -113,6 +113,7 @@ export const useBusinessStore = defineStore("businessStore", {
         fetchGetAllBusiness().then((res) => {
           this.isLoading = false;
           this.businesses = res?.data;
+          console.log("====", res.data);
         });
       } catch (error) {
         this.isLoading = false;
@@ -124,7 +125,7 @@ export const useBusinessStore = defineStore("businessStore", {
         this.isLoading = true;
         fetchGetBusinessById(id).then((res) => {
           this.isLoading = false;
-
+          console.log("====", res.data);
           this.business = res.data;
         });
       } catch (error) {
