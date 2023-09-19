@@ -78,8 +78,8 @@
             <h2>Forgot Password?</h2>
 
             <input name="email" placeholder="Enter email" value="{{ request()->get('email') }}">
-            <input name="password" placeholder="Enter new password">
-            <input name="password_confirmation" placeholder="Confirm new password">
+            <input name="password" type="password" placeholder="Enter new password">
+            <input name="password_confirmation" type="password" placeholder="Confirm new password">
             <input hidden name="token" placeholder="token" value="{{ request()->get('token') }}">
 
             <button type="submit">Submit</button>

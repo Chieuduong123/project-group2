@@ -62,8 +62,8 @@ class CurriculumVitaeResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ])
             ->contentGrid([
-                'md' => 3,
-                'xl' => 3,
+                'md' => 4,
+                'xl' => 2,
             ]);
     }
 
