@@ -15,14 +15,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Support\Facades\Hash;
 use Livewire\TemporaryUploadedFile;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class SeekerResource extends Resource
 {
@@ -31,7 +24,10 @@ class SeekerResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = 'Management User';
-
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -40,12 +36,10 @@ class SeekerResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('avatar')
+                    ->disk('avatars')
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                        $fileName = $file->getClientOriginalExtension();
-                        $name = explode('.', $fileName);
-                        return (string) str('avatars/' . $name[0] . '.png');
+                        return  time() . '.' . $file->getClientOriginalExtension();
                     }),
-                // SpatieMediaLibraryFileUpload::make('avatar'),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -72,15 +66,21 @@ class SeekerResource extends Resource
         $seeker = new Seeker();
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\ImageColumn::make('avatar')
-                    ->disk('avatars')
-                    ->url(fn ($record) => asset('/' . $record->avatar)),
+                Tables\Columns\TextColumn::make('name')->searchable(),
+                // Tables\Columns\ImageColumn::make('avatar')
+                //     ->disk('avatars')
+                //     ->url(fn ($record) => asset('/' . $record->avatar)),
+                Tables\Columns\ImageColumn::make('')
+                    ->defaultImageUrl(function ($record) {
+                        $avatar = $record->avatar ?? 'avatar.png';
+                        return asset('/avatars' . '/' . $avatar);
+                    })
+                    ->url(fn ($record) => asset('/avatars' . '/' . $record->avatar)),
                 Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('birthday')
                     ->date(),
-                Tables\Columns\TextColumn::make('address'),
+                Tables\Columns\TextColumn::make('address')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
             ])
@@ -92,6 +92,7 @@ class SeekerResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make(),
             ]);
     }
 

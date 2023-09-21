@@ -57,8 +57,20 @@ class Job extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    // public function seekers()
-    // {
-    //     return $this->belongsToMany(Seeker::class, 'job_views')->withTimestamps()->withPivot('viewed_at');
-    // }
+    public static function sourceOptions()
+    {
+        return [
+            'Intern' => 'Intern',
+            'Fresher' => 'Fresher',
+            'Junior' => 'Junior',
+            'Middle' => 'Middle',
+            'Senior' => 'Senior',
+        ];
+    }
+
+    public function resultData()
+    {
+        return $this->hasMany(Job::class);
+    }
+
 }

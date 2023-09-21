@@ -8,7 +8,13 @@ use Filament\Widgets\LineChartWidget;
 class ApplicationChart extends LineChartWidget
 {
     protected static ?string $heading = 'Rate Apply Job Of Business';
-
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => true,
+            ],
+        ],
+    ];
     protected function getData(): array
     {
         $applications = Application::with(['job.business'])->get();
