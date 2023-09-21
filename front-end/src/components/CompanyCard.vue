@@ -46,7 +46,7 @@ import { fetchPostByIdBusiness } from "../api/postApi";
     const postStore = usePostStore()
 
     const handleCheckLinkImage = (url) => {
-        return url?.startsWith("https://");
+        return url?.startsWith("http");
     }
     const handleGoDetailBusiness = (id) => {
         router.push(`company/${id}`)

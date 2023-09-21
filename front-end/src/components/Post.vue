@@ -65,7 +65,7 @@ import { useToast } from "vue-toastification";
     const userStore = useUserStore()
     const router = useRouter()
     const toast = useToast()
-    const props = defineProps({
+    const {post, idFavicon, isHistory} = defineProps({
         post: Object,
         idFavicon: String,
         isHistory: Boolean
@@ -76,8 +76,13 @@ import { useToast } from "vue-toastification";
     }
 
     const handleCheckLinkImage = (url) => {
-        return url.startsWith("https://");
+        if(url) {
+            return url?.startsWith("https");
+        }
     }
+
+    console.log(post.business?.avatar);
+    console.log(handleCheckLinkImage(post.business?.avatar));
     const handleAddFavorite = (e, id) => {
         e.stopPropagation();
         if(userStore.accessToken) {
@@ -95,8 +100,8 @@ import { useToast } from "vue-toastification";
         };
     }
 
-
 </script>
 <style lang="">
     
 </style>
+

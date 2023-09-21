@@ -5,7 +5,7 @@
         </div>
         <ul class="px-[20px] mt-5 flex flex-col gap-8">
             <li class="cursor-pointer bg-gray-300 flex items-center gap-1 px-[10px] py-[7px] text-[15px] rounded-full font-semibold">
-                <router-link to="/business/dashboard">
+                <router-link to="/business">
                     <BarChartOutlined :style="{fontSize: '20px'}"/>
                     Dashboard
                 </router-link>

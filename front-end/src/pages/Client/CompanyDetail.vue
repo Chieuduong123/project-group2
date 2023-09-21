@@ -107,7 +107,7 @@
     }
 
     const handleCheckLinkImage = (url) => {
-        return url?.startsWith("https://");
+        return url?.startsWith("https");
     }
 
     const handleGetPostByBusinessId = async(id) => {

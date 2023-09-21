@@ -4,7 +4,10 @@
         <Menu as="div" class="relative z-30 inline-block text-left">
             <MenuButton>
                 <div class="flex items-center gap-2 cursor-pointer">
-                    <img :src="`${IMAGE_URL}${businessStore?.myBusiness?.avatar}`" alt="avatar" class="w-[40px] h-[40px] rounded-full object-cover" v-if="businessStore?.myBusiness?.avatar">
+                    <div v-if="businessStore?.myBusiness?.avatar">
+                        <img v-if="handleCheckLinkImage(businessStore?.myBusiness?.avatar)" :src="businessStore?.myBusiness?.avatar" alt="avatar" class="w-[40px] h-[40px] rounded-full object-cover" >
+                        <img v-else :src="`${IMAGE_URL}${businessStore?.myBusiness?.avatar}`" alt="avatar" class="w-[40px] h-[40px] rounded-full object-cover">
+                    </div>
                     <span v-else class="w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px]"> 
                         B
                     </span>
@@ -71,6 +74,7 @@
     import { useRouter } from 'vue-router';
 import { useBusinessStore } from '../stores/businessStore';
 import { IMAGE_URL } from '../constants/url';
+import { handleCheckLinkImage } from '../constants/func';
     const router = useRouter()
     const businessStore = useBusinessStore()
     const goProfile = () => {

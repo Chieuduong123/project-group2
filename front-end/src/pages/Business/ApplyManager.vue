@@ -23,7 +23,8 @@
         <tbody>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"  v-for="apply in businessStore.applyList" :key="apply.id">
                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" :src="`${IMAGE_URL}${apply?.seeker?.avatar}`" alt="Jese image">
+                    <img v-if="handleCheckLinkImage(apply?.seeker?.avatar)" class="w-10 h-10 rounded-full" :src="apply?.seeker?.avatar" alt="Jese image">
+                    <img v-else class="w-10 h-10 rounded-full" :src="`${IMAGE_URL}${apply?.seeker?.avatar}`" alt="Jese image">
                     <div class="pl-3">
                         <div class="text-base font-semibold">{{apply.name}}</div>
                         <div class="font-normal text-gray-500">{{apply?.seeker?.email}}</div>
@@ -47,6 +48,7 @@
 import { onMounted } from 'vue';
 import { useBusinessStore } from '../../stores/businessStore';
     import Loading from '../../components/Loading.vue';
+    import {handleCheckLinkImage} from "../../constants/func"
 import { useRouter } from 'vue-router';
 import { IMAGE_URL } from '../../constants/url';
 

@@ -134,7 +134,7 @@ import { fetchPostByIdBusiness } from "../../api/postApi";
     }
 
     const handleCheckLinkImage = (url) => {
-        return url?.startsWith("https://");
+        return url?.startsWith("http");
     }
     const handleToggleApplyPopUp = () => {
         if(userStore.isLogged === true && userStore.accessToken) {

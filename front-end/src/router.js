@@ -27,6 +27,7 @@ import SearchResultPage from "./pages/Client/SearchResultPage.vue";
 import CVDetailPage from "./pages/Client/CVDetailPage.vue";
 import RecommendJobSetting from "./pages/Client/RecommendJobSetting.vue";
 import ForgotPasswordPage from "./pages/Client/ForgotPasswordPage.vue";
+import DashboardPage from "./pages/Business/DashboardPage.vue";
 const routes = [
   {
     path: "/",
@@ -64,6 +65,7 @@ const routes = [
     path: "/business",
     component: BusinessLayout,
     children: [
+      { path: "", component: DashboardPage },
       { path: "post", component: PostBusinessPage },
       { path: "apply-manager", component: ApplyManager },
       { path: "apply-manager/:id", component: ApplyDetail },
