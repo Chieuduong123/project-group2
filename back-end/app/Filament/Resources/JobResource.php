@@ -13,14 +13,18 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
+use Filament\Tables\Filters\MultiSelectFilter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class JobResource extends Resource
 {
@@ -28,7 +32,17 @@ class JobResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Management Jobs and others';
+    protected $selectedSkills;
 
+    public function __construct(array $selectedSkills = [])
+    {
+        $this->selectedSkills = $selectedSkills;
+    }
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -67,9 +81,9 @@ class JobResource extends Resource
                 Select::make('skill')
                     ->multiple()
                     ->options([
-                        "ReactJS",
-                        "Angular",
-                        "Vue.js",
+                        "ReactJS" => "ReactJS",
+                        "Angular" => "Angular",
+                        "Vue.js" => "Vue.js",
                         "HTML",
                         "CSS",
                         "JavaScript",
@@ -135,9 +149,9 @@ class JobResource extends Resource
             ]);
     }
 
+
     public static function table(Table $table): Table
     {
-        $options = Job::pluck('type', 'id')->toArray();
 
         return $table
             ->columns([
@@ -146,7 +160,7 @@ class JobResource extends Resource
                 Tables\Columns\TextColumn::make('business.id')->sortable(),
                 Tables\Columns\TextColumn::make('business.name')->weight('bold')->searchable(),
                 Tables\Columns\TextColumn::make('position')->searchable(),
-                Tables\Columns\TextColumn::make('level')->searchable(),
+                Tables\Columns\TextColumn::make('level')->enum(Job::sourceOptions())->searchable(),
                 Tables\Columns\TextColumn::make('type')->searchable(),
                 Tables\Columns\TextColumn::make('salary'),
                 Tables\Columns\TextColumn::make('content')->limit(30)
@@ -187,23 +201,10 @@ class JobResource extends Resource
             ->filters([
                 Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
                 Filter::make('unapproved')->query(fn (Builder $query): Builder => $query->where('status', false)),
-                SelectFilter::make('type')
-                    ->multiple()
-                    ->options([
-                        'Full time',
-                        'Part time',
-                        'Remote'
-                    ]),
-                SelectFilter::make('skill')
-                    ->multiple()
-                    ->options([
-                        'Intern' => 'Intern',
-                        'Fresher' => 'Fresher',
-                        'Junior' => 'Junior',
-                        'Middle' => 'Middle',
-                        'Senior' => 'Senior',
-                    ]),
-                TernaryFilter::make('status'),
+                SelectFilter::make('position')
+                    ->options(Job::pluck('position', 'position')
+                        ->unique()
+                        ->toArray()),
                 Filter::make('created_at')
                     ->form([
                         Forms\Components\DatePicker::make('created_from'),
@@ -220,14 +221,13 @@ class JobResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     }),
-
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make(),
             ]);
     }
 

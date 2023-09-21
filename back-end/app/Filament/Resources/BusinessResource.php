@@ -16,6 +16,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,6 +25,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Livewire\TemporaryUploadedFile;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class BusinessResource extends Resource
 {
@@ -32,6 +34,10 @@ class BusinessResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = 'Management User';
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     protected $emailService;
 
@@ -70,10 +76,9 @@ class BusinessResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
                 Forms\Components\FileUpload::make('avatar')
+                    ->disk('avatars')
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                        $fileName = $file->getClientOriginalExtension();
-                        $name = explode('.', $fileName);
-                        return (string) str('avatars/' . $name[0] . '.png');
+                        return  time() . '.' . $file->getClientOriginalExtension();
                     }),
                 Forms\Components\TextInput::make('location')
                     ->required()
@@ -94,27 +99,39 @@ class BusinessResource extends Resource
 
     public static function table(Table $table): Table
     {
+
+        $columns = [
+            Tables\Columns\IconColumn::make('status')->boolean(),
+            Tables\Columns\TextColumn::make('name')->weight('bold')->searchable(),
+        ];
+
+        $records = Business::select('avatar')->get();
+        $avatars = $records->pluck('avatar');
+
+        if ($avatars->contains(fn ($avatar) => strpos($avatar, 'http') === 0)) {
+            $avatar = 'avatar';
+        } else {
+            $avatar = null;
+        }
+
+        $columns[] = Tables\Columns\ImageColumn::make($avatar)
+            ->defaultImageUrl(function ($record) {
+                $avatar = $record->avatar ?? 'avatar.png';
+                return asset('/avatars' . '/' . $avatar);
+            })
+            ->url(fn ($record) => asset('/avatars' . '/' . $record->avatar));
+
+        $columns[] = Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm');
+        $columns[] = Tables\Columns\TextColumn::make('email_verified_at')->dateTime();
+        $columns[] = Tables\Columns\TextColumn::make('phone');
+        $columns[] = Tables\Columns\TextColumn::make('location')->searchable();
+        $columns[] = Tables\Columns\TextColumn::make('website');
+        $columns[] = Tables\Columns\TextColumn::make('career');
+        $columns[] = Tables\Columns\TextColumn::make('size');
+        $columns[] = Tables\Columns\TextColumn::make('created_at')->dateTime();
+        $columns[] = Tables\Columns\TextColumn::make('updated_at')->dateTime();
         return $table
-            ->columns([
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('name')->weight('bold')->searchable(),
-                Tables\Columns\ImageColumn::make('avatar')
-                    ->disk('public')
-                    ->url(fn ($record) => asset('/' . $record->avatar)),
-                Tables\Columns\TextColumn::make('email')->icon('heroicon-s-mail')->size('sm'),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('location'),
-                Tables\Columns\TextColumn::make('website'),
-                Tables\Columns\TextColumn::make('career'),
-                Tables\Columns\TextColumn::make('size'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
-            ])
+            ->columns($columns)
             ->filters([
                 Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
                 Filter::make('unapproved')->query(fn (Builder $query): Builder => $query->where('status', false)),
@@ -128,6 +145,7 @@ class BusinessResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make(),
             ]);
     }
 

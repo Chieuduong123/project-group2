@@ -11,6 +11,7 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 
 class StatsOverview extends BaseWidget
 {
+    protected static ?string $pollingInterval = '10s';
     protected function getCards(): array
     {
         return [

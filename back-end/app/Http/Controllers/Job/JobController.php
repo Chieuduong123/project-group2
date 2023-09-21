@@ -101,10 +101,12 @@ class JobController extends Controller
     public function jobsWithHighest()
     {
         $jobsWithFavorites = Job::withCount('favorites')
+            ->with('business')
             ->having('favorites_count', '>=', 3)
             ->get();
 
         $jobsWithApplications = Job::withCount('applications')
+            ->with('business')
             ->having('applications_count', '>=', 5)
             ->get();
 
