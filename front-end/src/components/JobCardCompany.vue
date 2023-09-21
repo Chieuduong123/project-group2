@@ -47,7 +47,7 @@ import { IMAGE_URL } from "../constants/url";
     }
 
     const handleCheckLinkImage = (url) => {
-        return url.startsWith("https://");
+        return url?.startsWith("https");
     }
 
     const handleAddFavorite = (e, id) => {

@@ -135,7 +135,7 @@ import { useUserStore } from "../../stores/userStore";
     const currentPageInit = ref(1)
 
     const handleCheckLinkImage = (url) => {
-        return url?.startsWith("https://");
+        return url?.startsWith("https");
     }
     const calculateSlidesPerView = () => {
       // Tính toán số lượng slides hiển thị trên mỗi view dựa trên độ rộng cửa sổ hoặc thiết bị

@@ -16,13 +16,16 @@
     import Navbar from '../components/Navbar.vue';
 import { useBusinessStore } from '../stores/businessStore';
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
     const businessStore = useBusinessStore()
-
+    const router = useRouter()
     const accessToken = businessStore.accessToken || null
 
     onMounted(() => {
         if(accessToken) {
         businessStore.actFetchReLoginBusiness(accessToken) 
+        }else {
+            router.push("/auth-layout/login-business")
         }
     })
 </script>

@@ -34,7 +34,8 @@
             </div>
             <div class="flex flex-col items-center gap-5 flex-1">
                 <div class="h-[200px] w-[200px] rounded-[10px] overflow-hidden">
-                    <img :src="`${IMAGE_URL}${businessStore.apply?.seeker?.avatar}`" alt="" class ="w-full h-full object-cover">
+                    <img v-if="handleCheckLinkImage(businessStore.apply?.seeker?.avatar)" :src="businessStore.apply?.seeker?.avatar" alt="" class ="w-full h-full object-cover">
+                    <img v-else :src="`${IMAGE_URL}${businessStore.apply?.seeker?.avatar}`" alt="" class ="w-full h-full object-cover">
                 </div>
                 <a :href="`${CV_URL}${businessStore.apply?.resume_path}`" target="_blank" class="flex items-center gap-2 px-[15px] py-[10px] bg-gray-500 text-white font-semibold rounded" >
                     <FilePdfOutlined />
@@ -53,6 +54,7 @@ import { useBusinessStore } from '../../stores/businessStore';
 import { onMounted } from 'vue';
 import { CV_URL, IMAGE_URL } from '../../constants/url';
 import Loading from '../../components/Loading.vue';
+import { handleCheckLinkImage } from '../../constants/func';
     const route = useRoute()
     const router = useRouter()
     const businessStore = useBusinessStore()
