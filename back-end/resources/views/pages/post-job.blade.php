@@ -71,7 +71,12 @@
                                 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Secondary color'" required
                                 class="single-input-secondary">
                         </div>
+                        <div class="mt-10">
+                            <button class="boxed-btn3 w-20" type="submit">Submit</button>
+                        </div>
                     </form>
+                   
+                       
                 </div>
 
             </div>
