@@ -51,7 +51,11 @@ return [
         'business' => [
             'driver' => 'passport',
             'provider' => 'businesses'
-        ]
+        ],
+        'web-seeker' => [
+            'driver' => 'session',
+            'provider' => 'seekers',
+        ],
     ],
 
     /*

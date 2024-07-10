@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/favicon.png')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
@@ -45,24 +45,23 @@
         <div class="section-top-border">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
-                    <form action="#">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
                         <div class="mt-10">
-                            <input type="text" name="first_name" placeholder="Email"
-                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required
-                                class="single-input">
+                            <input type="text" name="email" placeholder="Email" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Email'" required class="single-input">
                         </div>
                         <div class="mt-10">
-                            <input type="password" name="first_name" placeholder="Password"
+                            <input type="password" name="password" placeholder="Password"
                                 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required
                                 class="single-input">
                         </div>
-                       
+
                         <div class="mt-10">
                             <button class="boxed-btn3 w-20" type="submit">Login</button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
