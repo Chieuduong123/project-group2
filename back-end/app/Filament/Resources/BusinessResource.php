@@ -3,27 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BusinessResource\Pages;
-use App\Filament\Resources\BusinessResource\Pages\CreateBusiness;
-use App\Filament\Resources\BusinessResource\Pages\EditBusiness;
-use App\Filament\Resources\BusinessResource\RelationManagers;
 use App\Filament\Resources\BusinessResource\Widgets\BusinessChart;
-use App\Filament\Widgets\JobChart;
 use App\Http\Services\SendEmailService;
 use App\Models\Business;
 use Filament\Forms;
-use Filament\Pages\Page;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Livewire\TemporaryUploadedFile;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;

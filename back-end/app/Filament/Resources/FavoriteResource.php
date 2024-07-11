@@ -3,18 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FavoriteResource\Pages;
-use App\Filament\Resources\FavoriteResource\RelationManagers;
 use App\Models\Favorite;
 use App\Models\Job;
 use App\Models\Seeker;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FavoriteResource extends Resource
 {

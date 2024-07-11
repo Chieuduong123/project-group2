@@ -3,12 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SeekerResource\Pages;
-use App\Filament\Resources\SeekerResource\Pages\CreateSeeker;
-use App\Filament\Resources\SeekerResource\Pages\EditSeeker;
 use App\Models\Seeker;
 use Filament\Forms;
-use Filament\Pages\Page;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
