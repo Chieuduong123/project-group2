@@ -75,10 +75,7 @@
                                         @if (auth()->guard('web-seeker')->check())
                                             <span style="color: white;">|&emsp;<a
                                                     href="">{{ auth()->guard('web-seeker')->user()->name }}</a>&emsp;|&emsp;</span>
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <button type="submit">Logout</button>
-                                            </form>
+                                            <a href="{{ route('logout') }}">Logout</a>
                                         @else
                                             <a href="{{ route('login') }}">Login</a>
                                         @endif

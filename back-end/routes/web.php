@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages/post-job');
+    return view('pages/home');
 });
 
 Route::view('forgot_password', 'auth.reset_password')->name('password.reset');
@@ -29,6 +29,6 @@ Route::group(['prefix' => 'v1'], function () {
 });
 
 
-Route::group(['prefix' => 'v1', 'middleware' => ['auth:seeker']], function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::group(['middleware' => ['auth:web-seeker']], function () {
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });

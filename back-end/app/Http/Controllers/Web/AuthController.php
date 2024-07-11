@@ -27,6 +27,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (auth()->guard('web-seeker')->attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->intended('/');
         } else {
             return redirect()->route('login')->withErrors(['message' => 'Invalid email or password']);
@@ -40,7 +41,7 @@ class AuthController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = Seeker::create($input);
 
-        Auth::login($user);
+        auth()->guard('web-seeker')->login($user);
         $emailService->sendVerificationEmail($user->email);
 
         return redirect('v1/login');
@@ -51,7 +52,7 @@ class AuthController extends Controller
         auth()->guard('web-seeker')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('login');
+        
+        return redirect('/');
     }
 }
