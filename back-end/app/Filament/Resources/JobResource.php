@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
 use Filament\Tables\Filters\MultiSelectFilter;
@@ -46,6 +47,59 @@ class JobResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $options = [
+            "ReactJS",
+            "Angular",
+            "Vue.js",
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "TypeScript",
+            "Java",
+            "Python",
+            "C++",
+            "C#",
+            "PHP",
+            "Ruby",
+            "Swift",
+            "Kotlin",
+            "Node.js",
+            "Express.js",
+            "Django",
+            "Flask",
+            "Ruby on Rails",
+            "MySQL",
+            "PostgreSQL",
+            "MongoDB",
+            "Firebase",
+            "SQLite",
+            "Git",
+            "Docker",
+            "Kubernetes",
+            "AWS",
+            "Azure",
+            "Google Cloud",
+            "RESTful API",
+            "GraphQL",
+            "Responsive Web Design",
+            "UI/UX Design",
+            "Agile Development",
+            "Scrum",
+            "DevOps",
+            "Machine Learning",
+            "Artificial Intelligence",
+            "Data Science",
+            "Cybersecurity",
+            "Blockchain",
+            "AR/VR Development",
+            "Game Development",
+            "Big Data",
+            "Microservices",
+            "Serverless Architecture",
+            "Linux Administration",
+        ];
+
+        $options = array_combine($options, $options);
         return $form
             ->schema([
                 Select::make('business_id')
@@ -80,66 +134,14 @@ class JobResource extends Resource
                     ->maxLength(65535),
                 Select::make('skill')
                     ->multiple()
-                    ->options([
-                        "ReactJS" => "ReactJS",
-                        "Angular" => "Angular",
-                        "Vue.js" => "Vue.js",
-                        "HTML",
-                        "CSS",
-                        "JavaScript",
-                        "TypeScript",
-                        "Java",
-                        "Python",
-                        "C++",
-                        "C#",
-                        "PHP",
-                        "Ruby",
-                        "Swift",
-                        "Kotlin",
-                        "Node.js",
-                        "Express.js",
-                        "Django",
-                        "Flask",
-                        "Ruby on Rails",
-                        "MySQL",
-                        "PostgreSQL",
-                        "MongoDB",
-                        "Firebase",
-                        "SQLite",
-                        "Git",
-                        "Docker",
-                        "Kubernetes",
-                        "AWS",
-                        "Azure",
-                        "Google Cloud",
-                        "RESTful API",
-                        "GraphQL",
-                        "Responsive Web Design",
-                        "UI/UX Design",
-                        "Agile Development",
-                        "Scrum",
-                        "DevOps",
-                        "Machine Learning",
-                        "Artificial Intelligence",
-                        "Data Science",
-                        "Cybersecurity",
-                        "Blockchain",
-                        "AR/VR Development",
-                        "Game Development",
-                        "Big Data",
-                        "Microservices",
-                        "Serverless Architecture",
-                        "Linux Administration",
-                    ])
+                    ->options($options)
                     ->required(),
                 Forms\Components\Textarea::make('requirement')
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
                 Forms\Components\TextInput::make('quantity')
                     ->required(),
                 Forms\Components\Textarea::make('benefits')
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
                 Forms\Components\DatePicker::make('start_day')
                     ->required(),
                 Forms\Components\DatePicker::make('end_day')
@@ -155,8 +157,8 @@ class JobResource extends Resource
 
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('status')
-                    ->boolean(),
+                // Tables\Columns\IconColumn::make('status')
+                //     ->boolean(),
                 Tables\Columns\TextColumn::make('business.id')->sortable(),
                 Tables\Columns\TextColumn::make('business.name')->weight('bold')->searchable(),
                 Tables\Columns\TextColumn::make('position')->searchable(),
@@ -196,7 +198,9 @@ class JobResource extends Resource
                     ->date(),
                 Tables\Columns\TextColumn::make('view_count')->label('Viewer')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
+                ToggleColumn::make('status'),
             ])
             ->filters([
                 Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
@@ -227,7 +231,6 @@ class JobResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                ExportBulkAction::make(),
             ]);
     }
 

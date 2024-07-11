@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,7 +102,7 @@ class BusinessResource extends Resource
     {
 
         $columns = [
-            Tables\Columns\IconColumn::make('status')->boolean(),
+            // Tables\Columns\IconColumn::make('status')->boolean(),
             Tables\Columns\TextColumn::make('name')->weight('bold')->searchable(),
         ];
 
@@ -130,6 +131,7 @@ class BusinessResource extends Resource
         $columns[] = Tables\Columns\TextColumn::make('size');
         $columns[] = Tables\Columns\TextColumn::make('created_at')->dateTime();
         $columns[] = Tables\Columns\TextColumn::make('updated_at')->dateTime();
+        $columns[] = ToggleColumn::make('status');
         return $table
             ->columns($columns)
             ->filters([
