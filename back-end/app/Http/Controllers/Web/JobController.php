@@ -7,7 +7,6 @@ use App\Models\Application;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
 {
@@ -29,6 +28,33 @@ class JobController extends Controller
         return view('pages.job-detail', compact('jobs'));
     }
 
+    private function handleApplyJob(Request $request, $jobId, $seeker)
+    {
+        $validatedData = $request->validate([
+            'resume_path' => 'required|mimes:pdf|max:2048',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'cover_letter' => 'nullable|string',
+        ]);
+
+        $filename = null;
+        if ($request->hasFile('resume_path')) {
+            $file = $request->file('resume_path');
+            $filename = $this->handleFileUpload($file, 'cv');
+        }
+
+        $application = new Application();
+        $application->seeker_id = $seeker->id;
+        $application->job_id = $jobId;
+        $application->name = $validatedData['name'];
+        $application->phone = $validatedData['phone'];
+        $application->cover_letter = $validatedData['cover_letter'] ?? '';
+        $application->resume_path = $filename;
+        $application->save();
+
+        return $application;
+    }
+
     public function applyJob(Request $request, $jobId)
     {
         try {
@@ -44,30 +70,7 @@ class JobController extends Controller
                 ]);
             }
 
-            $job = Job::where('status', 1)->findOrFail($jobId);
-
-            $request->validate([
-                'resume_path' => 'required|mimes:pdf|max:2048',
-                'name' => 'required|string|max:255',
-                'phone' => 'required|string|max:15',
-                'cover_letter' => 'nullable|string',
-            ]);
-
-            $filename = null;
-            if ($request->hasFile('resume_path')) {
-                $file = $request->file('resume_path');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('cv'), $filename);
-            }
-
-            $application = new Application();
-            $application->seeker_id = $seeker->id;
-            $application->job_id = $jobId;
-            $application->name = $request->input('name');
-            $application->phone = $request->input('phone');
-            $application->cover_letter = $request->input('cover_letter', '');
-            $application->resume_path = $filename;
-            $application->save();
+            $this->handleApplyJob($request, $jobId, $seeker);
 
             return redirect()->back()->with('success', 'Your application has been submitted successfully!');
         } catch (\Exception $e) {
@@ -77,5 +80,16 @@ class JobController extends Controller
                 'message' => 'An error occurred while submitting the application. Please try again later.'
             ]);
         }
+    }
+
+    public function historyApply()
+    {
+        $seeker = auth()->guard('web-seeker')->user();
+
+        $applications  = Application::where('seeker_id', $seeker->id)
+            ->with(['job', 'job.business'])
+            ->paginate(5);
+
+        return view('pages/history-apply-job', compact('applications'));
     }
 }

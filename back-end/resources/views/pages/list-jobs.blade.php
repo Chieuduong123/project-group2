@@ -27,7 +27,7 @@
                                         <img src="{{ $job->business->avatar }}" style="width: 100%" alt="">
                                     </div>
                                     <div class="jobs_conetent">
-                                        <a href="{{ route('job-detail', $job->id) }}">
+                                        <a href="{{ route('job.detail', $job->id) }}">
                                             <h4>{{ $job->position }}</h4>
                                         </a>
                                         <div class="links_locat d-flex align-items-center">
@@ -49,7 +49,7 @@
                                     <div class="apply_now">
                                         <a class="heart_mark" href="#"> <img src="images/love.png" alt="">
                                         </a>
-                                        <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                        <a href="{{ route('job.detail', $job->id) }}" class="boxed-btn3">Apply Now</a>
                                     </div>
                                     <div class="date">
                                         <p>Date line: 31 Jan 2020</p>

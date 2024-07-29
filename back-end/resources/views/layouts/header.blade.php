@@ -52,7 +52,8 @@
                                             <li><a href="#">pages <img src="images/down-arrow.png"
                                                         alt=""></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="candidate.html">Candidates </a></li>
+                                                    <li><a href="{{ route('job.history') }}">History Apply Job </a>
+                                                    </li>
                                                     <li><a href="job_details.html">job details </a></li>
                                                     <li><a href="elements.html">elements</a></li>
                                                 </ul>
