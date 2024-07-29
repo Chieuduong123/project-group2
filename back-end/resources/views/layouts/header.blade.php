@@ -54,6 +54,7 @@
                                                 <ul class="submenu">
                                                     <li><a href="{{ route('job.history') }}">History Apply Job </a>
                                                     </li>
+                                                    <li><a href="{{ route('business') }}">List Company</a></li>
                                                     <li><a href="job_details.html">job details </a></li>
                                                     <li><a href="elements.html">elements</a></li>
                                                 </ul>

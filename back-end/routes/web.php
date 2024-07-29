@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\BusinessController;
 use App\Http\Controllers\Web\JobController as WebJobController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::view('forgot_password', 'auth.reset_password')->name('password.reset');
 Route::get('/', [WebJobController::class, 'home'])->name('home');
 Route::get('/jobs', [WebJobController::class, 'listJobs'])->name('jobs');
 Route::get('/jobs/{id}', [WebJobController::class, 'jobDetail'])->name('job.detail');
+Route::get('/business', [BusinessController::class, 'getBusiness'])->name('business');
+
 
 
 Route::group(['prefix' => 'v1'], function () {
