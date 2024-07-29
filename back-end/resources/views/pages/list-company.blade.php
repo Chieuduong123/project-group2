@@ -18,148 +18,54 @@
 <div class="featured_candidates_area candidate_page_padding">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/1.png" alt="">
+            @foreach ($businesses as $business)
+                <div class="col-md-6 col-lg-3">
+                    <div class="single_candidates text-center">
+                        <div class="thumb">
+                            <img src="{{ $business->avatar }}" alt="">
+                        </div>
+                        <a href="#">
+                            <h4>{{ $business->name }}</h4>
+                        </a>
+                        <p>{{ $business->location }}</p>
                     </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/2.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/3.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/4.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/5.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/6.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/7.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/8.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/9.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/10.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/3.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="single_candidates text-center">
-                    <div class="thumb">
-                        <img src="img/candiateds/4.png" alt="">
-                    </div>
-                    <a href="#">
-                        <h4>Markary Jondon</h4>
-                    </a>
-                    <p>Software Engineer</p>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="pagination_wrap">
                     <ul>
-                        <li><a href="#"> <img src="images/left-arrow.png" alt=""> </a></li>
-                        <li><a href="#"><span>01</span></a></li>
-                        <li><a href="#"><span>02</span></a></li>
-                        <li><a href="#"> <img src="images/right-arrow.png" alt=""> </a></li>
+                        <li>
+                            @if ($businesses->onFirstPage())
+                                <span><img src="images/left-arrow.png" alt=""></span>
+                            @else
+                                <a href="{{ $businesses->previousPageUrl() }}"><img src="images/left-arrow.png"
+                                        alt=""></a>
+                            @endif
+                        </li>
+                        @php
+                            $current = $businesses->currentPage();
+                            $last = $businesses->lastPage();
+                            $start = max(1, $current - 1);
+                            $end = min($last, $current + 1);
+                        @endphp
+                        @for ($i = $start; $i <= $end; $i++)
+                            <li>
+                                <a href="{{ $businesses->url($i) }}"
+                                    class="{{ $businesses->currentPage() == $i ? 'active' : '' }}">
+                                    <span>{{ $i < 10 ? '0' . $i : $i }}</span>
+                                </a>
+                            </li>
+                        @endfor
+                        <li>
+                            @if ($businesses->hasMorePages())
+                                <a href="{{ $businesses->nextPageUrl() }}"><img src="images/right-arrow.png"
+                                        alt=""></a>
+                            @else
+                                <span><img src="images/right-arrow.png" alt=""></span>
+                            @endif
+                        </li>
                     </ul>
                 </div>
             </div>
