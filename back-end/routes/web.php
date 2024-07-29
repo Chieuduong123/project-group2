@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\JobController as WebJobController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,9 @@ Route::get('/', function () {
 });
 
 Route::view('forgot_password', 'auth.reset_password')->name('password.reset');
+Route::get('/', [WebJobController::class, 'home'])->name('home');
+Route::get('/jobs', [WebJobController::class, 'listJobs'])->name('jobs');
+Route::get('/jobs/{id}', [WebJobController::class, 'jobDetail'])->name('job-detail');
 
 
 Route::group(['prefix' => 'v1'], function () {
@@ -31,4 +35,5 @@ Route::group(['prefix' => 'v1'], function () {
 
 Route::group(['middleware' => ['auth:web-seeker']], function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/job/{id}/apply', [WebJobController::class, 'applyJob'])->name('job.apply');
 });
