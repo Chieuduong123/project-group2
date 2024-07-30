@@ -59,6 +59,7 @@
 
                         <div class="mt-10">
                             <button class="boxed-btn3 w-20" type="submit">Login</button>
+                            <p>You haven't account? Register now </p>
                         </div>
                     </form>
                 </div>

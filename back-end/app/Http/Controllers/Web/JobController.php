@@ -19,7 +19,8 @@ class JobController extends Controller
     public function listJobs()
     {
         $jobs = Job::where('status', true)->paginate(6);
-        return view('pages.list-jobs', compact('jobs'));
+        $totalJobs = Job::where('status', true)->count();
+        return view('pages.list-jobs', compact(['jobs', 'totalJobs']));
     }
 
     public function jobDetail($id)
