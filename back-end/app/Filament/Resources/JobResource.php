@@ -192,10 +192,10 @@ class JobResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 ToggleColumn::make('status'),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
-                Filter::make('approved')->query(fn (Builder $query): Builder => $query->where('status', true)),
-                Filter::make('unapproved')->query(fn (Builder $query): Builder => $query->where('status', false)),
+                Filter::make('approved')->query(fn(Builder $query): Builder => $query->where('status', true)),
+                Filter::make('unapproved')->query(fn(Builder $query): Builder => $query->where('status', false)),
                 SelectFilter::make('position')
                     ->options(Job::pluck('position', 'position')
                         ->unique()
@@ -209,11 +209,11 @@ class JobResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     }),
             ])
